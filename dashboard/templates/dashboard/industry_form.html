@@ -1,0 +1,60 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}{{ action_title }} | CODEMATRIX Panel{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-3xl">
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-white">{{ action_title }}</h1>
+      <p class="text-xs font-mono text-gray-400 mt-1">Configure industry overview, domain challenges, and tailor-made solutions.</p>
+    </div>
+    <a href="{% url 'dashboard_industries' %}" class="text-xs font-mono text-gray-400 hover:text-white">← Back to List</a>
+  </div>
+
+  <form method="POST" class="border border-white/10 bg-[#0a0f0d] p-6 sm:p-8 space-y-6">
+    {% csrf_token %}
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">INDUSTRY NAME *</label>
+        {{ form.name }}
+        {% if form.name.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.name.errors.0 }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">SLUG *</label>
+        {{ form.slug }}
+        {% if form.slug.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.slug.errors.0 }}</p>{% endif %}
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">DESCRIPTION *</label>
+      {{ form.description }}
+      {% if form.description.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.description.errors.0 }}</p>{% endif %}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">CHALLENGE</label>
+      {{ form.challenge }}
+      {% if form.challenge.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.challenge.errors.0 }}</p>{% endif %}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">SOLUTION</label>
+      {{ form.solution }}
+      {% if form.solution.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.solution.errors.0 }}</p>{% endif %}
+    </div>
+
+    <div class="pt-4 border-t border-white/10 flex gap-3">
+      <button type="submit" class="px-6 py-2.5 bg-[#00ff88] text-black font-mono text-xs font-bold hover:shadow-[0_0_15px_#00ff88] transition-all">
+        Save Industry →
+      </button>
+      <a href="{% url 'dashboard_industries' %}" class="px-6 py-2.5 border border-white/15 text-gray-300 font-mono text-xs hover:border-white">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}{{ action_title }} | CODEMATRIX Panel{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-2xl">
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-white">{{ action_title }}</h1>
+      <p class="text-xs font-mono text-gray-400 mt-1">Fill the details to reflect immediately on the site.</p>
+    </div>
+    <a href="{% url 'dashboard_services' %}" class="text-xs font-mono text-gray-400 hover:text-white">← Back to List</a>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" class="border border-white/10 bg-[#0a0f0d] p-6 space-y-5">
+    {% csrf_token %}
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">SERVICE TITLE *</label>
+      {{ form.title }}
+      {% if form.title.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.title.errors.0 }}</p>{% endif %}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">URL SLUG *</label>
+      {{ form.slug }}
+      {% if form.slug.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.slug.errors.0 }}</p>{% endif %}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">ICON CODE (OPTIONAL)</label>
+      {{ form.icon }}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">SHORT DESCRIPTION</label>
+      {{ form.short_description }}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">SERVICE IMAGE / THUMBNAIL</label>
+      {{ form.image }}
+    </div>
+
+    <div class="pt-4 flex gap-3">
+      <button type="submit" class="px-6 py-2.5 bg-[#00ff88] text-black font-mono text-xs font-bold hover:shadow-[0_0_15px_#00ff88] transition-all">
+        Save Service Records →
+      </button>
+      <a href="{% url 'dashboard_services' %}" class="px-6 py-2.5 border border-white/15 text-gray-300 font-mono text-xs hover:border-white">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

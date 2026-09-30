@@ -1,0 +1,23 @@
+<article class="card reveal" data-project data-tags="{{ project.filter_tags }}" data-title="{{ project.title|lower }}" style="--i:{{ forloop.counter0|default:0 }}">
+  <a href="{{ project.get_absolute_url }}" class="block" aria-label="View case study: {{ project.title }}">
+    <div class="thumb">
+      {% with img=project.get_image_url %}
+        {% if img %}
+          <img src="{{ img }}" alt="{{ project.title }}" loading="lazy" width="640" height="400">
+        {% else %}
+          <div class="thumb-placeholder" aria-hidden="true">{{ project.title|slice:":2"|upper }}</div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </a>
+  <div class="flex flex-wrap items-center gap-2">
+    <span class="mono-label">{{ project.industry.name|default:project.get_category_display }}</span>
+    {% if project.is_sample_data %}<span class="badge">SAMPLE</span>{% endif %}
+  </div>
+  <h3 class="text-xl font-semibold"><a href="{{ project.get_absolute_url }}" class="hover:text-accent">{{ project.title }}</a></h3>
+  <p class="text-sm leading-relaxed text-ink2">{{ project.short_description }}</p>
+  <ul class="tags">
+    {% for tech in project.technologies.all|slice:":4" %}<li class="tag">{{ tech.name }}</li>{% endfor %}
+  </ul>
+  <a href="{{ project.get_absolute_url }}" class="font-mono text-xs uppercase tracking-wider text-accent hover:underline">View Case Study →</a>
+</article>

@@ -1,0 +1,81 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Case Studies | CODEMATRIX Panel{% endblock %}
+
+{% block dashboard_content %}
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+  <div>
+    <h1 class="text-2xl font-semibold text-white">Case Studies</h1>
+    <p class="text-xs font-mono text-gray-400 mt-1">Manage project case studies, client results, and live portfolio showcase.</p>
+  </div>
+  <a href="{% url 'dashboard_case_study_add' %}" class="px-5 py-2.5 bg-[#00ff88] text-black font-mono text-xs font-bold hover:shadow-[0_0_15px_#00ff88] transition-all">
+    + Add Case Study
+  </a>
+</div>
+
+<!-- Search Bar -->
+<div class="mb-6">
+  <form method="GET" class="flex gap-2 max-w-md">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search by title or client name..." 
+           class="flex-1 bg-black/60 border border-white/15 px-4 py-2 text-xs font-mono text-white focus:border-[#00ff88] focus:outline-none">
+    <button type="submit" class="px-4 py-2 border border-white/15 font-mono text-xs text-white hover:border-[#00ff88]">Filter</button>
+  </form>
+</div>
+
+<!-- Case Studies Table -->
+<div class="border border-white/10 bg-[#0a0f0d] overflow-x-auto">
+  <table class="w-full text-left font-mono text-xs min-w-[700px]">
+    <thead>
+      <tr class="border-b border-white/10 text-gray-400 bg-white/[0.02]">
+        <th class="py-3 px-4">#</th>
+        <th class="py-3 px-4">IMAGE</th>
+        <th class="py-3 px-4">TITLE</th>
+        <th class="py-3 px-4">CATEGORY</th>
+        <th class="py-3 px-4">INDUSTRY</th>
+        <th class="py-3 px-4">FEATURED</th>
+        <th class="py-3 px-4 text-right">ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-white/5">
+      {% for case in cases %}
+        <tr class="hover:bg-white/[0.02] text-gray-300">
+          <td class="py-3 px-4 text-gray-500">{{ forloop.counter0|add:page_obj.start_index }}</td>
+          <td class="py-3 px-4">
+            {% if case.featured_image %}
+              <img src="{{ case.featured_image.url }}" alt="{{ case.title }}" class="h-10 w-16 object-cover border border-white/10">
+            {% else %}
+              <div class="h-10 w-16 bg-black border border-white/10 flex items-center justify-center text-[10px] text-gray-600">NO IMG</div>
+            {% endif %}
+          </td>
+          <td class="py-3 px-4 text-white font-medium">
+            <span class="block text-sm">{{ case.title }}</span>
+            <span class="text-[10px] text-gray-500">/{{ case.slug }}</span>
+          </td>
+          <td class="py-3 px-4 text-gray-300">{{ case.category|default:"-" }}</td>
+          <td class="py-3 px-4 text-gray-300">{{ case.industry|default:"-" }}</td>
+          <td class="py-3 px-4">
+            {% if case.featured %}
+              <span class="text-[#00ff88]">✓ Yes</span>
+            {% else %}
+              <span class="text-gray-600">✗ No</span>
+            {% endif %}
+          </td>
+          <td class="py-3 px-4 text-right space-x-2">
+            <a href="{% url 'dashboard_case_study_edit' case.id %}" class="px-2.5 py-1 border border-white/20 text-gray-300 hover:border-[#00ff88] hover:text-[#00ff88]">Edit</a>
+            <form action="{% url 'dashboard_case_study_delete' case.id %}" method="POST" class="inline-block" onsubmit="return confirm('Delete this case study?');">
+              {% csrf_token %}
+              <button type="submit" class="px-2.5 py-1 border border-rose-500/30 text-rose-400 hover:bg-rose-500/10">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="py-8 text-center text-gray-500">Koi case study nahi mili.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include "dashboard/pagination.html" %}
+{% endblock %}

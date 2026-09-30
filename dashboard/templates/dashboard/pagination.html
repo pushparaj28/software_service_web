@@ -1,0 +1,38 @@
+{% if page_obj.has_other_pages %}
+<div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs border border-white/10 bg-[#0a0f0d] p-4">
+  <div class="text-gray-400">
+    Showing <span class="text-white">{{ page_obj.start_index }}</span> to <span class="text-white">{{ page_obj.end_index }}</span> of <span class="text-[#00ff88]">{{ page_obj.paginator.count }}</span> entries
+  </div>
+
+  <div class="flex items-center gap-1.5">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" 
+         class="px-3 py-1.5 border border-white/15 text-gray-300 hover:border-[#00ff88] hover:text-[#00ff88] transition-colors">
+        ← Prev
+      </a>
+    {% else %}
+      <span class="px-3 py-1.5 border border-white/5 text-gray-600 cursor-not-allowed">← Prev</span>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="px-3 py-1.5 bg-[#00ff88] text-black font-bold">{{ num }}</span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}" 
+           class="px-3 py-1.5 border border-white/15 text-gray-400 hover:text-white hover:border-white transition-colors">
+          {{ num }}
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" 
+         class="px-3 py-1.5 border border-white/15 text-gray-300 hover:border-[#00ff88] hover:text-[#00ff88] transition-colors">
+        Next →
+      </a>
+    {% else %}
+      <span class="px-3 py-1.5 border border-white/5 text-gray-600 cursor-not-allowed">Next →</span>
+    {% endif %}
+  </div>
+</div>
+{% endif %}

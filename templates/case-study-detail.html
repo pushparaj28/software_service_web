@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.title }} | CODEMATRIX Case Study{% endblock %}
+{% block meta_description %}{{ project.short_description }}{% endblock %}
+{% block content %}
+<article>
+  <header class="page-hero grid-bg">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <a href="{% url 'our_work' %}" class="mono-label hover:underline">← Our Work</a>
+      <h1 class="mt-5 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">{{ project.title }}</h1>
+      <p class="mt-5 max-w-2xl text-ink2">{{ project.short_description }}</p>
+      {% if project.is_sample_data %}<p class="badge mt-5 inline-block">SAMPLE CASE STUDY – DEMO CONTENT, NOT A REAL CLIENT</p>{% endif %}
+    </div>
+  </header>
+
+  {% with hero=project.get_image_url %}
+    {% if hero %}
+      <div class="mx-auto max-w-7xl px-5 pt-12 lg:px-8">
+        <figure class="thumb !aspect-[16/8] reveal"><img src="{{ hero }}" alt="{{ project.title }}" width="1280" height="640"></figure>
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[280px_1fr] lg:px-8">
+    <aside class="h-fit space-y-6 lg:sticky lg:top-24">
+      <div><p class="mono-label !text-muted">Industry</p><p class="mt-1">{{ project.industry.name|default:"—" }}</p></div>
+      <div><p class="mono-label !text-muted">Category</p><p class="mt-1">{{ project.get_category_display }}</p></div>
+      {% if project.client_name %}<div><p class="mono-label !text-muted">Client</p><p class="mt-1">{{ project.client_name }}</p></div>{% endif %}
+      <div>
+        <p class="mono-label !text-muted">Technologies</p>
+        <ul class="tags mt-2">{% for tech in project.technologies.all %}<li class="tag">{{ tech.name }}</li>{% endfor %}</ul>
+      </div>
+    </aside>
+
+    <div class="space-y-14">
+      <section class="reveal"><p class="mono-label mb-3">01 / Challenge</p><div class="prose-cm text-lg">{{ project.challenge|linebreaks }}</div></section>
+      <section class="reveal"><p class="mono-label mb-3">02 / Solution</p><div class="prose-cm text-lg">{{ project.solution|linebreaks }}</div></section>
+      {% if project.architecture %}
+        <section class="reveal"><p class="mono-label mb-3">03 / Architecture</p><div class="prose-cm border border-white/10 bg-surface p-6 font-mono text-sm">{{ project.architecture|linebreaks }}</div></section>
+      {% endif %}
+      {% if project.results %}
+        <section class="reveal"><p class="mono-label mb-3">04 / Results</p><div class="prose-cm text-lg">{{ project.results|linebreaks }}</div></section>
+      {% endif %}
+      {% if project.gallery.all %}
+        <section class="reveal">
+          <p class="mono-label mb-3">05 / Gallery</p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {% for image in project.gallery.all %}
+              <figure class="thumb"><img src="{{ image.image.url }}" alt="{{ image.caption|default:project.title }}" loading="lazy"></figure>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    </div>
+  </div>
+</article>
+
+{% if related %}
+  <section class="border-t border-white/10 py-16">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      {% include "partials/section_header.html" with label="More work" title="Related case studies" %}
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {% for project in related %}{% include "partials/project_card.html" %}{% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+{% include "partials/cta.html" %}
+{% endblock %}

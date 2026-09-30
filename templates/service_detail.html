@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ service.title }} | CODEMATRIX Services{% endblock %}
+{% block meta_description %}{{ service.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<style>
+  :root { --neon-acc: #00ff88; }
+  .enquiry-panel {
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    background: rgba(10, 15, 13, 0.95);
+    box-shadow: 0 0 32px -8px rgba(0, 255, 136, 0.15);
+  }
+  .input-field {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #000;
+    color: #fff;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-field:focus {
+    border-color: var(--neon-acc);
+  }
+</style>
+
+<!-- Hero / Top Banner -->
+<section class="grid-bg border-b border-white/10 pb-16 pt-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="flex items-center gap-2 font-mono text-xs text-ink2 mb-4">
+      <a href="{% url 'services' %}" class="hover:text-[#00ff88]">SERVICES</a>
+      <span>/</span>
+      <span class="text-[#00ff88] uppercase">{{ service.title }}</span>
+    </div>
+
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-7">
+        <h1 class="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+          {{ service.title }}
+        </h1>
+        <p class="mt-4 text-base leading-relaxed text-ink2 sm:text-lg">
+          {{ service.short_description|default:service.description }}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="tag">Production Grade</span>
+          <span class="tag">CI/CD Ready</span>
+          <span class="tag">Air-Gapped / Cloud</span>
+        </div>
+      </div>
+      
+      <!-- Showcase Media -->
+      <div class="relative overflow-hidden border border-white/15 bg-black/60 p-2 lg:col-span-5">
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full object-cover">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="{{ service.title }}" class="w-full object-cover">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Content & Sticky Enquiry Form Split -->
+<section class="py-16 sm:py-24">
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-12 lg:px-8">
+    
+    <!-- Left Column: What We Do & Architecture Breakdown -->
+    <div class="lg:col-span-7 space-y-12">
+      <div>
+        <p class="mono-label mb-2" style="color: var(--neon-acc);">[OVERVIEW]</p>
+        <h2 class="text-2xl font-semibold text-white sm:text-3xl">What We Deliver</h2>
+        <div class="prose prose-invert mt-4 text-sm leading-relaxed text-ink2 space-y-4">
+          <p>{{ service.long_description|default:service.description }}</p>
+          <p>Every engineering deliverable undergoes rigorous static analysis, architectural stress tests, and automated integration suites before reaching deployment environments.</p>
+        </div>
+      </div>
+
+      <!-- Execution Phases -->
+      <div>
+        <h3 class="text-xl font-semibold text-white mb-6">Core Engineering Phases</h3>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div class="border border-white/10 bg-surface/30 p-4">
+            <span class="font-mono text-xs text-[#00ff88]">01. ARCHITECTURE</span>
+            <p class="mt-1 text-xs text-ink2">High-level &amp; low-level system design, schema modeling, and throughput analysis.</p>
+          </div>
+          <div class="border border-white/10 bg-surface/30 p-4">
+            <span class="font-mono text-xs text-[#00ff88]">02. DEVELOPMENT</span>
+            <p class="mt-1 text-xs text-ink2">Clean, modular implementation backed by strict automated unit &amp; regression tests.</p>
+          </div>
+          <div class="border border-white/10 bg-surface/30 p-4">
+            <span class="font-mono text-xs text-[#00ff88]">03. INTEGRATION</span>
+            <p class="mt-1 text-xs text-ink2">Zero-downtime deployment pipelines, API gateways, and legacy system sync.</p>
+          </div>
+          <div class="border border-white/10 bg-surface/30 p-4">
+            <span class="font-mono text-xs text-[#00ff88]">04. SLA &amp; SUPPORT</span>
+            <p class="mt-1 text-xs text-ink2">Active telemetry monitoring, proactive vulnerability audits, and patch updates.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialized Modules (Which types we provide) -->
+      <div>
+        <h3 class="text-xl font-semibold text-white mb-6">Specialized Modules &amp; Sub-Systems</h3>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="border border-white/10 bg-black/40 p-4">
+            <h4 class="font-semibold text-white">Custom Portal &amp; Dashboards</h4>
+            <p class="mt-1 text-xs text-ink2">Role-based authentication, real-time analytics, and modular reporting views.</p>
+          </div>
+          <div class="border border-white/10 bg-black/40 p-4">
+            <h4 class="font-semibold text-white">High-Throughput APIs</h4>
+            <p class="mt-1 text-xs text-ink2">RESTful &amp; GraphQL engines with micro-caching and rate-limiting safeguards.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sticky Quick Enquiry Form -->
+    <div class="lg:col-span-5">
+      <div class="sticky top-24 enquiry-panel p-6 sm:p-8">
+        <p class="mono-label mb-1" style="color: var(--neon-acc);">[INSTANT DISPATCH]</p>
+        <h3 class="text-2xl font-semibold text-white">Quick Enquiry</h3>
+        <p class="mt-1 text-xs text-ink2">Get a technical architecture estimate and timeline within 24 hours.</p>
+
+        <form method="POST" action="{% url 'contact' %}" class="mt-6 space-y-4">
+          {% csrf_token %}
+          <input type="hidden" name="service" value="{{ service.title }}">
+
+          <div>
+            <label class="block font-mono text-xs text-ink2 mb-1">YOUR NAME *</label>
+            <input type="text" name="name" required class="input-field" placeholder="Pushpendra Singh">
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-ink2 mb-1">WORK EMAIL / PHONE *</label>
+            <input type="text" name="contact" required class="input-field" placeholder="+91 98765 43210 or name@domain.com">
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-ink2 mb-1">PROJECT SCOPE / QUERY</label>
+            <textarea name="message" rows="3" class="input-field" placeholder="Describe your technical requirements, expected volume, or timeline..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full justify-center !py-3">
+            Submit Query →
+          </button>
+          
+          <p class="text-center font-mono text-[10px] text-ink2">
+            🔒 Strictly confidential. NDA signed upon request.
+          </p>
+        </form>
+
+        <!-- Other Services Quick List -->
+        <div class="mt-8 border-t border-white/10 pt-6">
+          <p class="font-mono text-xs text-ink2 mb-3">RELATED DISCIPLINES</p>
+          <ul class="space-y-2 text-xs font-mono">
+            {% for other in other_services|slice:":4" %}
+              <li>
+                <a href="{% url 'service_detail' other.slug %}" class="text-white hover:text-[#00ff88] flex items-center justify-between">
+                  <span>◆ {{ other.title }}</span>
+                  <span>→</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% include "partials/cta.html" %}
+{% endblock %}

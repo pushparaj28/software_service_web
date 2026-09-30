@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}404 | CODEMATRIX{% endblock %}
+{% block content %}
+<section class="grid-bg flex min-h-screen items-center px-5 pt-20">
+  <div class="mx-auto w-full max-w-3xl">
+    <p class="mono-label caret mb-6">404 / SYSTEM NOT FOUND</p>
+    <h1 class="text-4xl font-semibold leading-tight sm:text-6xl">Looks like this route <span class="text-glow">doesn't exist.</span></h1>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-10">Return Home →</a>
+  </div>
+</section>
+{% endblock %}

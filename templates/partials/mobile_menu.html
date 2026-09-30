@@ -1,0 +1,8 @@
+<div id="mobile-menu" class="mobile-menu lg:hidden" data-mobile-menu aria-hidden="true">
+  <nav aria-label="Mobile">
+    {% for item in nav_items %}
+      <a href="{% url item.url_name %}" class="m-link {% if item.active %}is-active{% endif %}" style="--i:{{ forloop.counter0 }}">{{ item.label }}</a>
+    {% endfor %}
+  </nav>
+  <a href="{% url 'contact' %}" class="btn btn-primary mt-8 w-full">START A PROJECT →</a>
+</div>

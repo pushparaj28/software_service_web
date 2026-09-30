@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Start a Project | CODEMATRIX{% endblock %}
+{% block meta_description %}Send your project brief to CODEMATRIX and get a tailored engineering plan.{% endblock %}
+{% block content %}
+<section class="page-hero grid-bg">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-4">[Contact]</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">Start a <span class="text-glow">project.</span></h1>
+    <p class="mt-5 max-w-xl text-ink2">Tell us what you are building. We will respond with next steps.</p>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="mx-auto max-w-4xl px-5 lg:px-8">
+    <form method="post" novalidate data-submit-lock class="grid gap-5 md:grid-cols-2">
+      {% csrf_token %}
+      <div class="hp-field" aria-hidden="true">{{ form.website }}</div>
+
+      {% if form.non_field_errors %}<div class="flash error px-4 py-3 text-sm md:col-span-2">{{ form.non_field_errors }}</div>{% endif %}
+
+      {% for field in form.visible_fields %}
+        <div class="{% if field.name == 'message' %}md:col-span-2{% endif %}">
+          <label for="{{ field.id_for_label }}" class="mono-label mb-2 block !text-ink2">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+          {{ field }}
+          {% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="md:col-span-2">
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">SEND PROJECT BRIEF →</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#050807]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | CODEMATRIX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --neon-acc: #00ff88;
+    }
+    .grid-bg {
+      background-size: 38px 38px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    }
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(60px);
+    }
+    .input-outline-box {
+      position: relative;
+    }
+    .input-outline-box label {
+      position: absolute;
+      top: -9px;
+      left: 14px;
+      background-color: #060a08;
+      padding: 0 6px;
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #9ca3af;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="min-h-full grid-bg text-gray-200 font-sans flex items-center justify-center p-4 sm:p-8 relative overflow-hidden select-none">
+
+  <!-- Ambient Background Spotlights -->
+  <div class="ambient-glow -top-32 -left-32"></div>
+  <div class="ambient-glow -bottom-32 -right-32"></div>
+
+  <div class="w-full max-w-6xl relative z-10 flex flex-col">
+    <!-- Top Brand Header -->
+    <div class="flex items-center justify-between pb-6 mb-6 border-b border-white/5">
+      <div class="flex items-center gap-2">
+        <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#00ff88] shadow-[0_0_12px_#00ff88]"></span>
+        <span class="font-bold tracking-widest text-white text-lg font-mono">CODEMATRIX</span>
+      </div>
+      <a href="{% url 'home' %}" class="font-mono text-xs text-gray-400 hover:text-[#00ff88] transition-colors flex items-center gap-1.5">
+        ← Public Terminal
+      </a>
+    </div>
+
+    <!-- Main 2-Column Split Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- LEFT COLUMN: Admin Login Form -->
+      <div class="lg:col-span-5 max-w-md w-full mx-auto lg:mx-0">
+        <h1 class="text-3xl sm:text-4xl font-semibold text-white tracking-tight">Admin Login</h1>
+        <p class="text-sm text-gray-400 mt-2 font-mono">Please enter your credentials to proceed.</p>
+
+        <!-- Django Alerts -->
+        {% if messages %}
+          <div class="my-5 space-y-2 font-mono text-xs">
+            {% for msg in messages %}
+              <div class="p-3 border {% if msg.tags == 'error' %}border-rose-500/40 bg-rose-500/10 text-rose-400{% else %}border-[#00ff88]/40 bg-[#00ff88]/10 text-[#00ff88]{% endif %}">
+                &gt; {{ msg }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'dashboard_login' %}" class="mt-8 space-y-6">
+          {% csrf_token %}
+          {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+          {% endif %}
+
+          <!-- Username / Email Field -->
+          <div class="input-outline-box">
+            <label for="username">Username or Email</label>
+            <input type="text" id="username" name="username" required autofocus autocomplete="username"
+                   placeholder="Enter your username"
+                   class="w-full bg-[#060a08] border border-white/15 px-4 py-3 text-sm text-white font-mono focus:border-[#00ff88] focus:outline-none transition-colors">
+          </div>
+
+          <!-- Password Field -->
+          <div class="input-outline-box">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password"
+                   placeholder="Enter password"
+                   class="w-full bg-[#060a08] border border-white/15 px-4 py-3 text-sm text-white font-mono focus:border-[#00ff88] focus:outline-none transition-colors">
+          </div>
+
+          <!-- Options Row -->
+          <div class="flex items-center justify-between font-mono text-xs text-gray-400">
+            <label class="flex items-center gap-2 cursor-pointer select-none hover:text-gray-200">
+              <input type="checkbox" name="remember_me" class="h-3.5 w-3.5 bg-black border-white/20 text-[#00ff88] focus:ring-0 rounded-none cursor-pointer">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="hover:text-[#00ff88] transition-colors">Forgot your password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" 
+                  class="w-full py-3 bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-mono text-sm font-semibold tracking-wide transition-all shadow-[0_0_20px_-3px_rgba(30,64,175,0.6)] cursor-pointer">
+            Sign in
+          </button>
+        </form>
+
+        <p class="font-mono text-[10px] text-gray-600 mt-8">
+          🔒 Restricted telemetry node. Unauthorized access will be traced and reported.
+        </p>
+      </div>
+
+      <!-- RIGHT COLUMN: Embedded Dashboard UI Preview -->
+      <div class="lg:col-span-7 hidden lg:block">
+        <div class="border border-white/10 bg-[#090d0b] p-5 shadow-[0_0_40px_-10px_rgba(0,0,0,0.8)] relative rounded-sm">
+          
+          <!-- Inner Top Window Bar -->
+          <div class="flex items-center justify-between pb-4 border-b border-white/5 mb-5 font-mono text-xs">
+            <div class="flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              <span class="text-white font-medium">Admin Dashboard</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-gray-600">
+              <span class="h-2 w-2 rounded-full bg-white/20"></span>
+              <span class="h-2 w-2 rounded-full bg-white/20"></span>
+              <span class="h-2 w-2 rounded-full bg-white/20"></span>
+            </div>
+          </div>
+
+          <!-- 4 Mini Metric Cards Row -->
+          <div class="grid grid-cols-4 gap-2.5 mb-5 font-mono text-xs">
+            <div class="border border-purple-500/20 bg-purple-950/20 p-3">
+              <p class="text-[10px] text-gray-400">Total Leads</p>
+              <p class="text-lg font-bold text-white mt-1">335</p>
+            </div>
+            <div class="border border-blue-500/20 bg-blue-950/20 p-3">
+              <p class="text-[10px] text-gray-400">Fulfilled Leads</p>
+              <p class="text-lg font-bold text-white mt-1">240</p>
+            </div>
+            <div class="border border-emerald-500/20 bg-emerald-950/20 p-3">
+              <p class="text-[10px] text-gray-400">Active Services</p>
+              <p class="text-lg font-bold text-[#00ff88] mt-1">150</p>
+            </div>
+            <div class="border border-amber-500/20 bg-amber-950/20 p-3">
+              <p class="text-[10px] text-gray-400">Active Deployments</p>
+              <p class="text-lg font-bold text-white mt-1">60</p>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="grid grid-cols-12 gap-4 mb-5">
+            <!-- Wave Line Chart Box -->
+            <div class="col-span-8 border border-white/5 bg-black/40 p-4">
+              <div class="flex justify-between items-center mb-3 font-mono text-[11px] text-gray-400">
+                <span>Leads Growth Metric</span>
+                <span class="text-[#00ff88]">+18.4%</span>
+              </div>
+              <!-- SVG Wave Curve -->
+              <div class="h-32 w-full pt-2">
+                <svg viewBox="0 0 300 100" class="w-full h-full overflow-visible" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#00ff88" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,70 Q40,80 80,60 T160,30 T240,65 T300,20 L300,100 L0,100 Z" fill="url(#chartGlow)" />
+                  <path d="M0,70 Q40,80 80,60 T160,30 T240,65 T300,20" fill="none" stroke="#00ff88" stroke-width="2.2" stroke-linecap="round"/>
+                  <circle cx="160" cy="30" r="3.5" fill="#00ff88" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Ring Chart Box -->
+            <div class="col-span-4 border border-white/5 bg-black/40 p-4 flex flex-col justify-between">
+              <span class="font-mono text-[11px] text-gray-400">Total Queries</span>
+              <div class="relative w-24 h-24 mx-auto my-2 flex items-center justify-center">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-white/10" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="text-cyan-400" stroke-width="3.8" stroke-dasharray="75, 100" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="absolute font-mono text-[10px] text-center font-bold text-white">75%<br><span class="text-[8px] font-normal text-gray-400">Resolved</span></div>
+              </div>
+              <span class="font-mono text-[10px] text-gray-500 text-center">Telemetry active</span>
+            </div>
+          </div>
+
+          <!-- Bottom Audit / Activity Row -->
+          <div class="border border-white/5 bg-black/30 p-3 font-mono text-[11px] text-gray-400 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-[#00ff88]"></span>
+              <span>Staff Audit Daemon Running</span>
+            </div>
+            <span class="text-gray-600">v2.4 LTS</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

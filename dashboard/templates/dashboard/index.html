@@ -1,0 +1,326 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}System Metrics &amp; Analytics | CODEMATRIX Panel{% endblock %}
+
+{% block dashboard_content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div>
+    <h1 class="text-2xl font-semibold text-white tracking-tight">System Metrics &amp; Telemetry</h1>
+    <p class="text-xs font-mono text-gray-400 mt-1">Real-time analytical graphs across all modules, client flows, and services.</p>
+  </div>
+  <div class="flex items-center gap-2 font-mono text-xs">
+    <span class="inline-block h-2 w-2 rounded-full bg-[#00ff88] animate-pulse"></span>
+    <span class="text-gray-400">Telemetry Engine: Active</span>
+  </div>
+</div>
+
+<!-- TOP STAT CARDS -->
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8 font-mono">
+  <div class="border border-white/10 bg-[#0a0f0d] p-5">
+    <div class="flex items-center justify-between text-gray-400 text-[11px] uppercase tracking-wider">
+      <span>Active Services</span>
+      <span class="text-[#00ff88] text-[10px] bg-[#00ff88]/10 px-1.5 py-0.5 border border-[#00ff88]/20">Catalog</span>
+    </div>
+    <div class="text-3xl font-bold text-white mt-2">{{ total_services }}</div>
+    <a href="{% url 'dashboard_services' %}" class="text-[11px] text-[#00ff88] mt-2 inline-block hover:underline">Manage Services →</a>
+  </div>
+
+  <div class="border border-white/10 bg-[#0a0f0d] p-5">
+    <div class="flex items-center justify-between text-gray-400 text-[11px] uppercase tracking-wider">
+      <span>Case Studies</span>
+      <span class="text-purple-400 text-[10px] bg-purple-950/40 px-1.5 py-0.5 border border-purple-500/20">Portfolio</span>
+    </div>
+    <div class="text-3xl font-bold text-white mt-2">{{ total_cases }}</div>
+    <a href="{% url 'dashboard_case_studies' %}" class="text-[11px] text-purple-400 mt-2 inline-block hover:underline">Manage Projects →</a>
+  </div>
+
+  <div class="border border-white/10 bg-[#0a0f0d] p-5">
+    <div class="flex items-center justify-between text-gray-400 text-[11px] uppercase tracking-wider">
+      <span>Client Leads</span>
+      <span class="text-amber-400 text-[10px] bg-amber-950/40 px-1.5 py-0.5 border border-amber-500/20">Pipeline</span>
+    </div>
+    <div class="text-3xl font-bold text-[#00ff88] mt-2">{{ total_inquiries }}</div>
+    <a href="{% url 'dashboard_leads' %}" class="text-[11px] text-amber-400 mt-2 inline-block hover:underline">View All Leads →</a>
+  </div>
+
+  <div class="border border-white/10 bg-[#0a0f0d] p-5">
+    <div class="flex items-center justify-between text-gray-400 text-[11px] uppercase tracking-wider">
+      <span>Tech Stack Tags</span>
+      <span class="text-sky-400 text-[10px] bg-sky-950/40 px-1.5 py-0.5 border border-sky-500/20">Config</span>
+    </div>
+    <div class="text-3xl font-bold text-white mt-2">{{ total_techs }}</div>
+    <a href="{% url 'dashboard_technologies' %}" class="text-[11px] text-sky-400 mt-2 inline-block hover:underline">Manage Tags →</a>
+  </div>
+</div>
+
+<!-- MAIN 2-COLUMN SECTION -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+  
+  <!-- LEFT COLUMN: All Dedicated Full Graphs (8 Cols) -->
+  <div class="lg:col-span-8 space-y-6">
+
+    <!-- GRAPH 1: Inbound Inquiries Over Time (Line Graph) -->
+    <div class="border border-white/10 bg-[#0a0f0d] p-6">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5 font-mono">
+        <div>
+          <h2 class="text-sm font-semibold text-white uppercase tracking-wider">Inquiry Trends Over Time</h2>
+          <p class="text-[11px] text-gray-400 mt-0.5">Monthly breakdown of inbound inquiries logged in database.</p>
+        </div>
+        <span class="text-xs text-[#00ff88] bg-[#00ff88]/10 px-2 py-1 border border-[#00ff88]/30">Auto Scale</span>
+      </div>
+      <div class="relative h-64 w-full">
+        <canvas id="leadsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- GRAPH 2: Services Architecture Spread (Bar Chart) -->
+    <div class="border border-white/10 bg-[#0a0f0d] p-6">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5 font-mono">
+        <div>
+          <h2 class="text-sm font-semibold text-white uppercase tracking-wider">Services Domain Distribution</h2>
+          <p class="text-[11px] text-gray-400 mt-0.5">Live service breakdown across engineering categories.</p>
+        </div>
+        <span class="text-xs text-emerald-400 bg-emerald-950/30 px-2 py-1 border border-emerald-500/30">{{ total_services }} Total</span>
+      </div>
+      <div class="relative h-60 w-full">
+        <canvas id="servicesBarChart"></canvas>
+      </div>
+    </div>
+
+    <!-- TWO GRAPHS SIDE-BY-SIDE IN ROW -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- GRAPH 3: Case Studies by Industry (Doughnut Chart) -->
+      <div class="border border-white/10 bg-[#0a0f0d] p-6 flex flex-col justify-between">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5 font-mono">
+          <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Case Studies / Industry</h3>
+          <span class="text-[10px] text-purple-400 bg-purple-950/30 px-1.5 py-0.5 border border-purple-500/30">Portfolio</span>
+        </div>
+        <div class="relative h-56 w-full flex items-center justify-center">
+          <canvas id="caseStudiesChart"></canvas>
+        </div>
+        <div class="pt-3 border-t border-white/5 font-mono text-[11px] text-gray-500 text-center">
+          {{ total_cases }} Projects Registered
+        </div>
+      </div>
+
+      <!-- GRAPH 4: Technology Stack Footprint (Polar / Horizontal Bar Chart) -->
+      <div class="border border-white/10 bg-[#0a0f0d] p-6 flex flex-col justify-between">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5 font-mono">
+          <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Tech Stack Footprint</h3>
+          <span class="text-[10px] text-sky-400 bg-sky-950/30 px-1.5 py-0.5 border border-sky-500/30">Frameworks</span>
+        </div>
+        <div class="relative h-56 w-full flex items-center justify-center">
+          <canvas id="techStackChart"></canvas>
+        </div>
+        <div class="pt-3 border-t border-white/5 font-mono text-[11px] text-gray-500 text-center">
+          {{ total_techs }} Tools &amp; Libraries
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN: Compact Recent Inquiries Box (4 Cols) -->
+  <div class="lg:col-span-4">
+    <div class="border border-white/10 bg-[#0a0f0d] p-5 flex flex-col justify-between sticky top-6">
+      
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5 font-mono">
+        <div class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <h3 class="text-sm font-semibold text-white">Recent Inquiries</h3>
+        </div>
+        <span class="text-[10px] text-gray-500">Latest 4</span>
+      </div>
+
+      <div class="space-y-3 font-mono">
+        {% for inq in recent_inquiries %}
+          <div class="p-3 border border-white/5 bg-black/40 hover:border-white/20 transition-all">
+            <div class="flex items-start justify-between gap-2">
+              <span class="text-xs font-semibold text-white truncate max-w-[140px]">{{ inq.name }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 border text-right shrink-0
+                    {% if inq.status == 'new' %}border-amber-500/40 text-amber-400 bg-amber-500/10
+                    {% elif inq.status == 'in_progress' %}border-sky-500/40 text-sky-400 bg-sky-500/10
+                    {% else %}border-[#00ff88]/40 text-[#00ff88] bg-[#00ff88]/10{% endif %}">
+                {{ inq.get_status_display|default:inq.status|default:"New" }}
+              </span>
+            </div>
+
+            <div class="text-[10px] text-gray-400 truncate mt-1">
+              {{ inq.email|default:inq.phone }}
+            </div>
+
+            <p class="text-[11px] text-gray-300 line-clamp-2 mt-2 leading-relaxed italic bg-white/[0.02] p-1.5 border-l border-white/10">
+              "{{ inq.message }}"
+            </p>
+
+            <div class="mt-2 text-[9px] text-gray-500 flex justify-between items-center">
+              <span>{{ inq.created_at|date:"d M, h:i A" }}</span>
+              {% if inq.phone %}
+                <a href="https://wa.me/{{ inq.phone|cut:' '|cut:'+' }}" target="_blank" class="text-emerald-400 hover:underline">WhatsApp ↗</a>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+          <div class="py-8 text-center text-gray-500 text-xs font-mono">
+            No inquiries recorded yet.
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-white/5">
+        <a href="{% url 'dashboard_leads' %}" 
+           class="block w-full py-2.5 px-4 text-center border border-white/15 bg-white/[0.02] text-xs font-mono font-semibold text-white hover:border-[#00ff88] hover:text-[#00ff88] hover:shadow-[0_0_15px_-3px_rgba(0,255,136,0.3)] transition-all">
+          View All Inquiries ({{ total_inquiries }}) →
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Multi-Chart Initialization Scripts -->
+<script>
+  (function() {
+    // 1. Inquiries Growth Wave Graph
+    const leadsCtx = document.getElementById('leadsChart');
+    if (leadsCtx) {
+      const chartLabels = {{ chart_labels|safe }};
+      const chartData = {{ chart_data|safe }};
+      const maxVal = Math.max(...chartData, 3);
+
+      const grad = leadsCtx.getContext('2d').createLinearGradient(0, 0, 0, 240);
+      grad.addColorStop(0, 'rgba(0, 255, 136, 0.4)');
+      grad.addColorStop(1, 'rgba(0, 255, 136, 0.0)');
+
+      new Chart(leadsCtx, {
+        type: 'line',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            label: 'Inquiries',
+            data: chartData,
+            borderColor: '#00ff88',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#050807',
+            pointBorderColor: '#00ff88',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            fill: true,
+            backgroundColor: grad,
+            tension: 0.35
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#6b7280', font: { family: 'ui-monospace' } } },
+            y: { min: 0, max: maxVal + 1, grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#6b7280', font: { family: 'ui-monospace' }, stepSize: 1 } }
+          }
+        }
+      });
+    }
+
+    // 2. Services Bar Chart
+    const sCtx = document.getElementById('servicesBarChart');
+    if (sCtx) {
+      new Chart(sCtx, {
+        type: 'bar',
+        data: {
+          labels: {{ service_labels|safe }},
+          datasets: [{
+            label: 'Active Modules',
+            data: {{ service_counts|safe }},
+            backgroundColor: 'rgba(0, 255, 136, 0.35)',
+            borderColor: '#00ff88',
+            borderWidth: 1.5,
+            hoverBackgroundColor: '#00ff88'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { family: 'ui-monospace', size: 11 } } },
+            y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#6b7280', font: { family: 'ui-monospace', size: 10 }, stepSize: 1 }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    // 3. Case Studies Doughnut Chart
+    const cCtx = document.getElementById('caseStudiesChart');
+    if (cCtx) {
+      new Chart(cCtx, {
+        type: 'doughnut',
+        data: {
+          labels: {{ case_labels|safe }},
+          datasets: [{
+            data: {{ case_counts|safe }},
+            backgroundColor: ['#a855f7', '#00ff88', '#38bdf8', '#fbbf24', '#f43f5e'],
+            borderColor: '#0a0f0d',
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '68%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#9ca3af', font: { family: 'ui-monospace', size: 10 }, boxWidth: 10 }
+            }
+          }
+        }
+      });
+    }
+
+    // 4. Technology Stack Polar / Pie Chart
+    const tCtx = document.getElementById('techStackChart');
+    if (tCtx) {
+      new Chart(tCtx, {
+        type: 'polarArea',
+        data: {
+          labels: {{ tech_labels|safe }},
+          datasets: [{
+            data: {{ tech_counts|safe }},
+            backgroundColor: [
+              'rgba(56, 189, 248, 0.4)',
+              'rgba(0, 255, 136, 0.4)',
+              'rgba(168, 85, 247, 0.4)',
+              'rgba(251, 191, 36, 0.4)',
+              'rgba(244, 63, 94, 0.4)'
+            ],
+            borderColor: '#0a0f0d',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { display: false }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#9ca3af', font: { family: 'ui-monospace', size: 10 }, boxWidth: 10 }
+            }
+          }
+        }
+      });
+    }
+  })();
+</script>
+{% endblock %}

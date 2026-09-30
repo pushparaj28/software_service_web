@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}About | CODEMATRIX{% endblock %}
+{% block meta_description %}CODEMATRIX is a software engineering company focused on precision, scalability, security and AI.{% endblock %}
+{% block content %}
+<section class="page-hero grid-bg">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-4">[About]</p>
+    <h1 class="max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">We build systems that <span class="text-glow">keep working.</span></h1>
+    <p class="mt-5 max-w-2xl text-ink2">CODEMATRIX is a software engineering company that designs, builds and scales digital products, from first prototype to global traffic.</p>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    {% include "partials/section_header.html" with label="Principles" title="What we stand for" %}
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for title, text in principles %}
+        <article class="card reveal" style="--i:{{ forloop.counter0 }}">
+          <span class="mono-label !text-muted">{{ forloop.counter|stringformat:"02d" }}</span>
+          <h3 class="text-xl font-semibold">{{ title }}</h3>
+          <p class="text-sm text-ink2">{{ text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/10 bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    {% include "partials/section_header.html" with label="Process" title="How a project runs" %}
+    <ol class="timeline">
+      {% for title, text in steps %}
+        <li class="timeline-item relative reveal" style="--i:{{ forloop.counter0 }}">
+          <p class="mono-label">0{{ forloop.counter }}</p>
+          <h3 class="mt-1 text-lg font-semibold">{{ title }}</h3>
+          <p class="mt-1 text-sm text-ink2">{{ text }}</p>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}

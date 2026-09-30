@@ -1,0 +1,12 @@
+@keyframes load-slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+@keyframes pulse-down { 0% { top: -40%; } 100% { top: 100%; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes blink { 50% { opacity: 0; } }
+
+.hero-in { animation: fade-up .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--d, 0) * 120ms + 300ms); }
+.caret::after { content: "_"; margin-left: 2px; color: var(--accent); animation: blink 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#050807]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CODEMATRIX Panel{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --neon: #00ff88; }
+    .neon-border { border-color: rgba(0, 255, 136, 0.35); }
+    .neon-text { color: var(--neon); }
+    .sidebar-link.active {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--neon);
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="h-full font-sans text-gray-200 antialiased flex flex-col md:flex-row">
+
+  <!-- Left Sidebar -->
+  <aside class="w-full md:w-64 bg-[#0a0f0d] border-r border-white/10 flex flex-col justify-between shrink-0">
+    <div>
+      <!-- Brand Header -->
+      <div class="h-20 flex items-center justify-between px-6 border-b border-white/10">
+        <a href="{% url 'dashboard_home' %}" class="flex items-center gap-2">
+          <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#00ff88] shadow-[0_0_10px_#00ff88]"></span>
+          <span class="font-bold tracking-widest text-white text-lg font-mono">CODEMATRIX</span>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="p-4 space-y-1 font-mono text-xs">
+        <a href="{% url 'dashboard_home' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <span>◆</span> Overview
+        </a>
+        <a href="{% url 'dashboard_services' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <span>◆</span> Services
+        </a>
+       <a href="{% url 'dashboard_case_studies' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+  <span>◆</span> Case Studies
+</a>
+        <!-- Is line ko update karein: -->
+<a href="{% url 'dashboard_leads' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+  <span>◆</span> Contact Leads
+</a>
+        <a href="{% url 'dashboard_industries' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+  <span>◆</span> Industries
+</a> 
+<a href="{% url 'dashboard_technologies' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+  <span>◆</span> Technologies
+</a>
+
+      </nav>
+    </div>
+
+    <!-- Bottom Footer Profile / Link -->
+    <div class="p-4 border-t border-white/10 font-mono text-xs space-y-2">
+      <a href="{% url 'home' %}" target="_blank" class="block w-full py-2 px-3 border border-white/15 text-center text-gray-300 hover:border-[#00ff88] hover:text-[#00ff88] transition-colors">
+        Live Website ↗
+      </a>
+      <div class="flex items-center justify-between pt-2 text-[11px] text-gray-500">
+  <span>User: {{ request.user.username }}</span>
+  <a href="{% url 'dashboard_logout' %}" class="text-rose-400 hover:underline">Logout</a>
+</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+    <!-- Top Bar -->
+    <header class="h-20 border-b border-white/10 px-8 flex items-center justify-between bg-[#0a0f0d]/60 backdrop-blur shrink-0">
+      <div class="font-mono text-xs text-gray-400">
+        SYSTEM CONSOLE // <span class="neon-text">PRODUCTION v2.4</span>
+      </div>
+      <div>
+        <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Cluster Active
+        </span>
+      </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <div class="p-8">
+      <!-- Django Alert Toast Messages -->
+      {% if messages %}
+        <div class="mb-6 space-y-2 font-mono text-xs">
+          {% for msg in messages %}
+            <div class="p-3 border border-[#00ff88]/40 bg-[#00ff88]/10 text-[#00ff88]">
+              &gt; {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block dashboard_content %}{% endblock %}
+    </div>
+  </main>
+
+</body>
+</html>

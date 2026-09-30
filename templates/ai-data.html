@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AI &amp; Data | CODEMATRIX{% endblock %}
+{% block meta_description %}Generative AI, LLM applications, RAG, machine learning and data engineering from CODEMATRIX.{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --neon-acc: #00ff88;
+  }
+  /* Spotlight Cards */
+  .ai-spotlight-card {
+    position: relative;
+    background: rgba(10, 15, 13, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 1.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .ai-spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 255, 136, 0.12), transparent 70%);
+  }
+  .ai-spotlight-card:hover {
+    border-color: rgba(0, 255, 136, 0.4);
+    transform: translateY(-2px);
+  }
+  .ai-badge {
+    padding: 0.2rem 0.5rem;
+    font: 500 0.65rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.08em;
+    color: var(--neon-acc);
+    background: rgba(0, 255, 136, 0.05);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 2px;
+  }
+
+  /* Interactive Pipeline Visualizer */
+  .pipeline-node {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .pipeline-node.active-step {
+    border-color: var(--neon-acc);
+    background: rgba(0, 255, 136, 0.06);
+    box-shadow: 0 0 20px -5px rgba(0, 255, 136, 0.3);
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="page-hero grid-bg relative border-b border-white/10 pb-16 pt-28">
+  <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
+    <div>
+      <p class="mono-label mb-4" style="color: var(--neon-acc);">[01 / AI &amp; MACHINE LEARNING]</p>
+      <h1 class="text-4xl font-semibold leading-tight sm:text-6xl">
+        Turn Raw Data Into <span class="text-glow">Autonomous Intelligence.</span>
+      </h1>
+      <p class="mt-5 max-w-xl text-base leading-relaxed text-ink2 sm:text-lg">
+        Enterprise-grade generative systems, multi-agent orchestrations, and RAG architectures optimized for sub-second latency, zero hallucinations, and total data sovereignty.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="{% url 'contact' %}" class="btn btn-primary">Deploy AI Infrastructure →</a>
+        <a href="#pipeline-demo" class="btn btn-ghost">Inspect Architecture ↓</a>
+      </div>
+    </div>
+    <div class="relative h-72 w-full rounded border border-white/10 bg-surface/50 sm:h-96">
+      <canvas data-neural-canvas class="h-full w-full" aria-hidden="true"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Enterprise Capabilities Grid (Interactive Spotlight) -->
+<section class="py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="mb-12">
+      <p class="mono-label mb-3" style="color: var(--neon-acc);">[02 / Core Capabilities]</p>
+      <h2 class="text-3xl font-semibold sm:text-4xl">Engineered for Complex Enterprise Workloads</h2>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-spotlight-group>
+      {% for title, text in capabilities %}
+        <article class="ai-spotlight-card">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs text-muted">[{{ forloop.counter|stringformat:"02d" }}]</span>
+            <div class="flex gap-1.5">
+              {% if forloop.counter == 1 %}<span class="ai-badge">PyTorch</span><span class="ai-badge">vLLM</span>
+              {% elif forloop.counter == 2 %}<span class="ai-badge">Claude 3.5</span><span class="ai-badge">Llama 3</span>
+              {% elif forloop.counter == 3 %}<span class="ai-badge">LangGraph</span><span class="ai-badge">AutoGPT</span>
+              {% elif forloop.counter == 4 %}<span class="ai-badge">WebSockets</span><span class="ai-badge">Guardrails</span>
+              {% elif forloop.counter == 5 %}<span class="ai-badge">Qdrant</span><span class="ai-badge">Pinecone</span>
+              {% else %}<span class="ai-badge">Temporal</span><span class="ai-badge">Celery</span>
+              {% endif %}
+            </div>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-white">{{ title }}</h2>
+          <p class="mt-3 text-sm leading-relaxed text-ink2">{{ text }}</p>
+        </article>
+      {% empty %}
+        <p class="text-ink2">Capabilities data dynamic load ho raha hai.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Architecture Visualizer / Interactive Simulator -->
+<section id="pipeline-demo" class="grid-bg border-y border-white/10 bg-surface py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p class="mono-label mb-2" style="color: var(--neon-acc);">[03 / System Blueprint]</p>
+        <h2 class="text-3xl font-semibold sm:text-4xl">End-to-End Enterprise RAG Topology</h2>
+      </div>
+      <button type="button" class="btn btn-ghost text-xs" id="trigger-pipeline-sim">Run Ingestion Stream ⚡</button>
+    </div>
+
+    <!-- Node Architecture Flow -->
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4" id="pipeline-nodes-container">
+      <div class="pipeline-node" data-step="1">
+        <span class="font-mono text-xs text-ink2">STEP 01</span>
+        <h4 class="mt-2 font-medium text-white">Multi-Source Ingestion</h4>
+        <p class="mt-1 font-mono text-xs text-ink2">PDF, SQL, API streams chunked via semantic windowing</p>
+      </div>
+      <div class="pipeline-node" data-step="2">
+        <span class="font-mono text-xs text-ink2">STEP 02</span>
+        <h4 class="mt-2 font-medium text-white">Vector Indexing</h4>
+        <p class="mt-1 font-mono text-xs text-ink2">Cohere-v3 Embeddings in hybrid sparse/dense vector store</p>
+      </div>
+      <div class="pipeline-node" data-step="3">
+        <span class="font-mono text-xs text-ink2">STEP 03</span>
+        <h4 class="mt-2 font-medium text-white">Cross-Encoder Rerank</h4>
+        <p class="mt-1 font-mono text-xs text-ink2">BGE-Reranker filters top-K context with strict confidence floor</p>
+      </div>
+      <div class="pipeline-node" data-step="4">
+        <span class="font-mono text-xs text-ink2">STEP 04</span>
+        <h4 class="mt-2 font-medium text-white">Guardrailed Inference</h4>
+        <p class="mt-1 font-mono text-xs text-ink2">NeMo Guardrails filter PII &amp; hallucination before streaming</p>
+      </div>
+    </div>
+
+    <!-- Real-time Console Log -->
+    <div class="mt-6 rounded border border-white/10 bg-[#050807] p-4 font-mono text-xs text-ink2">
+      <div class="flex items-center gap-2 pb-2 border-b border-white/5 text-muted">
+        <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+        <span>telemetry.codematrix.internal -- live execution feed</span>
+      </div>
+      <p id="pipeline-log" class="mt-3 text-emerald-400">&gt; Status: Standby. Ready to ingest semantic corpus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Enterprise Performance Benchmarks -->
+<section class="py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="mb-12">
+      <p class="mono-label mb-3" style="color: var(--neon-acc);">[04 / Verification Metrics]</p>
+      <h2 class="text-3xl font-semibold sm:text-4xl">Hard Numbers. Zero Speculation.</h2>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-3">
+      <div class="border border-white/10 bg-surface/30 p-6">
+        <p class="font-mono text-xs uppercase tracking-widest text-ink2">Token Latency</p>
+        <p class="mt-2 font-mono text-4xl font-semibold text-white">&lt;140ms</p>
+        <p class="mt-2 text-xs leading-relaxed text-ink2">p95 Time-To-First-Token achieved via continuous batching on vLLM engines.</p>
+      </div>
+      <div class="border border-white/10 bg-surface/30 p-6">
+        <p class="font-mono text-xs uppercase tracking-widest text-ink2">Hallucination Floor</p>
+        <p class="mt-2 font-mono text-4xl font-semibold text-white">&lt;0.02%</p>
+        <p class="mt-2 text-xs leading-relaxed text-ink2">Rigorous semantic validation gates grounded against proprietary databases.</p>
+      </div>
+      <div class="border border-white/10 bg-surface/30 p-6">
+        <p class="font-mono text-xs uppercase tracking-widest text-ink2">Data Sovereignty</p>
+        <p class="mt-2 font-mono text-4xl font-semibold text-white">100% Air-Gapped</p>
+        <p class="mt-2 text-xs leading-relaxed text-ink2">Zero training on customer prompts. On-premise VPC or bare-metal deployment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "partials/cta.html" %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/animations.js' %}" defer></script>
+<script>
+  // Mouse Spotlight Effect
+  (function() {
+    var group = document.querySelector("[data-spotlight-group]");
+    if (!group) return;
+    var cards = group.querySelectorAll(".ai-spotlight-card");
+
+    group.addEventListener("mousemove", function(e) {
+      cards.forEach(function(card) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", x + "px");
+        card.style.setProperty("--mouse-y", y + "px");
+      });
+    });
+  })();
+
+  // Pipeline Simulation Runner
+  (function() {
+    var btn = document.getElementById("trigger-pipeline-sim");
+    var log = document.getElementById("pipeline-log");
+    var nodes = document.querySelectorAll(".pipeline-node");
+    if (!btn || !log) return;
+
+    var logs = [
+      "> [STEP 1/4] Ingesting multi-modal raw text and tabular documents...",
+      "> [STEP 2/4] Generating 1536-dim embeddings. Indexing into vector partitions...",
+      "> [STEP 3/4] Cross-encoder rank check: Query intent scored 0.98. Filtering irrelevant contexts...",
+      "> [STEP 4/4] Guardrail assertions PASSED (0 PII, 0 policy breaches). Streaming generation started."
+    ];
+
+    btn.addEventListener("click", function() {
+      btn.disabled = true;
+      nodes.forEach(function(n) { n.classList.remove("active-step"); });
+      
+      var step = 0;
+      function advance() {
+        if (step < nodes.length) {
+          nodes.forEach(function(n) { n.classList.remove("active-step"); });
+          nodes[step].classList.add("active-step");
+          log.textContent = logs[step];
+          step++;
+          setTimeout(advance, 800);
+        } else {
+          setTimeout(function() {
+            nodes.forEach(function(n) { n.classList.remove("active-step"); });
+            log.textContent = "> Execution cycle complete. All telemetry metrics green.";
+            btn.disabled = false;
+          }, 1000);
+        }
+      }
+      advance();
+    });
+  })();
+</script>
+{% endblock %}

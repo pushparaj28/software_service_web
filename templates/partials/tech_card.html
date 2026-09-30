@@ -1,0 +1,6 @@
+<button type="button" class="tech-card reveal" data-tech-card style="--i:{{ forloop.counter0 }}">
+  <span class="icon-box" aria-hidden="true">{{ tech.icon|default:tech.name|slice:":2" }}</span>
+  <span class="mt-3 block font-semibold">{{ tech.name }}</span>
+  <span class="mono-label !text-muted mt-1 block">{{ tech.get_category_display }}</span>
+  <span class="tech-desc block">{{ tech.description }}{% if tech.website_url %} <a href="{{ tech.website_url }}" class="text-accent underline" rel="noopener" target="_blank">Learn more</a>{% endif %}</span>
+</button>

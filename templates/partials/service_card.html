@@ -1,0 +1,28 @@
+<a href="{% url 'service_detail' service.slug %}" class="card reveal group block transition-all duration-300 hover:border-[#00ff88]/50 hover:shadow-[0_0_25px_-5px_rgba(0,255,136,0.3)]" style="--i:{{ index|default:0 }}">
+  {% with img=service.get_image_url %}
+    {% if img %}
+      <div class="thumb overflow-hidden">
+        <img src="{{ img }}" alt="{{ service.title }} illustration" loading="lazy" width="640" height="400" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="flex items-start justify-between">
+    <span class="mono-label !text-muted group-hover:!text-[#00ff88] transition-colors">[{{ index|default:0|stringformat:"02d" }}]</span>
+    <div class="flex items-center gap-2">
+      <span class="icon-box" aria-hidden="true">{{ service.icon|default:"</>" }}</span>
+      <span class="font-mono text-xs text-ink2 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#00ff88]">→</span>
+    </div>
+  </div>
+
+  <h3 class="text-xl font-semibold text-white transition-colors group-hover:text-[#00ff88]">{{ service.title }}</h3>
+  <p class="text-sm leading-relaxed text-ink2">{{ service.short_description }}</p>
+
+  {% if service.technologies.all %}
+    <ul class="tags">
+      {% for tech in service.technologies.all|slice:":4" %}
+        <li class="tag group-hover:border-[#00ff88]/30 transition-colors">{{ tech.name }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</a>

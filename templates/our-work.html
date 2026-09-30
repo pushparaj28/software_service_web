@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Our Work | CODEMATRIX{% endblock %}
+{% block meta_description %}Browse CODEMATRIX case studies across web, SaaS, AI, healthcare, education and enterprise.{% endblock %}
+{% block content %}
+<section class="page-hero grid-bg">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-4">[Our Work]</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">Projects we have <span class="text-glow">engineered.</span></h1>
+  </div>
+</section>
+
+<section class="py-12 sm:py-20">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+        {% for value, label in filters %}
+          <button type="button" class="chip {% if forloop.first %}is-active{% endif %}" data-filter="{{ value }}">{{ label }}</button>
+        {% endfor %}
+      </div>
+      <label class="block w-full lg:w-72">
+        <span class="sr-only">Search projects</span>
+        <input type="search" class="field" placeholder="Search projects…" data-project-search>
+      </label>
+    </div>
+    <p class="mb-6 font-mono text-xs text-muted">Showing <span data-count>{{ projects|length }}</span> project(s)</p>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-project-grid>
+      {% for project in projects %}{% include "partials/project_card.html" %}{% endfor %}
+    </div>
+
+    <p class="mt-10 text-center text-ink2" data-empty hidden>No projects match your filters.</p>
+    <div class="mt-10 text-center"><button type="button" class="btn btn-ghost" data-load-more hidden>Load more</button></div>
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/projects.js' %}" defer></script>{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Technologies | CODEMATRIX{% endblock %}
+{% block meta_description %}The engineering stack behind CODEMATRIX: Django, Python, MySQL, Tailwind, AI and DevOps tooling.{% endblock %}
+{% block content %}
+<section class="page-hero grid-bg">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-4">[Technologies]</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">A proven stack, <span class="text-glow">chosen deliberately.</span></h1>
+    <p class="mt-5 max-w-xl text-ink2">Hover or tap any technology to see how we use it.</p>
+  </div>
+</section>
+<section class="py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl space-y-14 px-5 lg:px-8">
+    {% for label, techs in groups %}
+      <div>
+        <h2 class="mono-label mb-5">// {{ label }}</h2>
+        <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          {% for tech in techs %}{% include "partials/tech_card.html" %}{% endfor %}
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-ink2">No technologies yet. Add them in the admin panel.</p>
+    {% endfor %}
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}

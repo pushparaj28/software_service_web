@@ -1,0 +1,9 @@
+<div class="mx-auto w-full max-w-md" role="img" aria-label="System architecture from user to cloud">
+  {% for name, caption in architecture %}
+    <div class="arch-node reveal" style="--i:{{ forloop.counter0 }}">
+      <span class="font-mono text-sm font-semibold tracking-wider">{{ name }}</span>
+      <span class="hidden text-right text-xs text-ink2 sm:block">{{ caption }}</span>
+    </div>
+    {% if not forloop.last %}<div class="arch-line" style="--i:{{ forloop.counter0 }}"></div>{% endif %}
+  {% endfor %}
+</div>

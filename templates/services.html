@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Services | CODEMATRIX{% endblock %}
+{% block meta_description %}Custom software, SaaS, mobile, cloud, DevOps, QA and automation services from CODEMATRIX.{% endblock %}
+
+{% block content %}
+<style>
+  :root { --neon-acc: #00ff88; }
+  .filter-btn {
+    padding: 0.45rem 1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+    color: #9ca3af;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .filter-btn:hover, .filter-btn.is-active {
+    border-color: var(--neon-acc);
+    color: #000;
+    background: var(--neon-acc);
+    box-shadow: 0 0 16px -2px rgba(0, 255, 136, 0.5);
+  }
+</style>
+
+<section class="page-hero grid-bg border-b border-white/10 pb-12 pt-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-3" style="color: var(--neon-acc);">[01 / Services Directory]</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">
+      Software engineering, <span class="text-glow">end to end.</span>
+    </h1>
+    <p class="mt-4 max-w-xl text-ink2">High-performance engineering tailored for scale, security, and measurable ROI.</p>
+
+    <!-- Filter & Search Bar Controls -->
+    <div class="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <!-- Category Tabs -->
+      <div class="flex flex-wrap gap-2" id="service-filters">
+        <button type="button" class="filter-btn is-active" data-filter="all">All Services</button>
+        <button type="button" class="filter-btn" data-filter="web">Web &amp; SaaS</button>
+        <button type="button" class="filter-btn" data-filter="mobile">Mobile Apps</button>
+        <button type="button" class="filter-btn" data-filter="enterprise">Enterprise</button>
+        <button type="button" class="filter-btn" data-filter="cloud">Cloud &amp; DevOps</button>
+      </div>
+
+      <!-- Quick Search Input -->
+      <div class="relative w-full md:w-72">
+        <input type="text" id="service-search" placeholder="Search service..." 
+               class="w-full border border-white/15 bg-black/60 px-4 py-2 text-xs font-mono text-white placeholder-ink2 focus:border-[#00ff88] focus:outline-none">
+        <span class="pointer-events-none absolute right-3 top-2.5 font-mono text-xs text-ink2">⌘K</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="mx-auto grid max-w-7xl gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3 lg:px-8" id="services-grid">
+    {% for service in services %}
+      <div class="service-item" data-category="{% if 'web' in service.title|lower or 'saas' in service.title|lower or 'commerce' in service.title|lower %}web{% elif 'mobile' in service.title|lower or 'app' in service.title|lower %}mobile{% elif 'cloud' in service.title|lower or 'devops' in service.title|lower or 'api' in service.title|lower %}cloud{% else %}enterprise{% endif %}">
+        {% include "partials/service_card.html" with index=forloop.counter %}
+      </div>
+    {% empty %}
+      <p class="text-ink2">No services yet. Add them in the admin panel.</p>
+    {% endfor %}
+  </div>
+  <p id="no-services-msg" class="hidden text-center font-mono text-sm text-ink2">No services match your criteria.</p>
+</section>
+
+{% include "partials/cta.html" %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function() {
+    const filterButtons = document.querySelectorAll("#service-filters .filter-btn");
+    const searchInput = document.getElementById("service-search");
+    const items = document.querySelectorAll(".service-item");
+    const emptyMsg = document.getElementById("no-services-msg");
+
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    function filterCards() {
+      let visibleCount = 0;
+      items.forEach(card => {
+        const category = card.dataset.category || "";
+        const titleText = card.querySelector("h3, h2, .service-title")?.textContent.toLowerCase() || card.innerText.toLowerCase();
+        
+        const matchesCategory = (currentFilter === "all" || category === currentFilter);
+        const matchesSearch = titleText.includes(searchQuery);
+
+        if (matchesCategory && matchesSearch) {
+          card.style.display = "";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        filterButtons.forEach(b => b.classList.remove("is-active"));
+        this.classList.add("is-active");
+        currentFilter = this.dataset.filter;
+        filterCards();
+      });
+    });
+
+    searchInput.addEventListener("input", function(e) {
+      searchQuery = e.target.value.toLowerCase().trim();
+      filterCards();
+    });
+  })();
+</script>
+{% endblock %}

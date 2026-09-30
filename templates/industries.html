@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Industries | CODEMATRIX{% endblock %}
+{% block meta_description %}Software solutions for healthcare, education, fintech, e-commerce, logistics and more.{% endblock %}
+{% block content %}
+<section class="page-hero grid-bg">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="mono-label mb-4">[Industries]</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">Domain knowledge, <span class="text-glow">engineered in.</span></h1>
+  </div>
+</section>
+<section class="py-16 sm:py-24">
+  <div class="mx-auto grid max-w-7xl gap-4 px-5 md:grid-cols-2 lg:px-8">
+    {% for industry in industries %}
+      <article id="{{ industry.slug }}" class="card reveal scroll-mt-24" style="--i:{{ forloop.counter0 }}">
+        <span class="mono-label">{{ forloop.counter|stringformat:"02d" }}</span>
+        <h2 class="text-2xl font-semibold">{{ industry.name }}</h2>
+        <p class="text-sm text-ink2">{{ industry.description }}</p>
+        {% if industry.challenge %}<p class="text-sm"><span class="mono-label !text-muted">Challenge</span><br><span class="text-ink2">{{ industry.challenge }}</span></p>{% endif %}
+        {% if industry.solution %}<p class="text-sm"><span class="mono-label">Solution</span><br><span class="text-ink2">{{ industry.solution }}</span></p>{% endif %}
+        <a href="{% url 'contact' %}" class="mt-auto font-mono text-xs uppercase tracking-wider text-accent hover:underline">Discuss your {{ industry.name }} project →</a>
+      </article>
+    {% empty %}
+      <p class="text-ink2">No industries yet. Add them in the admin panel.</p>
+    {% endfor %}
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}

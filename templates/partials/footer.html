@@ -1,0 +1,34 @@
+<footer class="border-t border-white/10 bg-surface">
+  <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+    <div>
+      <p class="logo">CODE<span>MATRIX</span></p>
+      <p class="mt-4 max-w-xs text-sm text-ink2">Engineering Complex Systems. From Zero to Global Scale.</p>
+    </div>
+    <div>
+      <p class="mono-label mb-4">Company</p>
+      <ul class="space-y-2 text-sm text-ink2">
+        <li><a class="hover:text-accent" href="{% url 'about' %}">About</a></li>
+        <li><a class="hover:text-accent" href="{% url 'our_work' %}">Our Work</a></li>
+        <li><a class="hover:text-accent" href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="mono-label mb-4">Expertise</p>
+      <ul class="space-y-2 text-sm text-ink2">
+        <li><a class="hover:text-accent" href="{% url 'services' %}">Services</a></li>
+        <li><a class="hover:text-accent" href="{% url 'ai_data' %}">AI &amp; Data</a></li>
+        <li><a class="hover:text-accent" href="{% url 'technologies' %}">Technologies</a></li>
+        <li><a class="hover:text-accent" href="{% url 'industries' %}">Industries</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="mono-label mb-4">Start</p>
+      <p class="text-sm text-ink2">Have a system to build?</p>
+      <a href="{% url 'contact' %}" class="btn btn-ghost mt-4">START A PROJECT →</a>
+      {% if company_email %}<p class="mt-4 break-all font-mono text-xs text-muted">{{ company_email }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="border-t border-white/10 px-5 py-5 text-center font-mono text-xs text-muted">
+    © <span data-year>{% now "Y" %}</span> CODEMATRIX. All rights reserved.
+  </div>
+</footer>

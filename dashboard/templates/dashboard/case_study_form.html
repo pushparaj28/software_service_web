@@ -1,0 +1,111 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}{{ action_title }} | CODEMATRIX Panel{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-4xl">
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-white">{{ action_title }}</h1>
+      <p class="text-xs font-mono text-gray-400 mt-1">Configure project showcase, deliverables, and media assets.</p>
+    </div>
+    <a href="{% url 'dashboard_case_studies' %}" class="text-xs font-mono text-gray-400 hover:text-white">← Back to List</a>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" class="border border-white/10 bg-[#0a0f0d] p-6 sm:p-8 space-y-6">
+    {% csrf_token %}
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">TITLE *</label>
+        {{ form.title }}
+        {% if form.title.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.title.errors.0 }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">SLUG *</label>
+        {{ form.slug }}
+        {% if form.slug.errors %}<p class="text-rose-400 text-xs mt-1">{{ form.slug.errors.0 }}</p>{% endif %}
+      </div>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-3">
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">CLIENT NAME</label>
+        {{ form.client_name }}
+      </div>
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">INDUSTRY</label>
+        {{ form.industry }}
+      </div>
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">CATEGORY</label>
+        {{ form.category }}
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">SHORT DESCRIPTION</label>
+      {{ form.short_description }}
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-3">
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">CHALLENGE</label>
+        {{ form.challenge }}
+      </div>
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">SOLUTION</label>
+        {{ form.solution }}
+      </div>
+      <div>
+        <label class="block font-mono text-xs text-gray-300 mb-1.5">ARCHITECTURE</label>
+        {{ form.architecture }}
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">RESULTS / KEY METRICS</label>
+      {{ form.results }}
+    </div>
+
+    <div>
+      <label class="block font-mono text-xs text-gray-300 mb-1.5">TECHNOLOGIES (HOLD CTRL / CMD TO SELECT MULTIPLE)</label>
+      {{ form.technologies }}
+    </div>
+
+    <!-- Featured Image Upload -->
+    <div class="border border-white/10 bg-black/40 p-4">
+      <label class="block font-mono text-xs text-[#00ff88] mb-2">FEATURED IMAGE *</label>
+      {{ form.featured_image }}
+      {% if form.instance.featured_image %}
+        <div class="mt-3 flex items-center gap-3">
+          <img src="{{ form.instance.featured_image.url }}" alt="Current Image" class="h-16 w-24 object-cover border border-white/10">
+          <span class="text-xs font-mono text-gray-400">Current active media asset</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="border-t border-white/10 pt-4 flex flex-wrap gap-6 items-center">
+      <label class="flex items-center gap-2 cursor-pointer font-mono text-xs text-gray-300">
+        {{ form.featured }}
+        <span>Featured Case Study</span>
+      </label>
+
+      <label class="flex items-center gap-2 cursor-pointer font-mono text-xs text-gray-300">
+        {{ form.is_sample_data }}
+        <span>Mark as Sample Data</span>
+      </label>
+    </div>
+
+    <div class="pt-4 border-t border-white/10 flex gap-3">
+      <button type="submit" class="px-6 py-2.5 bg-[#00ff88] text-black font-mono text-xs font-bold hover:shadow-[0_0_15px_#00ff88] transition-all">
+        Save Case Study →
+      </button>
+      <a href="{% url 'dashboard_case_studies' %}" class="px-6 py-2.5 border border-white/15 text-gray-300 font-mono text-xs hover:border-white">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}
