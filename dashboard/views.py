@@ -9,7 +9,9 @@ from datetime import datetime,timedelta
 from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
-
+from core.models import ContactInquiry
+from django.contrib.auth.decorators import login_required
+from core.models import ServiceQuickEnquiry
 from core.models import Service, CaseStudy, ContactInquiry, Technology, Industry
 from .forms import ServiceForm, CaseStudyForm, IndustryForm, TechnologyForm
 
@@ -400,3 +402,57 @@ def lead_delete(request, pk):
         lead.delete()
         messages.success(request, f"Lead #{lead.id} delete kar di gayi!")
     return redirect('dashboard_leads')
+
+
+@login_required
+def dashboard_quick_enquiries(request):
+    # Direct Quick Enquiry wali dedicated table se data uthayein
+    queryset = ServiceQuickEnquiry.objects.all().order_by('-created_at')
+
+    # Metrics count
+    total_count = queryset.count()
+    new_count = queryset.filter(status='new').count()
+    closed_count = queryset.filter(status='closed').count()
+
+    # Search filter
+    q = request.GET.get('q', '').strip()
+    if q:
+        queryset = queryset.filter(
+            Q(name__icontains=q) | 
+            Q(contact_info__icontains=q) | 
+            Q(message__icontains=q) |
+            Q(service_title__icontains=q)
+        )
+
+    # Status tab filter (All, New, In Progress, Closed)
+    status_filter = request.GET.get('status', '').strip()
+    if status_filter in ['new', 'in_progress', 'closed']:
+        queryset = queryset.filter(status=status_filter)
+
+    return render(request, 'dashboard/quick_enquiries.html', {
+        'enquiries': queryset,
+        'total_count': total_count,
+        'new_count': new_count,
+        'closed_count': closed_count,
+        'current_status': status_filter,
+        'search_query': q,
+    })
+
+@login_required
+def update_quick_enquiry_status(request, pk):
+    enquiry = get_object_or_404(ServiceQuickEnquiry, pk=pk)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in ['new', 'in_progress', 'closed']:
+            enquiry.status = new_status
+            enquiry.save()
+            messages.success(request, f"Status updated to {new_status.title()}")
+    return redirect('dashboard_quick_enquiries')
+
+@login_required
+def delete_quick_enquiry(request, pk):
+    enquiry = get_object_or_404(ServiceQuickEnquiry, pk=pk)
+    if request.method == 'POST':
+        enquiry.delete()
+        messages.success(request, "Enquiry record purged.")
+    return redirect('dashboard_quick_enquiries')

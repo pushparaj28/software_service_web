@@ -46,11 +46,22 @@
       </div>
 
       <!-- Quick Search Input -->
-      <div class="relative w-full md:w-72">
-        <input type="text" id="service-search" placeholder="Search service..." 
-               class="w-full border border-white/15 bg-black/60 px-4 py-2 text-xs font-mono text-white placeholder-ink2 focus:border-[#00ff88] focus:outline-none">
-        <span class="pointer-events-none absolute right-3 top-2.5 font-mono text-xs text-ink2">⌘K</span>
-      </div>
+      <!-- Quick Search Input -->
+<div class="relative w-full md:w-72">
+  <input type="text" id="service-search" placeholder="Search service..." autocomplete="off"
+         class="w-full border border-white/15 bg-black/60 pl-4 pr-16 py-2 text-xs font-mono text-white placeholder-ink2 focus:border-[#00ff88] focus:outline-none">
+
+  <!-- Clear Cross (✕) Button -->
+  <button type="button" id="clear-search-btn" title="Clear search"
+          class="hidden absolute right-9 top-1/2 -translate-y-1/2 text-gray-400 hover:text-rose-400 transition-colors cursor-pointer p-0.5">
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+
+  <!-- Shortcut Hint -->
+  <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 font-mono text-xs text-ink2">🔍</span>
+</div>
     </div>
   </div>
 </section>
@@ -73,47 +84,71 @@
 
 {% block extra_js %}
 <script>
-  (function() {
-    const filterButtons = document.querySelectorAll("#service-filters .filter-btn");
-    const searchInput = document.getElementById("service-search");
-    const items = document.querySelectorAll(".service-item");
-    const emptyMsg = document.getElementById("no-services-msg");
+ (function() {
+  const filterButtons = document.querySelectorAll("#service-filters .filter-btn");
+  const searchInput = document.getElementById("service-search");
+  const clearBtn = document.getElementById("clear-search-btn"); // <-- 1. Button element yahan add kiya
+  const items = document.querySelectorAll(".service-item");
+  const emptyMsg = document.getElementById("no-services-msg");
 
-    let currentFilter = "all";
-    let searchQuery = "";
+  let currentFilter = "all";
+  let searchQuery = "";
 
-    function filterCards() {
-      let visibleCount = 0;
-      items.forEach(card => {
-        const category = card.dataset.category || "";
-        const titleText = card.querySelector("h3, h2, .service-title")?.textContent.toLowerCase() || card.innerText.toLowerCase();
-        
-        const matchesCategory = (currentFilter === "all" || category === currentFilter);
-        const matchesSearch = titleText.includes(searchQuery);
+  function filterCards() {
+    let visibleCount = 0;
+    items.forEach(card => {
+      const category = card.dataset.category || "";
+      const titleText = card.querySelector("h3, h2, .service-title")?.textContent.toLowerCase() || card.innerText.toLowerCase();
 
-        if (matchesCategory && matchesSearch) {
-          card.style.display = "";
-          visibleCount++;
-        } else {
-          card.style.display = "none";
-        }
-      });
-      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? "block" : "none";
-    }
+      const matchesCategory = (currentFilter === "all" || category === currentFilter);
+      const matchesSearch = titleText.includes(searchQuery);
 
-    filterButtons.forEach(btn => {
-      btn.addEventListener("click", function() {
-        filterButtons.forEach(b => b.classList.remove("is-active"));
-        this.classList.add("is-active");
-        currentFilter = this.dataset.filter;
-        filterCards();
-      });
+      if (matchesCategory && matchesSearch) {
+        card.style.display = "";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
     });
+    if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? "block" : "none";
+  }
 
-    searchInput.addEventListener("input", function(e) {
-      searchQuery = e.target.value.toLowerCase().trim();
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      filterButtons.forEach(b => b.classList.remove("is-active"));
+      this.classList.add("is-active");
+      currentFilter = this.dataset.filter;
       filterCards();
     });
-  })();
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", function(e) {
+      searchQuery = e.target.value.toLowerCase().trim();
+      
+      // Text hone par cross dikhega, empty hone par chup jayega
+      if (clearBtn) {
+        if (searchQuery.length > 0) {
+          clearBtn.classList.remove("hidden");
+        } else {
+          clearBtn.classList.add("hidden");
+        }
+      }
+      
+      filterCards();
+    });
+  }
+
+  // 2. Cross button click par search clear karna
+  if (clearBtn && searchInput) {
+    clearBtn.addEventListener("click", function() {
+      searchInput.value = "";
+      searchQuery = "";
+      clearBtn.classList.add("hidden");
+      searchInput.focus();
+      filterCards(); // Services ko turant reset karke sari list wapas dikha dega
+    });
+  }
+})();
 </script>
 {% endblock %}

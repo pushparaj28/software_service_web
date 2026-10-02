@@ -8,7 +8,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from . import content
 from .forms import ContactForm
 from .models import CaseStudy, Industry, Service, Technology
-
+from .models import ServiceQuickEnquiry
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 logger = logging.getLogger(__name__)
 
 PROJECT_FILTERS = [
@@ -110,3 +112,30 @@ def _notify_team(inquiry):
 
 def page_not_found(request, exception):
     return render(request, "404.html", status=404)
+
+@require_POST
+def submit_quick_enquiry(request):
+    name = request.POST.get('name', '').strip()
+    contact_info = request.POST.get('contact_info', '').strip()
+    message = request.POST.get('message', '').strip()
+    service_title = request.POST.get('service_title', '').strip()
+
+    if not name or not contact_info or not message:
+        return JsonResponse({
+            'status': 'error',
+            'msg': 'Sabhi required fields bharna anivarya hai.'
+        }, status=400)
+
+    # Nayi dedicated table me entry create karein
+    enquiry = ServiceQuickEnquiry.objects.create(
+        service_title=service_title,
+        name=name,
+        contact_info=contact_info,
+        message=message
+    )
+
+    return JsonResponse({
+        'status': 'success',
+        'msg': 'Transmission confirmed. Telemetry logged into database.',
+        'enquiry_id': enquiry.id
+    })

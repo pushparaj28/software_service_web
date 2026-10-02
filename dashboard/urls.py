@@ -37,4 +37,9 @@ urlpatterns = [
     path('leads/', views.lead_list, name='dashboard_leads'),
     path('leads/<int:pk>/status/', views.lead_status_update, name='dashboard_lead_status'),
     path('leads/<int:pk>/delete/', views.lead_delete, name='dashboard_lead_delete'),
+
+    # existing paths...
+    path('quick-enquiries/', views.dashboard_quick_enquiries, name='dashboard_quick_enquiries'),
+    path('quick-enquiries/<int:pk>/status/', views.update_quick_enquiry_status, name='update_quick_enquiry_status'),
+    path('quick-enquiries/<int:pk>/delete/', views.delete_quick_enquiry, name='delete_quick_enquiry'),
 ]

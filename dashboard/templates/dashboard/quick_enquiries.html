@@ -1,0 +1,124 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}  {# <-- Yahan wahi block name daalein jo aapke overview/leads page me hai #}
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight text-white">Instant Service Enquiries</h1>
+    <p class="text-xs font-mono text-gray-400 mt-1">Direct single-service telemetry leads dispatched from service detail pages.</p>
+  </div>
+
+  <!-- Metric Badges -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="border border-white/10 bg-[#070b09] p-4">
+      <p class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">TOTAL TELEMETRY</p>
+      <p class="text-3xl font-mono font-bold text-white mt-2">{{ total_count }}</p>
+      <a href="{% url 'dashboard_quick_enquiries' %}" class="inline-block mt-3 font-mono text-[10px] text-gray-400 hover:text-white">View All →</a>
+    </div>
+
+    <div class="border border-amber-500/20 bg-amber-500/[0.03] p-4">
+      <p class="font-mono text-[10px] text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+        <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span> NEW / UNRESPONDED
+      </p>
+      <p class="text-3xl font-mono font-bold text-amber-400 mt-2">{{ new_count }}</p>
+      <a href="?status=new" class="inline-block mt-3 font-mono text-[10px] text-amber-400/80 hover:text-amber-300">Filter New →</a>
+    </div>
+
+    <div class="border border-[#00ff88]/20 bg-[#00ff88]/[0.03] p-4">
+      <p class="font-mono text-[10px] text-[#00ff88] uppercase tracking-widest flex items-center gap-1.5">
+        <span class="h-2 w-2 rounded-full bg-[#00ff88]"></span> CLOSED / CONVERTED
+      </p>
+      <p class="text-3xl font-mono font-bold text-[#00ff88] mt-2">{{ closed_count }}</p>
+      <a href="?status=closed" class="inline-block mt-3 font-mono text-[10px] text-[#00ff88]/80 hover:text-[#00ff88]">Filter Closed →</a>
+    </div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
+    <form method="GET" class="flex w-full md:w-80">
+      <input type="text" name="q" value="{{ search_query }}" placeholder="Search client name, email..."
+             class="w-full bg-black border border-white/15 px-3 py-1.5 text-xs font-mono text-white placeholder-gray-600 focus:border-[#00ff88] focus:outline-none">
+      <button type="submit" class="border border-l-0 border-white/15 bg-white/5 px-4 text-xs font-mono text-gray-300 hover:bg-white/10">Search</button>
+    </form>
+
+    <div class="flex items-center gap-2 font-mono text-xs">
+      <span class="text-gray-500 mr-1">Filter:</span>
+      <a href="{% url 'dashboard_quick_enquiries' %}" class="px-2.5 py-1 border {% if not current_status %}border-[#00ff88] text-[#00ff88] bg-[#00ff88]/10{% else %}border-white/10 text-gray-400 hover:text-white{% endif %}">All</a>
+      <a href="?status=new" class="px-2.5 py-1 border {% if current_status == 'new' %}border-amber-400 text-amber-400 bg-amber-400/10{% else %}border-white/10 text-gray-400 hover:text-amber-400{% endif %}">New</a>
+      <a href="?status=in_progress" class="px-2.5 py-1 border {% if current_status == 'in_progress' %}border-cyan-400 text-cyan-400 bg-cyan-400/10{% else %}border-white/10 text-gray-400 hover:text-cyan-400{% endif %}">In Progress</a>
+      <a href="?status=closed" class="px-2.5 py-1 border {% if current_status == 'closed' %}border-[#00ff88] text-[#00ff88] bg-[#00ff88]/10{% else %}border-white/10 text-gray-400 hover:text-[#00ff88]{% endif %}">Closed</a>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="border border-white/10 bg-[#070b09] overflow-x-auto">
+    <table class="w-full text-left font-mono text-xs">
+      <thead>
+        <tr class="border-b border-white/10 text-gray-500 text-[10px] uppercase tracking-wider bg-black/40">
+          <th class="py-3 px-4">#</th>
+          <th class="py-3 px-4">CLIENT NAME</th>
+          <th class="py-3 px-4">CONTACT INFO</th>
+          <th class="py-3 px-4">SERVICE / SCOPE</th>
+          <th class="py-3 px-4">STATUS</th>
+          <th class="py-3 px-4 text-right">ACTION</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5 text-gray-300">
+        {% for item in enquiries %}
+        <tr class="hover:bg-white/[0.02] transition-colors">
+          <td class="py-4 px-4 text-gray-500">{{ forloop.counter }}</td>
+          <td class="py-4 px-4">
+            <p class="font-bold text-white">{{ item.name }}</p>
+            <p class="text-[10px] text-gray-500 mt-0.5">{{ item.created_at|date:"d M Y, h:i A" }}</p>
+          </td>
+          <td class="py-4 px-4">
+            {% if item.email %}<p class="text-[#00ff88]">{{ item.email }}</p>{% endif %}
+            {% if item.phone %}<p class="text-gray-400 mt-0.5">{{ item.phone }}</p>{% endif %}
+          </td>
+          <td class="py-4 px-4 max-w-xs">
+            <span class="inline-block bg-white/5 text-cyan-400 border border-cyan-500/20 px-1.5 py-0.5 text-[10px] mb-1.5">
+              {{ item.project_type }}
+            </span>
+            <p class="text-[11px] text-gray-400 line-clamp-2">{{ item.message }}</p>
+          </td>
+          <td class="py-4 px-4">
+            <form action="{% url 'update_quick_enquiry_status' item.id %}" method="POST">
+              {% csrf_token %}
+              <select name="status" onchange="this.form.submit()"
+                      class="bg-black border border-white/20 text-xs px-2 py-1 focus:outline-none 
+                      {% if item.status == 'new' %}text-amber-400 border-amber-500/40{% elif item.status == 'in_progress' %}text-cyan-400 border-cyan-500/40{% else %}text-[#00ff88] border-[#00ff88]/40{% endif %}">
+                <option value="new" {% if item.status == 'new' %}selected{% endif %}>⏳ New / Pending</option>
+                <option value="in_progress" {% if item.status == 'in_progress' %}selected{% endif %}>⚙ In Progress</option>
+                <option value="closed" {% if item.status == 'closed' %}selected{% endif %}>✓ Closed</option>
+              </select>
+            </form>
+          </td>
+          <td class="py-4 px-4 text-right">
+            <div class="flex items-center justify-end gap-2">
+              {% if item.phone %}
+              <a href="https://wa.me/{{ item.phone|cut:'+'|cut:' ' }}" target="_blank"
+                 class="px-2 py-1 text-[10px] border border-[#00ff88]/30 text-[#00ff88] hover:bg-[#00ff88]/10 transition-colors">
+                WhatsApp
+              </a>
+              {% endif %}
+              <form action="{% url 'delete_quick_enquiry' item.id %}" method="POST" onsubmit="return confirm('Purge this telemetry?');">
+                {% csrf_token %}
+                <button type="submit" class="px-2 py-1 text-[10px] border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 transition-colors">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="py-8 text-center text-gray-500">No service telemetry enquiries found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}

@@ -13,4 +13,5 @@ urlpatterns = [
     path("our-work/<slug:slug>/", views.case_study_detail, name="case_study_detail"),
     path("about/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
+    path('api/quick-enquiry/', views.submit_quick_enquiry, name='submit_quick_enquiry'),
 ]

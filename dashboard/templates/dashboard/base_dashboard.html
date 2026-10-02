@@ -50,6 +50,10 @@
 <a href="{% url 'dashboard_technologies' %}" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
   <span>◆</span> Technologies
 </a>
+<a href="{% url 'dashboard_quick_enquiries' %}" 
+   class="flex items-center gap-2.5 px-3 py-2 text-xs font-mono tracking-wider transition-colors {% if request.resolver_match.url_name == 'dashboard_quick_enquiries' %}text-[#00ff88] bg-white/5 border-l-2 border-[#00ff88]{% else %}text-gray-400 hover:text-white hover:bg-white/[0.02]{% endif %}">
+  <span class="text-[10px]">◆</span> Quick Enquiries
+</a>
 
       </nav>
     </div>

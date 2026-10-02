@@ -176,3 +176,27 @@ class ContactInquiry(models.Model):
     def __str__(self):
         return f"{self.name} – {self.get_project_type_display()}"
 
+
+class ServiceQuickEnquiry(models.Model):
+    service_title = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=150)
+    contact_info = models.CharField(max_length=150)  # Email ya Phone
+    message = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('new', 'New'),
+            ('in_progress', 'In Progress'),
+            ('closed', 'Closed'),
+        ],
+        default='new'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Quick Service Enquiry"
+        verbose_name_plural = "Quick Service Enquiries"
+
+    def __str__(self):
+        return f"{self.name} - {self.service_title or 'General'}"

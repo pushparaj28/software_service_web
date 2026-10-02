@@ -122,3 +122,18 @@ select.field option { background: var(--surface); }
 .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: #fff; }
 .cursor-ring { width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1px solid transparent; transition: border-color .25s, width .25s, height .25s, margin .25s; }
 .cursor-ring.is-active { width: 52px; height: 52px; margin: -26px 0 0 -26px; border-color: var(--accent); box-shadow: 0 0 18px rgba(0, 255, 136, .35); }
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
+}

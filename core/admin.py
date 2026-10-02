@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import CaseStudy, CaseStudyImage, ContactInquiry, Industry, Service, Technology
-
+from .models import ServiceQuickEnquiry
 
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
@@ -62,3 +62,10 @@ class ContactInquiryAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+
+@admin.register(ServiceQuickEnquiry)
+class ServiceQuickEnquiryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'service_title', 'contact_info', 'status', 'created_at')
+    list_filter = ('status', 'created_at')
+    search_fields = ('name', 'contact_info', 'message', 'service_title')
