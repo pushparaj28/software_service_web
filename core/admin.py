@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from .models import CaseStudy, CaseStudyImage, ContactInquiry, Industry, Service, Technology
 from .models import ServiceQuickEnquiry
+from django.utils.html import format_html
+from .models import TeamMember
 
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
@@ -69,3 +71,16 @@ class ServiceQuickEnquiryAdmin(admin.ModelAdmin):
     list_display = ('name', 'service_title', 'contact_info', 'status', 'created_at')
     list_filter = ('status', 'created_at')
     search_fields = ('name', 'contact_info', 'message', 'service_title')
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('photo_preview', 'name', 'role', 'is_founder', 'order', 'is_active')
+    list_filter = ('is_founder', 'is_active')
+    list_editable = ('order', 'is_active', 'is_founder')
+    search_fields = ('name', 'role', 'tech_stack')
+    
+    def photo_preview(self, obj):
+        if obj.avatar:
+            return format_html('<img src="{}" style="width: 36px; height: 36px; object-fit: cover; border-radius: 4px; border: 1px solid #00ff88;" />', obj.avatar.url)
+        return "No Photo"
+    photo_preview.short_description = "Avatar"

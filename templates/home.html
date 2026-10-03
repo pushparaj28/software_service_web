@@ -95,113 +95,148 @@
   </div>
 </section>
 
-
-<style>
-  /* Theme: black + neon green, sharp corners, mono labels. Accent badalna ho to --acc change karo */
-  .tm{--n:2;--gap:1rem;--acc:#00ff88}
-  @media (min-width:768px){.tm{--n:3}}
-  @media (min-width:1024px){.tm{--n:5}}
-  .tm-viewport{overflow:hidden;touch-action:pan-y;user-select:none;padding:2px}
-  .tm-track{display:flex;gap:var(--gap);counter-reset:tm;transition:transform .7s cubic-bezier(.22,.7,.2,1)}
-  .tm-card{counter-increment:tm;position:relative;flex:0 0 calc((100% - (var(--n) - 1) * var(--gap)) / var(--n));min-width:0;padding:.6rem .6rem 1.1rem;text-align:center;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);transition:border-color .3s,box-shadow .3s,transform .3s}
-  .tm-card:hover{border-color:rgba(0,255,136,.55);box-shadow:0 0 28px -8px rgba(0,255,136,.45);transform:translateY(-3px)}
-  .tm-photo{position:relative;aspect-ratio:1/1;overflow:hidden;background:#0a0f0d}
-  .tm-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;filter:grayscale(1) contrast(1.05) brightness(.9);transition:filter .5s,transform .8s}
-  .tm-card:hover .tm-photo img{filter:none;transform:scale(1.05)}
-  .tm-photo::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(0deg,rgba(0,255,136,.16),transparent 45%)}
-  .tm-photo::after{content:"[0" counter(tm) "]";position:absolute;z-index:2;top:.5rem;left:.5rem;padding:.15rem .4rem;font:500 .65rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;color:var(--acc);background:rgba(0,0,0,.75);border:1px solid rgba(0,255,136,.35)}
-  .tm-name{margin-top:.95rem;font-size:.95rem;font-weight:600;color:#fff}
-  .tm-role{margin-top:.35rem;font:400 .66rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);opacity:.85;min-height:3em}
-  .tm-socials{margin-top:.8rem;display:flex;justify-content:center;gap:.45rem}
-  .tm-soc{display:grid;place-items:center;width:2rem;height:2rem;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);transition:background .2s,color .2s,border-color .2s}
-  .tm-soc:hover{background:var(--acc);border-color:var(--acc);color:#000}
-  .tm-soc svg{width:.9rem;height:.9rem}
-  .tm-arrow{width:2.75rem;height:2.75rem;display:grid;place-items:center;border:1px solid rgba(0,255,136,.4);color:var(--acc);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;transition:background .2s,color .2s}
-  .tm-arrow:hover{background:var(--acc);color:#000}
-  @media (prefers-reduced-motion:reduce){.tm-track,.tm-card,.tm-photo img{transition:none}}
-</style>
-
-<section class="border-t border-white/10 py-20 sm:py-28" aria-label="Our team">
-  <div class="tm mx-auto max-w-7xl px-5 lg:px-8" data-team-slider data-interval="3000" tabindex="0">
-    <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+<!-- [03 / TEAM] Section -->
+<section class="py-20 bg-black text-white relative overflow-hidden border-t border-white/10">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    
+    <!-- Header with Controls & Button -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
       <div>
-        <p class="mono-label mb-3">[03 / Team]</p>
-        <h2 class="text-3xl font-semibold sm:text-5xl">Expert Team at <span class="text-glow">CODEMATRIX</span></h2>
-        <p class="mt-3 text-ink2">Experienced. Creative. Passionate.</p>
+        <p class="font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">[03 / TEAM]</p>
+        <h2 class="text-3xl sm:text-5xl font-bold tracking-tight">
+          Expert Team at <span class="text-[#00ff88] drop-shadow-[0_0_15px_#00ff88]">CODEMATRIX</span>
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm font-mono text-gray-400">Experienced. Creative. Passionate.</p>
       </div>
+
       <div class="flex items-center gap-3">
-        <button type="button" class="tm-arrow" data-team-prev aria-label="Previous">←</button>
-        <button type="button" class="tm-arrow" data-team-next aria-label="Next">→</button>
-        <a href="{% url 'contact' %}" class="btn btn-primary">Work With Us →</a>
+        <!-- Prev / Next Slider Arrows -->
+        <button type="button" id="team-slider-prev" title="Previous"
+                class="w-10 h-10 border border-white/20 bg-black/60 flex items-center justify-center text-gray-400 hover:text-[#00ff88] hover:border-[#00ff88] transition-all cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <button type="button" id="team-slider-next" title="Next"
+                class="w-10 h-10 border border-white/20 bg-black/60 flex items-center justify-center text-gray-400 hover:text-[#00ff88] hover:border-[#00ff88] transition-all cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+
+        <!-- Work with us Link -->
+        <a href="{% url 'team' %}" 
+           class="px-5 py-2.5 bg-[#00ff88] text-black font-mono text-xs font-bold uppercase tracking-wider hover:shadow-[0_0_20px_#00ff88] transition-all flex items-center gap-1.5 ml-2">
+          WORK WITH US →
+        </a>
       </div>
     </div>
 
-    <div class="tm-viewport" data-team-viewport>
-      <div class="tm-track" data-team-track>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://media.licdn.com/dms/image/v2/D5603AQF2GcFKrt8Sgw/profile-displayphoto-crop_800_800/B56Z_aqhnoGQAI-/0/1786080009780?e=1792022400&v=beta&t=057V8SGkpiX7r_Hn6E7tg_wX8YA78mIORndeC71NZoY" alt="Pushpendra singh" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Pushpendra singh</h3>
-          <p class="tm-role">Team Leader  &amp; (Web development)</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
+    <!-- Sliding Carousel Track Container -->
+    <div id="team-carousel-wrapper" class="overflow-hidden relative">
+      <div id="team-slider-track" class="flex gap-6 transition-transform duration-700 ease-out">
+        {% for member in team_members %}
+        <div class="team-card shrink-0 w-[260px] sm:w-[280px] border border-white/10 bg-[#070b09] p-3 flex flex-col justify-between group hover:border-[#00ff88]/60 transition-all duration-300">
+          
+          <!-- Image Box with Badge -->
+          <div class="relative w-full aspect-[4/5] overflow-hidden bg-black/80 border border-white/10 mb-4">
+            <span class="absolute top-2 left-2 z-10 font-mono text-[10px] bg-black/80 px-1.5 py-0.5 text-[#00ff88] border border-[#00ff88]/30">
+              [0{{ forloop.counter }}]
+            </span>
+            
+            {% if member.avatar %}
+            <img src="{{ member.avatar.url }}" alt="{{ member.name }}"
+                 class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center font-mono text-xs text-gray-600 bg-neutral-900">
+              [NO PHOTO]
+            </div>
+            {% endif %}
+
+            <!-- Neon Gradient overlay bottom -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
           </div>
-        </article>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkS4dUJFAeKy_vIjINBuCPipKCaexQbSs40npzt4qQ1B2ofqKzWSuJnW1C&s=10" alt="Priya Verma" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Priya Verma</h3>
-          <p class="tm-role">CTO</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
+
+          <!-- Member Name & Role -->
+          <div class="text-center pb-2">
+            <h4 class="font-bold text-base tracking-wide text-white group-hover:text-[#00ff88] transition-colors">
+              {{ member.name }}
+            </h4>
+            <p class="font-mono text-[11px] text-[#00ff88] uppercase tracking-wider mt-1">
+              {{ member.role }}
+            </p>
           </div>
-        </article>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIFxyjlHufgcYnyLoX0zhVYxRVArTpZmZH79SlQ4dESS1vIrdlcggYusR7&s=10" alt="Rohan Gupta" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Rohan Gupta</h3>
-          <p class="tm-role">Team Lead (Web Development)</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          </div>
-        </article>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://img.magnific.com/free-photo/portrait-young-indian-top-manager-t-shirt-tie-crossed-arms-smiling-white-isolated-wall_496169-1513.jpg?semt=ais_hybrid&w=740&q=80" alt="Ananya Singh" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Ananya Singh</h3>
-          <p class="tm-role">Mobile App Lead</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          </div>
-        </article>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://img.magnific.com/premium-photo/portrait-smiling-businessman_1203353-48747.jpg?semt=ais_hybrid&w=740&q=80" alt="Kabir Mehta" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Kabir Mehta</h3>
-          <p class="tm-role">AI &amp; Data Engineer</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          </div>
-        </article>
-        <article class="tm-card">
-          <div class="tm-photo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_IwrBNdk7talgbfmn44UFQQvaQOKbxCnQn_TkWfKUOQ&s" alt="Neha Joshi" loading="lazy" draggable="false"></div>
-          <h3 class="tm-name">Neha Joshi</h3>
-          <p class="tm-role">DevOps &amp; Cloud Engineer</p>
-          <div class="tm-socials">
-            <a href="#" class="tm-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.8c-.8-.4-1.5-1.1-1.9-1.9l.8-.8-1-2z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V7c0-.6.4-1 1-1h1.5V3H14c-2.2 0-3.5 1.6-3.5 3.8V8.5H8v3h2.5V21h3.5v-9.5h2.3l.4-3z"/></svg></a>
-            <a href="#" class="tm-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          </div>
-        </article>
+
+        </div>
+        {% empty %}
+        <div class="w-full text-center py-12 text-gray-500 font-mono text-xs border border-dashed border-white/10">
+          No team members enlisted in database yet. Add members from CODEMATRIX Panel.
+        </div>
+        {% endfor %}
       </div>
     </div>
+
   </div>
 </section>
+
+<!-- Auto Slide & Controls Script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.getElementById('team-slider-track');
+  const prevBtn = document.getElementById('team-slider-prev');
+  const nextBtn = document.getElementById('team-slider-next');
+  const cards = document.querySelectorAll('.team-card');
+
+  if (!track || cards.length === 0) return;
+
+  let currentIndex = 0;
+  const cardWidth = 280 + 24; // card width + gap (approx)
+  
+  function getVisibleCards() {
+    if (window.innerWidth >= 1024) return 4;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
+  }
+
+  function updateSlide() {
+    const maxIndex = Math.max(0, cards.length - getVisibleCards());
+    if (currentIndex > maxIndex) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = maxIndex;
+
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex++;
+    updateSlide();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex--;
+    updateSlide();
+  });
+
+  // Auto Swap / Slide every 3.5 seconds
+  let autoSlideInterval = setInterval(() => {
+    currentIndex++;
+    updateSlide();
+  }, 3500);
+
+  // Pause sliding on mouse hover
+  const wrapper = document.getElementById('team-carousel-wrapper');
+  wrapper.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+  wrapper.addEventListener('mouseleave', () => {
+    autoSlideInterval = setInterval(() => {
+      currentIndex++;
+      updateSlide();
+    }, 3500);
+  });
+
+  window.addEventListener('resize', updateSlide);
+});
+</script>
+
 
 <section class="grid-bg border-y border-white/10 bg-surface py-20 sm:py-28">
   <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:px-8">
@@ -226,205 +261,540 @@
   </div>
 </section>
 
-<style>
-  /* Industries: zigzag tree. Accent: --acc */
-  .ind-tree{position:relative;margin-top:3.5rem;--acc:#00ff88}
-  .ind-line,.ind-fill{position:absolute;top:0;left:1rem;width:1px;transform:translateX(-50%)}
-  .ind-line{bottom:0;background:rgba(255,255,255,.12)}
-  .ind-fill{height:0;background:var(--acc);box-shadow:0 0 12px var(--acc)}
-  .ind-list{list-style:none;margin:0;padding:0}
-  .ind-row{position:relative;display:flex;padding-left:3rem;margin-bottom:1.75rem}
-  .ind-row::before{content:"";position:absolute;top:50%;left:1rem;width:2rem;height:1px;background:rgba(255,255,255,.2);transition:background .5s}
-  .ind-node{position:absolute;top:50%;left:1rem;width:.7rem;height:.7rem;background:#050807;border:1px solid rgba(255,255,255,.35);transform:translate(-50%,-50%) rotate(45deg);transition:background .4s,border-color .4s,box-shadow .4s}
-  .ind-row.is-in .ind-node{background:var(--acc);border-color:var(--acc);box-shadow:0 0 14px var(--acc)}
-  .ind-row.is-in::before{background:rgba(0,255,136,.6)}
-  .ind-card{display:block;width:100%;max-width:28rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);overflow:hidden;transition:border-color .3s,box-shadow .3s}
-  .ind-card:hover{border-color:rgba(0,255,136,.55);box-shadow:0 0 28px -8px rgba(0,255,136,.45)}
-  .ind-media{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#0a0f0d}
-  .ind-media img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.05) brightness(.85);transition:filter .5s,transform .8s}
-  .ind-card:hover .ind-media img{filter:none;transform:scale(1.05)}
-  .ind-media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(0,0,0,.65),transparent 55%)}
-  .ind-idx{position:absolute;z-index:2;top:.6rem;left:.6rem;padding:.2rem .45rem;font:500 .65rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;color:var(--acc);background:rgba(0,0,0,.75);border:1px solid rgba(0,255,136,.35)}
-  .ind-body{display:block;padding:1.1rem 1.25rem 1.3rem}
-  .ind-name{display:flex;align-items:center;justify-content:space-between;font-size:1.2rem;font-weight:600;color:#fff}
-  .ind-arrow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--acc);opacity:0;transform:translateX(-6px);transition:opacity .25s,transform .25s}
-  .ind-card:hover .ind-arrow{opacity:1;transform:none}
-  .ind-desc{display:block;margin-top:.55rem;font-size:.88rem;line-height:1.6;opacity:.7}
-  .ind-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
-  .ind-tags span{padding:.25rem .5rem;font:400 .62rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);border:1px solid rgba(0,255,136,.3)}
-  /* Sirf pehle 5 dikhao, baaki "Show more" se */
-  .ind-tree:not(.is-expanded) .ind-row.is-extra{display:none}
-  .ind-more{margin-top:2.5rem;display:flex;justify-content:center}
-  .ind-more-btn{display:inline-flex;align-items:center;gap:.6rem;cursor:pointer}
-  .ind-more-btn svg{width:1rem;height:1rem;transition:transform .3s}
-  .ind-more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
-  /* reveal (sirf JS ke saath) */
-  .ind-tree.is-ready .ind-row{opacity:0;transform:translateX(28px);transition:opacity .7s ease,transform .7s ease}
-  .ind-tree.is-ready .ind-row.is-in{opacity:1;transform:none}
-  @media (min-width:768px){
-    .ind-line,.ind-fill{left:50%}
-    .ind-row{width:50%;padding-left:0}
-    .ind-row.is-left{justify-content:flex-end;padding-right:3rem}
-    .ind-row.is-right{margin-left:50%;padding-left:3rem;margin-top:-9rem}
-    .ind-row::before{left:auto}
-    .ind-row.is-left::before{right:0}
-    .ind-row.is-right::before{left:0}
-    .ind-row.is-left .ind-node{left:auto;right:0;transform:translate(50%,-50%) rotate(45deg)}
-    .ind-row.is-right .ind-node{left:0}
-    .ind-tree.is-ready .ind-row.is-left{transform:translateX(-40px)}
-    .ind-tree.is-ready .ind-row.is-right{transform:translateX(40px)}
-    .ind-tree.is-ready .ind-row.is-in{transform:none}
-  }
-  @media (prefers-reduced-motion:reduce){.ind-tree.is-ready .ind-row{transition:none}.ind-media img{transition:none}}
-</style>
-
-<section class="border-t border-white/10 py-20 sm:py-28" aria-label="Industries">
-  <div class="mx-auto max-w-5xl px-5 lg:px-8">
+<!-- [06 / INDUSTRIES] Cyber HUD Telemetry Marquee -->
+<section class="border-t border-white/10 py-20 sm:py-28 bg-[#030605] relative overflow-hidden" aria-label="Industries">
+  
+  <!-- Section Header -->
+  <div class="mx-auto max-w-7xl px-5 lg:px-8 mb-12">
     {% include "partials/section_header.html" with label="06 / Industries" title="Built for regulated and high-growth sectors" %}
-    <div class="ind-tree" data-ind-tree>
-      <div class="ind-line" aria-hidden="true"></div>
-      <div class="ind-fill" aria-hidden="true" data-ind-fill></div>
-      <ol class="ind-list">
-        <!-- 01: Education -->
-        <li class="ind-row is-left" data-ind-row>
-          <a href="{% url 'industries' %}#education" class="ind-card">
-            <span class="ind-media">
-              <img src="https://media.licdn.com/dms/image/v2/D5612AQGKMHYMho5o2A/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1666286584462?e=2147483647&v=beta&t=ALbxcGUZhL9POoJRZwKoq9pI8CtiEG290hHNW2Yzgac" alt="Education" loading="lazy" draggable="false">
-              <span class="ind-idx">[01]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">Education <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">Learning platforms, virtual classrooms, student management systems, and automated exam engines designed for institutions and ed-tech innovators.</span>
-              <span class="ind-tags"><span>LMS Platforms</span><span>Virtual Classrooms</span><span>Exam Engines</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+  </div>
 
-        <!-- 02: Healthcare -->
-        <li class="ind-row is-right" data-ind-row>
-          <a href="{% url 'industries' %}#healthcare" class="ind-card">
-            <span class="ind-media">
-              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Healthcare" loading="lazy" draggable="false">
-              <span class="ind-idx">[02]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">Healthcare <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">HIPAA-compliant telemedicine solutions, hospital management portals, and secure EHR/EMR integrations that prioritize patient safety and data privacy.</span>
-              <span class="ind-tags"><span>Telemedicine</span><span>EHR / EMR</span><span>Patient Portals</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+  <!-- Marquee Container with Gradient Edge Mask -->
+  <div class="relative w-full overflow-hidden marquee-mask">
+    <div class="marquee-track flex gap-6 hover:[animation-play-state:paused] py-4">
+      
+      <!-- Loop 1 -->
+      {% for ind in industries %}
+      <a href="{% url 'industries' %}#{{ ind.slug|default:ind.name|slugify }}" 
+         class="shrink-0 w-[310px] sm:w-[350px] border border-white/10 bg-[#070b09] p-5 flex flex-col justify-between group hover:border-[#00ff88] hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] transition-all duration-300 relative">
+        
+        <!-- Corner Cyber Marks -->
+        <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
+        <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
 
-        <!-- 03: Real Estate -->
-        <li class="ind-row is-left" data-ind-row>
-          <a href="{% url 'industries' %}#real-estate" class="ind-card">
-            <span class="ind-media">
-              <img src="https://www.sharefile.com/images/sharefilelibraries/resources/86dunmw9r_sharefile_novblog06_realestatetechtrends_featured_01.png?sfvrsn=a83f89ed_1" alt="Real Estate" loading="lazy" draggable="false">
-              <span class="ind-idx">[03]</span>
+        <!-- TOP: Cyber HUD Visual Display (Replaces Plain Image) -->
+        <div class="relative w-full h-40 overflow-hidden bg-gradient-to-b from-[#0a110d] to-black border border-white/10 group-hover:border-[#00ff88]/40 mb-5 flex flex-col justify-between p-3.5 transition-colors">
+          
+          <!-- Background Cyber Mesh / Grid Lines -->
+          <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#00ff88_1px,transparent_1px)] [background-size:12px_12px]"></div>
+          
+          <!-- Top Row: ID Badge & Signal Pulse -->
+          <div class="relative z-10 flex items-center justify-between font-mono text-[10px]">
+            <span class="bg-black/90 px-2 py-0.5 text-[#00ff88] border border-[#00ff88]/30 tracking-widest font-bold">
+              SYS // 0{{ forloop.counter }}
             </span>
-            <span class="ind-body">
-              <span class="ind-name">Real Estate <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">Property listing engines, interactive virtual tours, tenant management software, and automated CRM pipelines for brokers and developers.</span>
-              <span class="ind-tags"><span>Property Portals</span><span>Virtual Tours</span><span>Tenant CRM</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+            <div class="flex items-center gap-1.5 text-gray-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping"></span>
+              <span class="text-[9px] tracking-wider text-cyan-400 uppercase">ONLINE</span>
+            </div>
+          </div>
 
-        <!-- 04: E-Commerce -->
-        <li class="ind-row is-right" data-ind-row>
-          <a href="{% url 'industries' %}#e-commerce" class="ind-card">
-            <span class="ind-media">
-              <img src="https://media.istockphoto.com/id/2061836383/photo/items-purchased-through-online-shopping-are-delivered-3d-rendering.jpg?s=612x612&w=0&k=20&c=1utqkVmKKMtM6W-JqtHL6vfhna5ROaGG5qj_MxRZ5yk=" alt="E-Commerce" loading="lazy" draggable="false">
-              <span class="ind-idx">[04]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">E-Commerce <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">High-speed headless storefronts, multi-vendor marketplaces, unified inventory synchronization, and frictionless checkout flows built for scale.</span>
-              <span class="ind-tags"><span>Headless Commerce</span><span>Custom Checkout</span><span>Inventory Sync</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+          <!-- Center: Dynamic Sector Icon / Logo with Ambient Glow -->
+          <div class="relative z-10 flex items-center justify-center my-auto">
+            <div class="w-14 h-14 rounded-lg bg-black/80 border border-white/15 flex items-center justify-center text-[#00ff88] group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] group-hover:scale-110 transition-all duration-300">
+              {% if "fintech" in ind.name|lower or "finance" in ind.name|lower %}
+                <!-- FinTech / Vault Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              {% elif "health" in ind.name|lower or "care" in ind.name|lower or "medical" in ind.name|lower %}
+                <!-- Health / Pulse Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              {% elif "edu" in ind.name|lower or "learn" in ind.name|lower %}
+                <!-- Education / Academic Terminal Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                </svg>
+              {% elif "enter" in ind.name|lower or "saas" in ind.name|lower or "cloud" in ind.name|lower %}
+                <!-- Enterprise / System Mesh Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+              {% elif "auto" in ind.name|lower or "motor" in ind.name|lower or "vehic" in ind.name|lower %}
+                <!-- Automotive / Speed Telemetry Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              {% elif "real" in ind.name|lower or "estate" in ind.name|lower %}
+                <!-- Real Estate / Architecture Blueprint Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+              {% else %}
+                <!-- Global Cyber Core Node Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                </svg>
+              {% endif %}
+            </div>
+          </div>
 
-        <!-- 05: FinTech -->
-        <li class="ind-row is-left" data-ind-row>
-          <a href="{% url 'industries' %}#fintech" class="ind-card">
-            <span class="ind-media">
-              <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="FinTech" loading="lazy" draggable="false">
-              <span class="ind-idx">[05]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">FinTech <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">PCI-DSS compliant payment gateways, algorithmic trading dashboards, digital wallet infrastructures, and automated KYC verification systems.</span>
-              <span class="ind-tags"><span>Payment Gateways</span><span>KYC &amp; Compliance</span><span>Lending Platforms</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+          <!-- Bottom HUD Bar -->
+          <div class="relative z-10 flex items-center justify-between font-mono text-[9px] text-gray-500 border-t border-white/5 pt-1.5">
+            <span class="text-gray-400">LATENCY: &lt;3ms</span>
+            <span class="text-cyan-400">PROTOCOL: v2.4</span>
+          </div>
+        </div>
 
-        <!-- 06: HR & Recruitment -->
-        <li class="ind-row is-right is-extra" data-ind-row>
-          <a href="{% url 'industries' %}#hr-recruitment" class="ind-card">
-            <span class="ind-media">
-              <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80" alt="HR & Recruitment" loading="lazy" draggable="false">
-              <span class="ind-idx">[06]</span>
+        <!-- MIDDLE: Body & Descriptions -->
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-xl text-white group-hover:text-[#00ff88] transition-colors">
+              {{ ind.name }}
+            </h3>
+            <span class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-black group-hover:bg-[#00ff88] group-hover:rotate-45 transition-all text-xs">
+              ↗
             </span>
-            <span class="ind-body">
-              <span class="ind-name">HR &amp; Recruitment <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">AI-powered applicant tracking systems (ATS), employee onboarding workflows, payroll automation, and performance assessment platforms.</span>
-              <span class="ind-tags"><span>AI ATS</span><span>Payroll Automation</span><span>Employee Portals</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+          </div>
 
-        <!-- 07: Logistics -->
-        <li class="ind-row is-left is-extra" data-ind-row>
-          <a href="{% url 'industries' %}#logistics" class="ind-card">
-            <span class="ind-media">
-              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" alt="Logistics" loading="lazy" draggable="false">
-              <span class="ind-idx">[07]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">Logistics <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">Fleet GPS tracking, predictive AI route dispatching, warehouse management systems (WMS), and end-to-end supply chain visibility.</span>
-              <span class="ind-tags"><span>Live Tracking</span><span>Route Optimisation</span><span>Warehouse Mgmt</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
+          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-3">
+            {{ ind.description|default:"Mission-critical software architecture, deterministic state-machines, and high-frequency automated pipelines." }}
+          </p>
+        </div>
 
-        <!-- 08: Manufacturing -->
-        <li class="ind-row is-right is-extra" data-ind-row>
-          <a href="{% url 'industries' %}#manufacturing" class="ind-card">
-            <span class="ind-media">
-              <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Manufacturing" loading="lazy" draggable="false">
-              <span class="ind-idx">[08]</span>
-            </span>
-            <span class="ind-body">
-              <span class="ind-name">Manufacturing <span class="ind-arrow" aria-hidden="true">→</span></span>
-              <span class="ind-desc">Industrial IoT monitoring dashboards, automated quality control pipelines, shop floor telemetry, and predictive machinery maintenance.</span>
-              <span class="ind-tags"><span>IoT Dashboards</span><span>Production Planning</span><span>Quality Control</span></span>
-            </span>
-          </a>
-          <span class="ind-node" aria-hidden="true"></span>
-        </li>
-      </ol>
-    </div>
+        <!-- FOOTER: Telemetry Spec -->
+        <div class="mt-5 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
+          <span class="text-gray-500 tracking-wider">INDEX: 0{{ forloop.counter }} // PROD</span>
+          <span class="text-[#00ff88] uppercase tracking-widest font-semibold group-hover:underline">
+            EXPLORE SPEC →
+          </span>
+        </div>
+      </a>
+      {% endfor %}
 
-    <div class="ind-more">
-      <button type="button" class="btn btn-ghost ind-more-btn" data-ind-more aria-expanded="false"
-              data-more="Show 3 More Industries" data-less="Show Less">
-        <span data-ind-more-label>Show 3 More Industries</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </button>
+      <!-- Loop 2 (Exact Duplicate for Seamless 100% Infinite Scroll) -->
+      {% for ind in industries %}
+      <a href="{% url 'industries' %}#{{ ind.slug|default:ind.name|slugify }}" aria-hidden="true" tabindex="-1"
+         class="shrink-0 w-[310px] sm:w-[350px] border border-white/10 bg-[#070b09] p-5 flex flex-col justify-between group hover:border-[#00ff88] hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] transition-all duration-300 relative">
+        
+        <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
+        <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
+
+        <div class="relative w-full h-40 overflow-hidden bg-gradient-to-b from-[#0a110d] to-black border border-white/10 group-hover:border-[#00ff88]/40 mb-5 flex flex-col justify-between p-3.5 transition-colors">
+          <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#00ff88_1px,transparent_1px)] [background-size:12px_12px]"></div>
+          
+          <div class="relative z-10 flex items-center justify-between font-mono text-[10px]">
+            <span class="bg-black/90 px-2 py-0.5 text-[#00ff88] border border-[#00ff88]/30 tracking-widest font-bold">
+              SYS // 0{{ forloop.counter }}
+            </span>
+            <div class="flex items-center gap-1.5 text-gray-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping"></span>
+              <span class="text-[9px] tracking-wider text-cyan-400 uppercase">ONLINE</span>
+            </div>
+          </div>
+
+          <div class="relative z-10 flex items-center justify-center my-auto">
+            <div class="w-14 h-14 rounded-lg bg-black/80 border border-white/15 flex items-center justify-center text-[#00ff88] group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] group-hover:scale-110 transition-all duration-300">
+              {% if "fintech" in ind.name|lower or "finance" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              {% elif "health" in ind.name|lower or "care" in ind.name|lower or "medical" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              {% elif "edu" in ind.name|lower or "learn" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                </svg>
+              {% elif "enter" in ind.name|lower or "saas" in ind.name|lower or "cloud" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+              {% elif "auto" in ind.name|lower or "motor" in ind.name|lower or "vehic" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              {% elif "real" in ind.name|lower or "estate" in ind.name|lower %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+              {% else %}
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                </svg>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="relative z-10 flex items-center justify-between font-mono text-[9px] text-gray-500 border-t border-white/5 pt-1.5">
+            <span class="text-gray-400">LATENCY: &lt;3ms</span>
+            <span class="text-cyan-400">PROTOCOL: v2.4</span>
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-xl text-white group-hover:text-[#00ff88] transition-colors">
+              {{ ind.name }}
+            </h3>
+            <span class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-black group-hover:bg-[#00ff88] group-hover:rotate-45 transition-all text-xs">
+              ↗
+            </span>
+          </div>
+
+          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-3">
+            {{ ind.description|default:"Mission-critical software architecture, deterministic state-machines, and high-frequency automated pipelines." }}
+          </p>
+        </div>
+
+        <div class="mt-5 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
+          <span class="text-gray-500 tracking-wider">INDEX: 0{{ forloop.counter }} // PROD</span>
+          <span class="text-[#00ff88] uppercase tracking-widest font-semibold group-hover:underline">
+            EXPLORE SPEC →
+          </span>
+        </div>
+      </a>
+      {% endfor %}
+
     </div>
   </div>
 </section>
 
+<!-- Smooth Continuous Marquee CSS -->
+<style>
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+</style>
+
+
+<!-- [07 / FAQ] Engineering & Architecture Inquiries -->
+<section class="border-t border-white/10 py-20 sm:py-28 bg-[#030605] text-white relative overflow-hidden" id="faq-section" aria-label="Frequently Asked Questions">
+  
+  <!-- Ambient Cyber Background Glow -->
+  <div class="absolute -top-40 right-1/4 w-96 h-96 bg-[#00ff88]/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="mx-auto max-w-7xl px-5 lg:px-8 relative z-10">
+    
+    <!-- Section Header -->
+    <div class="mb-14 max-w-3xl">
+      <div class="flex items-center gap-2 font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88] animate-pulse"></span>
+        [07 // KNOWLEDGE_BASE &amp; FAQ]
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-bold tracking-tight font-sans">
+        Frequently Asked <span class="text-[#00ff88] drop-shadow-[0_0_15px_rgba(0,255,136,0.3)]">Questions</span>
+      </h2>
+      <p class="mt-3 text-xs sm:text-sm font-mono text-gray-400 leading-relaxed">
+        Everything you need to know about our engineering standards, deployment timelines, IP ownership, and distributed systems architecture.
+      </p>
+    </div>
+
+    <!-- Main Container: Left Tabs + Right Accordion -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- LEFT COLUMN: Category Selector Tabs -->
+      <div class="lg:col-span-4 space-y-2">
+        <div class="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-3 px-1">
+          // SELECT_QUERY_CATEGORY
+        </div>
+
+        <button type="button" onclick="switchFaqCategory('general', this)"
+                class="faq-tab-btn active-faq-tab w-full text-left p-4 border border-white/10 bg-[#070b09] flex items-center justify-between transition-all duration-200 group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-[#00ff88]">[01]</span>
+            <span class="font-mono text-xs tracking-wider text-white group-hover:text-[#00ff88] transition-colors">General &amp; Engagement</span>
+          </div>
+          <span class="text-xs text-[#00ff88] font-mono tab-arrow">→</span>
+        </button>
+
+        <button type="button" onclick="switchFaqCategory('architecture', this)"
+                class="faq-tab-btn w-full text-left p-4 border border-white/10 bg-[#070b09] flex items-center justify-between transition-all duration-200 group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-gray-500 group-hover:text-[#00ff88]">[02]</span>
+            <span class="font-mono text-xs tracking-wider text-gray-300 group-hover:text-white transition-colors">Architecture &amp; Tech Stack</span>
+          </div>
+          <span class="text-xs text-gray-500 font-mono tab-arrow opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        </button>
+
+        <button type="button" onclick="switchFaqCategory('security', this)"
+                class="faq-tab-btn w-full text-left p-4 border border-white/10 bg-[#070b09] flex items-center justify-between transition-all duration-200 group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-gray-500 group-hover:text-[#00ff88]">[03]</span>
+            <span class="font-mono text-xs tracking-wider text-gray-300 group-hover:text-white transition-colors">Security &amp; IP Ownership</span>
+          </div>
+          <span class="text-xs text-gray-500 font-mono tab-arrow opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        </button>
+
+        <button type="button" onclick="switchFaqCategory('delivery', this)"
+                class="faq-tab-btn w-full text-left p-4 border border-white/10 bg-[#070b09] flex items-center justify-between transition-all duration-200 group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-gray-500 group-hover:text-[#00ff88]">[04]</span>
+            <span class="font-mono text-xs tracking-wider text-gray-300 group-hover:text-white transition-colors">SLA, Delivery &amp; Support</span>
+          </div>
+          <span class="text-xs text-gray-500 font-mono tab-arrow opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        </button>
+
+        <!-- Direct Query Box -->
+        <div class="p-5 border border-white/10 bg-black/60 mt-6 relative">
+          <p class="font-mono text-[11px] text-[#00ff88] mb-1">// NEED CUSTOM SPECS?</p>
+          <p class="text-xs text-gray-400 mb-4 font-mono leading-relaxed">Have a proprietary architectural query not listed here?</p>
+          <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 text-xs font-mono text-black bg-[#00ff88] px-4 py-2 font-bold uppercase tracking-wider hover:shadow-[0_0_15px_#00ff88] transition-all">
+            Initiate Contact →
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Interactive Accordion Q&A Panels -->
+      <div class="lg:col-span-8">
+
+        <!-- TAB 1: General & Engagement -->
+        <div id="faq-category-general" class="faq-category-content space-y-3">
+          
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                How does CODEMATRIX initiate a new engineering contract?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Every project commences with a technical discovery sprint. Our engineering leads evaluate your architectural load requirements, database schema bottlenecks, and integration points before signing a bilateral NDA and formalizing the master services agreement (MSA).
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                What engagement models do you support?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                We operate across three verified vectors: Dedicated Core Engineering Teams (pod model), Fixed-Scope Deliverables with milestones, and Fractional CTO/Principal Systems Architecture retainers.
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                What is the typical turnaround timeline for an MVP or enterprise prototype?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Standard high-concurrency prototypes and deterministic MVPs are delivered in 4 to 8 weeks through 2-week bi-directional sprints, complete with CI/CD deployment pipelines and automated testing suites.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: Architecture & Tech Stack -->
+        <div id="faq-category-architecture" class="faq-category-content space-y-3 hidden">
+          
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                Which technology stacks do you specialize in?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Our core backend ecosystem is built on Python (Django/FastAPI), Go, and Node.js. For databases and persistence, we deploy optimized MySQL, PostgreSQL, Redis, and ClickHouse. Frontends are engineered via Next.js/React with Tailwind CSS and strict TypeScript typing.
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                Can you modernize or refactor legacy monolithic architectures?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Yes. We execute low-risk strangler-fig pattern migrations. We decouple bottlenecked database transactions, containerize services using Docker &amp; Kubernetes, and establish real-time telemetry without downtime.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 3: Security & IP Ownership -->
+        <div id="faq-category-security" class="faq-category-content space-y-3 hidden">
+          
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                Who holds Intellectual Property (IP) and source code rights?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                100% of all authored code, database schemas, deployment scripts, and intellectual property belong exclusively to the client upon milestone payment settlement. No proprietary lock-in.
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                What security compliance and code auditing standards are applied?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                All production commits pass strict automated static code analysis, OWASP Top-10 security validation, end-to-end TLS 1.3 encryption, and role-based zero-trust permission models.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 4: SLA, Delivery & Support -->
+        <div id="faq-category-delivery" class="faq-category-content space-y-3 hidden">
+          
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                Do you provide post-deployment production maintenance and SLAs?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Yes. We offer Tier-1 to Tier-3 SLA contracts including 99.9% uptime guarantees, 15-minute critical incident response windows, server metric telemetry monitoring, and rolling security patches.
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
+            <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
+              <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
+                How do sprint reporting and transparent status updates work?
+              </span>
+              <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out px-5">
+              <div class="pb-5 pt-1 text-xs font-mono text-gray-400 leading-relaxed border-t border-white/5">
+                Clients receive direct access to our GitHub repositories, staging sandbox environments, and automated weekly sprint demo telemetry.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Cyber FAQ Script (Tab Switching & Accordion Animation) -->
+<style>
+  .active-faq-tab {
+    border-color: #00ff88 !important;
+    background-color: rgba(0, 255, 136, 0.05) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
+  }
+  .active-faq-tab .tab-arrow {
+    opacity: 1 !important;
+  }
+</style>
+
+<script>
+function switchFaqCategory(category, btnElement) {
+  // Hide all categories
+  document.querySelectorAll('.faq-category-content').forEach(el => el.classList.add('hidden'));
+
+  // Reset tab button styles
+  document.querySelectorAll('.faq-tab-btn').forEach(btn => {
+    btn.classList.remove('active-faq-tab');
+    const arrow = btn.querySelector('.tab-arrow');
+    if (arrow) arrow.classList.add('opacity-0');
+  });
+
+  // Activate selected category
+  const target = document.getElementById('faq-category-' + category);
+  if (target) target.classList.remove('hidden');
+
+  // Activate current button
+  btnElement.classList.add('active-faq-tab');
+  const activeArrow = btnElement.querySelector('.tab-arrow');
+  if (activeArrow) activeArrow.classList.remove('opacity-0');
+}
+
+function toggleFaq(button) {
+  const item = button.closest('.faq-item');
+  const answer = item.querySelector('.faq-answer');
+  const icon = item.querySelector('.faq-icon');
+
+  const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+  // Close all other open accordions in the same panel
+  const parent = item.parentElement;
+  parent.querySelectorAll('.faq-answer').forEach(el => {
+    el.style.maxHeight = '0px';
+  });
+  parent.querySelectorAll('.faq-icon').forEach(ic => {
+    ic.innerText = '+';
+    ic.style.transform = 'rotate(0deg)';
+  });
+  parent.querySelectorAll('.faq-item').forEach(it => {
+    it.classList.remove('border-[#00ff88]/60');
+  });
+
+  if (!isOpen) {
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+    icon.innerText = '−';
+    icon.style.transform = 'rotate(90deg)';
+    item.classList.add('border-[#00ff88]/60');
+  }
+}
+
+// First accordion automatically open on load
+document.addEventListener('DOMContentLoaded', () => {
+  const firstAccordionBtn = document.querySelector('#faq-category-general button');
+  if (firstAccordionBtn) {
+    toggleFaq(firstAccordionBtn);
+  }
+});
+</script>
 
 
 {% include "partials/cta.html" %}

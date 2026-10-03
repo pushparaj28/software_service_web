@@ -42,4 +42,9 @@ urlpatterns = [
     path('quick-enquiries/', views.dashboard_quick_enquiries, name='dashboard_quick_enquiries'),
     path('quick-enquiries/<int:pk>/status/', views.update_quick_enquiry_status, name='update_quick_enquiry_status'),
     path('quick-enquiries/<int:pk>/delete/', views.delete_quick_enquiry, name='delete_quick_enquiry'),
+
+    path('team/', views.dashboard_team, name='dashboard_team'),
+    path('team/add/', views.dashboard_team_add, name='dashboard_team_add'),
+    path('team/<int:pk>/edit/', views.dashboard_team_edit, name='dashboard_team_edit'),
+    path('team/<int:pk>/delete/', views.dashboard_team_delete, name='dashboard_team_delete'),
 ]

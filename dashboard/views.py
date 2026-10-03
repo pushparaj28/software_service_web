@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from core.models import ServiceQuickEnquiry
 from core.models import Service, CaseStudy, ContactInquiry, Technology, Industry
 from .forms import ServiceForm, CaseStudyForm, IndustryForm, TechnologyForm
+from core.models import TeamMember
 
 def staff_required(user):
     return user.is_authenticated and user.is_staff
@@ -456,3 +457,90 @@ def delete_quick_enquiry(request, pk):
         enquiry.delete()
         messages.success(request, "Enquiry record purged.")
     return redirect('dashboard_quick_enquiries')
+
+@login_required
+def dashboard_team(request):
+    members = TeamMember.objects.all().order_by('order', '-is_founder', 'id')
+    return render(request, 'dashboard/team_list.html', {
+        'members': members,
+        'total_count': members.count(),
+        'founder_count': members.filter(is_founder=True).count(),
+    })
+
+@login_required
+def dashboard_team_add(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        role = request.POST.get('role', '').strip()
+        bio = request.POST.get('bio', '').strip()
+        tech_stack = request.POST.get('tech_stack', '').strip()
+        
+        # Safe integer conversion (Empty, None ya Negative value aane par default 0 lega)
+        raw_order = request.POST.get('order', '').strip()
+        try:
+            order = int(raw_order)
+            if order < 0:
+                order = 0
+        except (ValueError, TypeError):
+            order = 0
+
+        is_founder = 'is_founder' in request.POST
+        avatar = request.FILES.get('avatar')
+
+        TeamMember.objects.create(
+            name=name,
+            role=role,
+            bio=bio,
+            tech_stack=tech_stack,
+            order=order,  # Sanitized integer value
+            is_founder=is_founder,
+            avatar=avatar,
+            github_url=request.POST.get('github_url', '').strip(),
+            linkedin_url=request.POST.get('linkedin_url', '').strip(),
+            twitter_url=request.POST.get('twitter_url', '').strip(),
+        )
+        messages.success(request, f"{name} enlisted to team registry.")
+        return redirect('dashboard_team')
+        
+    return redirect('dashboard_team')
+@login_required
+def dashboard_team_delete(request, pk):
+    member = get_object_or_404(TeamMember, pk=pk)
+    if request.method == 'POST':
+        name = member.name
+        member.delete()
+        messages.success(request, f"{name} purged from telemetry registry.")
+    return redirect('dashboard_team')
+
+@login_required
+def dashboard_team_edit(request, pk):
+    member = get_object_or_404(TeamMember, pk=pk)
+
+    if request.method == 'POST':
+        member.name = request.POST.get('name', '').strip()
+        member.role = request.POST.get('role', '').strip()
+        member.bio = request.POST.get('bio', '').strip()
+        member.tech_stack = request.POST.get('tech_stack', '').strip()
+
+        # Safe integer sanitize
+        raw_order = request.POST.get('order', '').strip()
+        try:
+            order_val = int(raw_order)
+            member.order = max(0, order_val)
+        except (ValueError, TypeError):
+            member.order = 0
+
+        member.is_founder = 'is_founder' in request.POST
+        member.github_url = request.POST.get('github_url', '').strip()
+        member.linkedin_url = request.POST.get('linkedin_url', '').strip()
+        member.twitter_url = request.POST.get('twitter_url', '').strip()
+
+        # Nayi photo aayi ho toh update karein
+        if 'avatar' in request.FILES:
+            member.avatar = request.FILES.get('avatar')
+
+        member.save()
+        messages.success(request, f"{member.name} details updated successfully.")
+        return redirect('dashboard_team')
+
+    return redirect('dashboard_team')

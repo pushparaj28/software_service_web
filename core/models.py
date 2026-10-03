@@ -200,3 +200,29 @@ class ServiceQuickEnquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.service_title or 'General'}"
+
+
+class TeamMember(models.Model):
+    name = models.CharField(max_length=150)
+    role = models.CharField(max_length=150, help_text="e.g. Co-Founder & CTO, Principal Systems Architect")
+    bio = models.TextField(blank=True, help_text="Short engineering / leadership overview")
+    avatar = models.ImageField(upload_to="team/", blank=True, null=True)
+    is_founder = models.BooleanField(default=False, help_text="Check if member is one of the 2 Co-Founders")
+    tech_stack = models.CharField(max_length=255, blank=True, help_text="Comma-separated e.g. Python, Rust, Cloud, AI")
+    order = models.PositiveIntegerField(default=0, help_text="Display priority (lower numbers appear first)")
+    
+    # Social links
+    github_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    twitter_url = models.URLField(blank=True, null=True)
+    
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-is_founder', 'id']
+        verbose_name = "Team Member"
+        verbose_name_plural = "Team Members"
+
+    def __str__(self):
+        return f"{self.name} ({self.role})"

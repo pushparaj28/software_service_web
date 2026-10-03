@@ -11,6 +11,10 @@ from .models import CaseStudy, Industry, Service, Technology
 from .models import ServiceQuickEnquiry
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.shortcuts import render
+from .models import TeamMember
+
+
 logger = logging.getLogger(__name__)
 
 PROJECT_FILTERS = [
@@ -34,8 +38,8 @@ def home(request):
         "projects": _projects().filter(featured=True)[:3],
         "industries": Industry.objects.filter(is_active=True)[:8],
         "architecture": content.ARCHITECTURE_NODES,
+        "team_members": TeamMember.objects.filter(is_active=True).order_by("order", "id"),
     })
-
 
 def services(request):
     return render(request, "services.html", {
@@ -138,4 +142,13 @@ def submit_quick_enquiry(request):
         'status': 'success',
         'msg': 'Transmission confirmed. Telemetry logged into database.',
         'enquiry_id': enquiry.id
+    })
+
+def team_view(request):
+    founders = TeamMember.objects.filter(is_active=True, is_founder=True).order_by('order')[:2]
+    members = TeamMember.objects.filter(is_active=True, is_founder=False).order_by('order')
+    
+    return render(request, 'team.html', {
+        'founders': founders,
+        'members': members,
     })

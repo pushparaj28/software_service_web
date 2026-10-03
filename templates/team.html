@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-[#030605] text-white pt-28 pb-24 selection:bg-[#00ff88] selection:text-black">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+
+    <!-- Header Telemetry -->
+    <div class="border-b border-white/10 pb-12">
+      <div class="flex items-center gap-2 font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-3">
+        <span class="inline-block w-2 h-2 bg-[#00ff88] rounded-full animate-ping"></span>
+        [03 // HUMAN_CAPITAL_REGISTRY]
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight font-sans">
+        Architects of <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00ff88] via-[#00f3ff] to-white">CODEMATRIX</span>
+      </h1>
+      <p class="mt-4 text-sm sm:text-base font-mono text-gray-400 max-w-2xl leading-relaxed">
+        High-caliber systems architects, low-level engineers, and visionaries driving deterministic engineering execution.
+      </p>
+    </div>
+
+    <!-- SECTION 1: TWO CO-FOUNDERS -->
+    <div class="mt-16">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
+        <h2 class="font-mono text-xs uppercase tracking-widest text-[#00ff88] flex items-center gap-2">
+          <span>◆</span> EXECUTIVE LEADERSHIP // CO-FOUNDERS
+        </h2>
+        <span class="font-mono text-[10px] text-gray-500">NODES_ALLOCATED: 02</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {% for founder in founders %}
+        <div class="group relative border border-white/10 bg-[#070c09] p-6 lg:p-8 hover:border-[#00ff88]/50 transition-all duration-300">
+          <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00ff88] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <div class="relative w-36 h-44 shrink-0 overflow-hidden border border-white/15 bg-black">
+              {% if founder.avatar %}
+              <img src="{{ founder.avatar.url }}" alt="{{ founder.name }}" class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
+              {% else %}
+              <div class="w-full h-full flex items-center justify-center font-mono text-xs text-gray-600 bg-neutral-900">[NO AVATAR]</div>
+              {% endif %}
+              <span class="absolute top-2 left-2 font-mono text-[10px] bg-black/80 px-1 text-[#00ff88] border border-[#00ff88]/30">
+                [0{{ forloop.counter }}]
+              </span>
+            </div>
+
+            <div class="flex-1 flex flex-col justify-between h-full text-center sm:text-left">
+              <div>
+                <span class="inline-block px-2 py-0.5 font-mono text-[10px] text-[#00ff88] bg-[#00ff88]/10 border border-[#00ff88]/20 mb-2">CO-FOUNDER</span>
+                <h3 class="text-2xl font-bold font-sans tracking-wide text-white group-hover:text-[#00ff88] transition-colors">{{ founder.name }}</h3>
+                <p class="font-mono text-xs text-cyan-400 mt-1 uppercase">{{ founder.role }}</p>
+                <p class="mt-3 text-xs font-mono text-gray-400 leading-relaxed">{{ founder.bio|default:"Directing strategic core engineering and distributed infrastructure vision." }}</p>
+              </div>
+
+              {% if founder.tech_stack %}
+              <div class="mt-4 flex flex-wrap gap-1.5 justify-center sm:justify-start font-mono text-[10px] text-gray-500">
+                {% for tag in founder.tech_stack.split %}
+                <span class="border border-white/10 px-1.5 py-0.5 bg-black/40 text-gray-300">#{{ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-2 p-8 text-center font-mono text-xs text-gray-500 border border-dashed border-white/10">
+          No Co-Founders registered in system registry. Mark is_founder=True in Django Admin.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- SECTION 2: TECHNICAL SQUAD (4-4 GRID) -->
+    <div class="mt-20">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
+        <h2 class="font-mono text-xs uppercase tracking-widest text-[#00ff88] flex items-center gap-2">
+          <span>◆</span> CORE ENGINEERING UNIT // 4x4 MATRIX
+        </h2>
+        <span class="font-mono text-[10px] text-gray-500">INDEXED: {{ members.count }} OPERATIVES</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for member in members %}
+        <div class="group relative border border-white/10 bg-[#070b09] flex flex-col justify-between hover:border-[#00ff88]/60 transition-all duration-300">
+          <!-- Top Cyber Strip -->
+          <div class="p-3 border-b border-white/5 flex items-center justify-between font-mono text-[10px] text-gray-500">
+            <span>[UNIT_{{ forloop.counter|stringformat:"02d" }}]</span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88]"></span> ACTIVE
+            </span>
+          </div>
+
+          <!-- Image Container -->
+          <div class="relative w-full aspect-square overflow-hidden bg-black/60">
+            {% if member.avatar %}
+            <img src="{{ member.avatar.url }}" alt="{{ member.name }}" class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center font-mono text-xs text-gray-600 bg-neutral-900">[NO AVATAR]</div>
+            {% endif %}
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+          </div>
+
+          <!-- Meta Information -->
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-base tracking-wide text-white group-hover:text-[#00ff88] transition-colors">{{ member.name }}</h4>
+              <p class="font-mono text-xs text-cyan-400/90 mt-0.5 uppercase tracking-tight">{{ member.role }}</p>
+              {% if member.bio %}
+              <p class="mt-2 text-[11px] font-mono text-gray-400 line-clamp-2 leading-relaxed">{{ member.bio }}</p>
+              {% endif %}
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+              <div class="font-mono text-[10px] text-gray-500 truncate max-w-[130px]">
+                {{ member.tech_stack|default:"Full-Stack Node" }}
+              </div>
+              <div class="flex items-center gap-2 text-gray-400">
+                {% if member.github_url %}
+                <a href="{{ member.github_url }}" target="_blank" class="hover:text-[#00ff88] transition-colors" title="GitHub">
+                  <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                {% endif %}
+                {% if member.linkedin_url %}
+                <a href="{{ member.linkedin_url }}" target="_blank" class="hover:text-[#00ff88] transition-colors" title="LinkedIn">
+                  <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full p-8 text-center font-mono text-xs text-gray-500 border border-dashed border-white/10">
+          No team units allocated. Add team members via Django admin.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

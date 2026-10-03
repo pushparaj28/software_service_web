@@ -1,0 +1,270 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+    <div>
+      <div class="flex items-center gap-2 font-mono text-[11px] text-[#00ff88] uppercase tracking-widest mb-1">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88] animate-ping"></span>
+        [SYS_REGISTRY // TEAM_OPERATIVES]
+      </div>
+      <h1 class="text-2xl font-bold tracking-tight text-white font-sans">Team &amp; Personnel Matrix</h1>
+      <p class="text-xs font-mono text-gray-400 mt-1">Manage Co-Founders, engineering personnel, avatars, and priority order.</p>
+    </div>
+    <button onclick="document.getElementById('addMemberModal').classList.remove('hidden')" 
+            class="px-4 py-2 bg-[#00ff88] text-black font-mono text-xs font-bold uppercase tracking-wider hover:shadow-[0_0_20px_#00ff88] transition-all cursor-pointer flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Enlist New Operative
+    </button>
+  </div>
+
+  <!-- Metric Badges -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="border border-white/10 bg-[#070b09] p-4">
+      <p class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">TOTAL REGISTERED</p>
+      <p class="text-3xl font-mono font-bold text-white mt-1">{{ total_count }}</p>
+    </div>
+    <div class="border border-[#00ff88]/20 bg-[#00ff88]/[0.03] p-4">
+      <p class="font-mono text-[10px] text-[#00ff88] uppercase tracking-widest flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88]"></span> CO-FOUNDER NODES
+      </p>
+      <p class="text-3xl font-mono font-bold text-[#00ff88] mt-1">{{ founder_count }} / 2</p>
+    </div>
+  </div>
+
+  <!-- Team Table -->
+  <div class="border border-white/10 bg-[#070b09] overflow-x-auto">
+    <table class="w-full text-left font-mono text-xs">
+      <thead>
+        <tr class="border-b border-white/10 text-gray-500 text-[10px] uppercase tracking-wider bg-black/40">
+          <th class="py-3 px-4">AVATAR</th>
+          <th class="py-3 px-4">NAME</th>
+          <th class="py-3 px-4">ROLE</th>
+          <th class="py-3 px-4">TIER</th>
+          <th class="py-3 px-4">ORDER</th>
+          <th class="py-3 px-4 text-right">ACTION</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5 text-gray-300">
+        {% for item in members %}
+        <tr class="hover:bg-white/[0.02] transition-colors">
+          <td class="py-3 px-4">
+            {% if item.avatar %}
+            <img src="{{ item.avatar.url }}" alt="{{ item.name }}" class="w-10 h-10 object-cover border border-[#00ff88]/40 grayscale contrast-125">
+            {% else %}
+            <div class="w-10 h-10 bg-black/60 border border-white/10 flex items-center justify-center text-[10px] text-gray-600">N/A</div>
+            {% endif %}
+          </td>
+          <td class="py-3 px-4 font-bold text-white">{{ item.name }}</td>
+          <td class="py-3 px-4 text-cyan-400">{{ item.role }}</td>
+          <td class="py-3 px-4">
+            {% if item.is_founder %}
+            <span class="px-2 py-0.5 text-[10px] bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/30">CO-FOUNDER</span>
+            {% else %}
+            <span class="px-2 py-0.5 text-[10px] bg-white/5 text-gray-400 border border-white/10">CORE TEAM</span>
+            {% endif %}
+          </td>
+          <td class="py-3 px-4 text-gray-500">{{ item.order }}</td>
+          <td class="py-3 px-4 text-right">
+            <div class="flex items-center justify-end gap-2">
+              
+              <!-- Edit Button with SVG Icon -->
+              <button type="button"
+                      onclick="openEditModal(this)"
+                      data-id="{{ item.id }}"
+                      data-name="{{ item.name }}"
+                      data-role="{{ item.role }}"
+                      data-bio="{{ item.bio }}"
+                      data-tech="{{ item.tech_stack }}"
+                      data-order="{{ item.order }}"
+                      data-founder="{% if item.is_founder %}true{% else %}false{% endif %}"
+                      data-github="{{ item.github_url|default:'' }}"
+                      data-linkedin="{{ item.linkedin_url|default:'' }}"
+                      data-twitter="{{ item.twitter_url|default:'' }}"
+                      title="Edit Operative"
+                      class="p-1.5 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5 text-[11px]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                <span>Edit</span>
+              </button>
+
+              <!-- Delete Button with SVG Icon -->
+              <form action="{% url 'dashboard_team_delete' item.id %}" method="POST" class="inline" onsubmit="return confirm('Purge {{ item.name }} from telemetry registry?');">
+                {% csrf_token %}
+                <button type="submit" 
+                        title="Purge Operative"
+                        class="p-1.5 border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 hover:border-rose-400 transition-colors cursor-pointer flex items-center gap-1.5 text-[11px]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                  <span>Purge</span>
+                </button>
+              </form>
+
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="py-8 text-center text-gray-500">No personnel registered. Click "+ Enlist New Operative" above.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Modal 1: Enlist (Add) Modal -->
+<div id="addMemberModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="border border-white/20 bg-[#070c09] max-w-xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+      <h3 class="font-bold text-white text-base tracking-wide font-sans flex items-center gap-2">
+        <span class="text-[#00ff88]">◆</span> ENLIST TEAM OPERATIVE
+      </h3>
+      <button onclick="document.getElementById('addMemberModal').classList.add('hidden')" class="text-gray-400 hover:text-white font-mono text-sm cursor-pointer">✕</button>
+    </div>
+
+    <form method="POST" action="{% url 'dashboard_team_add' %}" enctype="multipart/form-data" class="space-y-4 font-mono text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block text-gray-400 mb-1">NAME *</label>
+        <input type="text" name="name" required class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-[#00ff88] focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">ROLE / TITLE *</label>
+        <input type="text" name="role" required placeholder="Co-Founder & CTO / Principal Engineer" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-[#00ff88] focus:outline-none">
+      </div>
+
+      <div class="flex items-center gap-2 p-3 bg-white/[0.02] border border-white/10">
+        <input type="checkbox" id="add_is_founder" name="is_founder" class="w-4 h-4 accent-[#00ff88] cursor-pointer">
+        <label for="add_is_founder" class="text-[#00ff88] cursor-pointer">MARK AS CO-FOUNDER (Render in Top Executive 2-Node Tier)</label>
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">AVATAR IMAGE</label>
+        <input type="file" name="avatar" accept="image/*" class="w-full bg-black border border-white/15 px-3 py-2 text-white file:mr-3 file:py-1 file:px-2 file:border-0 file:bg-[#00ff88] file:text-black file:font-mono file:text-xs">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">TECH STACK / KEY SKILLS</label>
+        <input type="text" name="tech_stack" placeholder="Python, Django, AWS, React, MySQL" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-[#00ff88] focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">DISPLAY ORDER (0, 1, 2...)</label>
+        <input type="number" name="order" min="0" value="0" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-[#00ff88] focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">SHORT BIO</label>
+        <textarea name="bio" rows="2" placeholder="Brief technical background..." class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-[#00ff88] focus:outline-none"></textarea>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <input type="url" name="github_url" placeholder="GitHub URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+        <input type="url" name="linkedin_url" placeholder="LinkedIn URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+        <input type="url" name="twitter_url" placeholder="Twitter URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+      </div>
+
+      <div class="pt-2 flex justify-end gap-3">
+        <button type="button" onclick="document.getElementById('addMemberModal').classList.add('hidden')" class="px-4 py-2 border border-white/10 text-gray-400 hover:text-white cursor-pointer">Cancel</button>
+        <button type="submit" class="px-5 py-2 bg-[#00ff88] text-black font-bold uppercase tracking-wider hover:shadow-[0_0_15px_#00ff88] cursor-pointer">Save Operative</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal 2: Edit Modal -->
+<div id="editMemberModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="border border-cyan-500/40 bg-[#070c09] max-w-xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+      <h3 class="font-bold text-white text-base tracking-wide font-sans flex items-center gap-2">
+        <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+        </svg>
+        UPDATE TEAM OPERATIVE
+      </h3>
+      <button onclick="document.getElementById('editMemberModal').classList.add('hidden')" class="text-gray-400 hover:text-white font-mono text-sm cursor-pointer">✕</button>
+    </div>
+
+    <form id="editMemberForm" method="POST" action="" enctype="multipart/form-data" class="space-y-4 font-mono text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block text-gray-400 mb-1">NAME *</label>
+        <input type="text" id="edit_name" name="name" required class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-cyan-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">ROLE / TITLE *</label>
+        <input type="text" id="edit_role" name="role" required class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-cyan-400 focus:outline-none">
+      </div>
+
+      <div class="flex items-center gap-2 p-3 bg-white/[0.02] border border-white/10">
+        <input type="checkbox" id="edit_is_founder" name="is_founder" class="w-4 h-4 accent-cyan-400 cursor-pointer">
+        <label for="edit_is_founder" class="text-cyan-400 cursor-pointer">CO-FOUNDER TIER (Prominent Node Allocation)</label>
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">REPLACE AVATAR (Leave empty to keep existing)</label>
+        <input type="file" name="avatar" accept="image/*" class="w-full bg-black border border-white/15 px-3 py-2 text-white file:mr-3 file:py-1 file:px-2 file:border-0 file:bg-cyan-500 file:text-black file:font-mono file:text-xs">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">TECH STACK / KEY SKILLS</label>
+        <input type="text" id="edit_tech_stack" name="tech_stack" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-cyan-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">DISPLAY ORDER (0, 1, 2...)</label>
+        <input type="number" id="edit_order" name="order" min="0" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-cyan-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-400 mb-1">SHORT BIO</label>
+        <textarea id="edit_bio" name="bio" rows="2" class="w-full bg-black border border-white/15 px-3 py-2 text-white focus:border-cyan-400 focus:outline-none"></textarea>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <input type="url" id="edit_github" name="github_url" placeholder="GitHub URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+        <input type="url" id="edit_linkedin" name="linkedin_url" placeholder="LinkedIn URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+        <input type="url" id="edit_twitter" name="twitter_url" placeholder="Twitter URL" class="bg-black border border-white/15 p-2 text-white text-[11px] focus:outline-none">
+      </div>
+
+      <div class="pt-2 flex justify-end gap-3">
+        <button type="button" onclick="document.getElementById('editMemberModal').classList.add('hidden')" class="px-4 py-2 border border-white/10 text-gray-400 hover:text-white cursor-pointer">Cancel</button>
+        <button type="submit" class="px-5 py-2 bg-cyan-400 text-black font-bold uppercase tracking-wider hover:bg-cyan-300 cursor-pointer">Commit Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Script -->
+<script>
+function openEditModal(button) {
+  const modal = document.getElementById('editMemberModal');
+  const form = document.getElementById('editMemberForm');
+
+  const id = button.getAttribute('data-id');
+  form.action = `/panel/team/${id}/edit/`;
+
+  document.getElementById('edit_name').value = button.getAttribute('data-name') || '';
+  document.getElementById('edit_role').value = button.getAttribute('data-role') || '';
+  document.getElementById('edit_bio').value = button.getAttribute('data-bio') || '';
+  document.getElementById('edit_tech_stack').value = button.getAttribute('data-tech') || '';
+  document.getElementById('edit_order').value = button.getAttribute('data-order') || '0';
+  document.getElementById('edit_is_founder').checked = (button.getAttribute('data-founder') === 'true');
+  document.getElementById('edit_github').value = button.getAttribute('data-github') || '';
+  document.getElementById('edit_linkedin').value = button.getAttribute('data-linkedin') || '';
+  document.getElementById('edit_twitter').value = button.getAttribute('data-twitter') || '';
+
+  modal.classList.remove('hidden');
+}
+</script>
+{% endblock %}

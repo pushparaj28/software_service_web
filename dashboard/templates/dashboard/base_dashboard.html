@@ -54,6 +54,10 @@
    class="flex items-center gap-2.5 px-3 py-2 text-xs font-mono tracking-wider transition-colors {% if request.resolver_match.url_name == 'dashboard_quick_enquiries' %}text-[#00ff88] bg-white/5 border-l-2 border-[#00ff88]{% else %}text-gray-400 hover:text-white hover:bg-white/[0.02]{% endif %}">
   <span class="text-[10px]">◆</span> Quick Enquiries
 </a>
+<a href="{% url 'dashboard_team' %}" 
+   class="flex items-center gap-2.5 px-3 py-2 text-xs font-mono tracking-wider transition-colors {% if 'team' in request.resolver_match.url_name %}text-[#00ff88] bg-white/5 border-l-2 border-[#00ff88]{% else %}text-gray-400 hover:text-white hover:bg-white/[0.02]{% endif %}">
+  <span class="text-[10px]">◆</span> Team Members
+</a>
 
       </nav>
     </div>
