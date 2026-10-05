@@ -36,7 +36,7 @@ def home(request):
     return render(request, "home.html", {
         "services": Service.objects.filter(featured=True).prefetch_related("technologies")[:6],
         "projects": _projects().filter(featured=True)[:3],
-        "industries": Industry.objects.filter(is_active=True)[:8],
+        "industries": Industry.objects.filter(is_active=True)[:6],  # <-- Top 6 industries
         "architecture": content.ARCHITECTURE_NODES,
         "team_members": TeamMember.objects.filter(is_active=True).order_by("order", "id"),
     })

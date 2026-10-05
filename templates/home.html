@@ -3,6 +3,7 @@
 {% block title %}CODEMATRIX | Software Development Services{% endblock %}
 {% block meta_description %}Custom software, web and mobile apps, SaaS, AI and cloud services from CODEMATRIX. Engineering complex systems, from zero to global scale.{% endblock %}
 {% block content %}
+
 <section class="grid-bg relative flex min-h-screen items-center overflow-hidden pb-16 pt-28">
   <div class="pointer-events-none absolute inset-y-0 right-0 w-full opacity-35 lg:w-[45%] lg:opacity-100">
     <canvas data-hero-canvas class="h-full w-full" aria-hidden="true"></canvas>
@@ -29,71 +30,110 @@
   </div>
 </section>
 
-<!-- INFINITE ADVERTISEMENT & ANNOUNCEMENT TICKER -->
-<section class="marquee-container w-full overflow-hidden border-y border-white/10 bg-[#060a08]/95 py-3 relative select-none" aria-label="Live announcements">
+
+<!-- Services Grid Section -->
+<section class="border-t border-white/10 py-20 sm:py-28 bg-[#030605] text-white relative overflow-hidden" aria-label="Services">
   
-  <!-- Left/Right Soft Glow Gradients -->
-  <div class="pointer-events-none absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-[#050807] to-transparent z-10"></div>
-  <div class="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[#050807] to-transparent z-10"></div>
-
-  <div class="animate-marquee flex items-center gap-10 font-mono text-xs uppercase tracking-widest">
-    
-    <!-- BLOCK 1 -->
-    <div class="flex items-center gap-8 shrink-0 text-gray-300">
-      <span class="flex items-center gap-2 text-[#00ff88] font-bold">
-        <span class="h-2 w-2 rounded-full bg-[#00ff88] animate-ping"></span>
-        ⚡ LIMITED TIME: 20% OFF ON CUSTOM WEB ARCHITECTURE
-      </span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-white">📞 CALL / WHATSAPP: <a href="tel:+919163965729" class="text-[#00ff88] hover:underline font-bold">+91 91639 65729</a></span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-amber-400 font-semibold">🔥 HURRY UP! SLOTS OPEN FOR NEW CLIENTS</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-cyan-400">🚀 ENTERPRISE SAAS &amp; AI INTEGRATION</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-gray-300">✉️ EMAIL: <a href="mailto:contact@codematrix.dev" class="text-white hover:text-[#00ff88]">contact@codematrix.dev</a></span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-[#00ff88]">◆ HIGH PERFORMANCE CODE</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-purple-400">◆ 24/7 DEDICATED DEV SUPPORT</span>
-      <span class="text-gray-600">◆</span>
-    </div>
-
-    <!-- BLOCK 2 (Exact Duplicate for Seamless Loop) -->
-    <div class="flex items-center gap-8 shrink-0 text-gray-300" aria-hidden="true">
-      <span class="flex items-center gap-2 text-[#00ff88] font-bold">
-        <span class="h-2 w-2 rounded-full bg-[#00ff88] animate-ping"></span>
-        ⚡ LIMITED TIME: 20% OFF ON CUSTOM WEB ARCHITECTURE
-      </span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-white">📞 CALL / WHATSAPP: <a href="tel:+919163965729" class="text-[#00ff88] hover:underline font-bold">+91 91639 65729</a></span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-amber-400 font-semibold">🔥 HURRY UP! SLOTS OPEN FOR NEW CLIENTS</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-cyan-400">🚀 ENTERPRISE SAAS &amp; AI INTEGRATION</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-gray-300">✉️ EMAIL: <a href="mailto:contact@codematrix.dev" class="text-white hover:text-[#00ff88]">contact@codematrix.dev</a></span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-[#00ff88]">◆ HIGH PERFORMANCE CODE</span>
-      <span class="text-gray-600">◆</span>
-      <span class="text-purple-400">◆ 24/7 DEDICATED DEV SUPPORT</span>
-      <span class="text-gray-600">◆</span>
-    </div>
-
-  </div>
-</section>
-
-<section class="py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    {% include "partials/section_header.html" with label="02 / Services" title="Full-cycle software engineering" text=" From First Idea to Global Scale — We Build It All Together" %}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {% for service in services %}{% include "partials/service_card.html" with index=forloop.counter %}{% empty %}
-        <p class="text-ink2">Add featured services in the admin panel.</p>
+    
+    <!-- Section Header -->
+    <div class="mb-14">
+      <div class="flex items-center gap-2 font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88] animate-pulse"></span>
+        [02 // CORE_CAPABILITIES]
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-bold tracking-tight font-sans">
+        Services &amp; <span class="text-[#00ff88] drop-shadow-[0_0_15px_rgba(0,255,136,0.3)]">Engineering</span>
+      </h2>
+      <p class="mt-2 text-xs sm:text-sm font-mono text-gray-400">
+        From First Idea to Global Scale — We Build It All Together
+      </p>
+    </div>
+
+    <!-- 3-Column Service Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {% for service in services %}
+      <div class="group relative rounded-2xl border border-white/10 bg-[#070b09] p-5 sm:p-6 flex flex-col justify-between hover:border-[#00ff88]/60 hover:shadow-[0_0_30px_rgba(0,255,136,0.12)] transition-all duration-300">
+        
+        <div>
+          <!-- Image Box (Rounded with 100% Original Colors) -->
+          <div class="relative w-full aspect-[16/10] overflow-hidden rounded-xl bg-black border border-white/10 mb-5 group-hover:border-[#00ff88]/40 transition-colors">
+            
+            {% if service.image %}
+            <!-- Original colors preserved (No grayscale, no color filter) -->
+            <img src="{{ service.image.url }}" alt="{{ service.title }}" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center font-mono text-xs text-gray-600 bg-neutral-900">
+              [TELEMETRY_ASSET]
+            </div>
+            {% endif %}
+
+            <!-- Top Index Badge -->
+            <span class="absolute top-2.5 left-2.5 font-mono text-[10px] bg-black/85 backdrop-blur-sm px-2 py-0.5 text-[#00ff88] border border-[#00ff88]/30 rounded">
+              [0{{ forloop.counter }}]
+            </span>
+
+            <!-- Action Icon -->
+            <a href="{% url 'service_detail' service.slug %}" 
+               class="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-lg bg-black/80 border border-white/20 flex items-center justify-center text-gray-300 group-hover:bg-[#00ff88] group-hover:text-black group-hover:border-[#00ff88] transition-all">
+              <span class="font-mono text-xs font-bold">&lt;/&gt;</span>
+            </a>
+          </div>
+
+          <!-- Service Title -->
+          <h3 class="font-bold text-xl font-sans tracking-wide text-white group-hover:text-[#00ff88] transition-colors mb-2">
+            <a href="{% url 'service_detail' service.slug %}">
+              {{ service.title }}
+            </a>
+          </h3>
+
+          <!-- Short Description -->
+          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-2 mb-5">
+            {{ service.short_description|default:service.description|default:"Bespoke systems shaped around your high-scale workflows." }}
+          </p>
+        </div>
+
+        <!-- Technologies Marquee Inside This Card -->
+        <div class="pt-4 border-t border-white/5">
+          <div class="tech-card-marquee-mask relative w-full overflow-hidden">
+            <div class="tech-card-marquee-track flex gap-2.5 hover:[animation-play-state:paused]">
+              
+              <!-- First Loop -->
+              {% for tech in service.technologies.all %}
+              <span class="shrink-0 font-mono text-[10px] text-gray-300 bg-black/70 border border-white/10 group-hover:border-[#00ff88]/30 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5">
+                <span class="w-1 h-1 rounded-full bg-[#00ff88]"></span>
+                {{ tech.name }}
+              </span>
+              {% empty %}
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Django</span>
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Python</span>
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">MySQL</span>
+              {% endfor %}
+
+              <!-- Duplicate Loop (Seamless Infinite Ticker) -->
+              {% for tech in service.technologies.all %}
+              <span class="shrink-0 font-mono text-[10px] text-gray-300 bg-black/70 border border-white/10 group-hover:border-[#00ff88]/30 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5" aria-hidden="true">
+                <span class="w-1 h-1 rounded-full bg-[#00ff88]"></span>
+                {{ tech.name }}
+              </span>
+              {% empty %}
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">Django</span>
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">Python</span>
+              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">MySQL</span>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+
+      </div>
       {% endfor %}
     </div>
-    <a href="{% url 'services' %}" class="btn btn-ghost mt-10">All Services →</a>
+
   </div>
 </section>
+
 
 <!-- [03 / TEAM] Section -->
 <section class="py-20 bg-black text-white relative overflow-hidden border-t border-white/10">
@@ -237,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+ <!-- 04  -->
 
 <section class="grid-bg border-y border-white/10 bg-surface py-20 sm:py-28">
   <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:px-8">
@@ -262,234 +303,238 @@ document.addEventListener('DOMContentLoaded', () => {
 </section>
 
 <!-- [06 / INDUSTRIES] Cyber HUD Telemetry Marquee -->
-<section class="border-t border-white/10 py-20 sm:py-28 bg-[#030605] relative overflow-hidden" aria-label="Industries">
+<!-- [06 / INDUSTRIES] Clean 6-Card Cyber Grid -->
+<section class="border-t border-white/10 py-20 sm:py-24 bg-[#030605] text-white relative overflow-hidden" aria-label="Industries">
   
-  <!-- Section Header -->
-  <div class="mx-auto max-w-7xl px-5 lg:px-8 mb-12">
-    {% include "partials/section_header.html" with label="06 / Industries" title="Built for regulated and high-growth sectors" %}
-  </div>
-
-  <!-- Marquee Container with Gradient Edge Mask -->
-  <div class="relative w-full overflow-hidden marquee-mask">
-    <div class="marquee-track flex gap-6 hover:[animation-play-state:paused] py-4">
-      
-      <!-- Loop 1 -->
-      {% for ind in industries %}
-      <a href="{% url 'industries' %}#{{ ind.slug|default:ind.name|slugify }}" 
-         class="shrink-0 w-[310px] sm:w-[350px] border border-white/10 bg-[#070b09] p-5 flex flex-col justify-between group hover:border-[#00ff88] hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] transition-all duration-300 relative">
-        
-        <!-- Corner Cyber Marks -->
-        <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
-        <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
-
-        <!-- TOP: Cyber HUD Visual Display (Replaces Plain Image) -->
-        <div class="relative w-full h-40 overflow-hidden bg-gradient-to-b from-[#0a110d] to-black border border-white/10 group-hover:border-[#00ff88]/40 mb-5 flex flex-col justify-between p-3.5 transition-colors">
-          
-          <!-- Background Cyber Mesh / Grid Lines -->
-          <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#00ff88_1px,transparent_1px)] [background-size:12px_12px]"></div>
-          
-          <!-- Top Row: ID Badge & Signal Pulse -->
-          <div class="relative z-10 flex items-center justify-between font-mono text-[10px]">
-            <span class="bg-black/90 px-2 py-0.5 text-[#00ff88] border border-[#00ff88]/30 tracking-widest font-bold">
-              SYS // 0{{ forloop.counter }}
-            </span>
-            <div class="flex items-center gap-1.5 text-gray-400">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping"></span>
-              <span class="text-[9px] tracking-wider text-cyan-400 uppercase">ONLINE</span>
-            </div>
-          </div>
-
-          <!-- Center: Dynamic Sector Icon / Logo with Ambient Glow -->
-          <div class="relative z-10 flex items-center justify-center my-auto">
-            <div class="w-14 h-14 rounded-lg bg-black/80 border border-white/15 flex items-center justify-center text-[#00ff88] group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] group-hover:scale-110 transition-all duration-300">
-              {% if "fintech" in ind.name|lower or "finance" in ind.name|lower %}
-                <!-- FinTech / Vault Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              {% elif "health" in ind.name|lower or "care" in ind.name|lower or "medical" in ind.name|lower %}
-                <!-- Health / Pulse Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-              {% elif "edu" in ind.name|lower or "learn" in ind.name|lower %}
-                <!-- Education / Academic Terminal Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
-                </svg>
-              {% elif "enter" in ind.name|lower or "saas" in ind.name|lower or "cloud" in ind.name|lower %}
-                <!-- Enterprise / System Mesh Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                </svg>
-              {% elif "auto" in ind.name|lower or "motor" in ind.name|lower or "vehic" in ind.name|lower %}
-                <!-- Automotive / Speed Telemetry Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-              {% elif "real" in ind.name|lower or "estate" in ind.name|lower %}
-                <!-- Real Estate / Architecture Blueprint Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                </svg>
-              {% else %}
-                <!-- Global Cyber Core Node Icon -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                </svg>
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- Bottom HUD Bar -->
-          <div class="relative z-10 flex items-center justify-between font-mono text-[9px] text-gray-500 border-t border-white/5 pt-1.5">
-            <span class="text-gray-400">LATENCY: &lt;3ms</span>
-            <span class="text-cyan-400">PROTOCOL: v2.4</span>
-          </div>
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-6">
+      <div>
+        <div class="flex items-center gap-2 font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88]"></span>
+          [06 // SECTORS_COVERED]
         </div>
+        <h2 class="text-3xl sm:text-5xl font-bold tracking-tight font-sans">
+          Industries <span class="text-[#00ff88] drop-shadow-[0_0_15px_rgba(0,255,136,0.3)]">Served</span>
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm font-mono text-gray-400">
+          Engineered solutions deployed across regulated, mission-critical, and high-growth sectors.
+        </p>
+      </div>
 
-        <!-- MIDDLE: Body & Descriptions -->
-        <div class="flex-1">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-xl text-white group-hover:text-[#00ff88] transition-colors">
-              {{ ind.name }}
-            </h3>
-            <span class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-black group-hover:bg-[#00ff88] group-hover:rotate-45 transition-all text-xs">
-              ↗
-            </span>
-          </div>
-
-          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-3">
-            {{ ind.description|default:"Mission-critical software architecture, deterministic state-machines, and high-frequency automated pipelines." }}
-          </p>
-        </div>
-
-        <!-- FOOTER: Telemetry Spec -->
-        <div class="mt-5 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
-          <span class="text-gray-500 tracking-wider">INDEX: 0{{ forloop.counter }} // PROD</span>
-          <span class="text-[#00ff88] uppercase tracking-widest font-semibold group-hover:underline">
-            EXPLORE SPEC →
-          </span>
-        </div>
+      <!-- All Industries Link -->
+      <a href="{% url 'industries' %}" 
+         class="inline-flex items-center gap-2 font-mono text-xs text-gray-400 hover:text-[#00ff88] transition-colors shrink-0 group">
+        <span>Click here to view All Industries</span>
+        <span class="text-[#00ff88] group-hover:translate-x-1 transition-transform">→</span>
       </a>
-      {% endfor %}
-
-      <!-- Loop 2 (Exact Duplicate for Seamless 100% Infinite Scroll) -->
-      {% for ind in industries %}
-      <a href="{% url 'industries' %}#{{ ind.slug|default:ind.name|slugify }}" aria-hidden="true" tabindex="-1"
-         class="shrink-0 w-[310px] sm:w-[350px] border border-white/10 bg-[#070b09] p-5 flex flex-col justify-between group hover:border-[#00ff88] hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] transition-all duration-300 relative">
-        
-        <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
-        <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-white/30 group-hover:border-[#00ff88] transition-colors"></span>
-
-        <div class="relative w-full h-40 overflow-hidden bg-gradient-to-b from-[#0a110d] to-black border border-white/10 group-hover:border-[#00ff88]/40 mb-5 flex flex-col justify-between p-3.5 transition-colors">
-          <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#00ff88_1px,transparent_1px)] [background-size:12px_12px]"></div>
-          
-          <div class="relative z-10 flex items-center justify-between font-mono text-[10px]">
-            <span class="bg-black/90 px-2 py-0.5 text-[#00ff88] border border-[#00ff88]/30 tracking-widest font-bold">
-              SYS // 0{{ forloop.counter }}
-            </span>
-            <div class="flex items-center gap-1.5 text-gray-400">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping"></span>
-              <span class="text-[9px] tracking-wider text-cyan-400 uppercase">ONLINE</span>
-            </div>
-          </div>
-
-          <div class="relative z-10 flex items-center justify-center my-auto">
-            <div class="w-14 h-14 rounded-lg bg-black/80 border border-white/15 flex items-center justify-center text-[#00ff88] group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] group-hover:scale-110 transition-all duration-300">
-              {% if "fintech" in ind.name|lower or "finance" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              {% elif "health" in ind.name|lower or "care" in ind.name|lower or "medical" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-              {% elif "edu" in ind.name|lower or "learn" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
-                </svg>
-              {% elif "enter" in ind.name|lower or "saas" in ind.name|lower or "cloud" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                </svg>
-              {% elif "auto" in ind.name|lower or "motor" in ind.name|lower or "vehic" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-              {% elif "real" in ind.name|lower or "estate" in ind.name|lower %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                </svg>
-              {% else %}
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                </svg>
-              {% endif %}
-            </div>
-          </div>
-
-          <div class="relative z-10 flex items-center justify-between font-mono text-[9px] text-gray-500 border-t border-white/5 pt-1.5">
-            <span class="text-gray-400">LATENCY: &lt;3ms</span>
-            <span class="text-cyan-400">PROTOCOL: v2.4</span>
-          </div>
-        </div>
-
-        <div class="flex-1">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-xl text-white group-hover:text-[#00ff88] transition-colors">
-              {{ ind.name }}
-            </h3>
-            <span class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-black group-hover:bg-[#00ff88] group-hover:rotate-45 transition-all text-xs">
-              ↗
-            </span>
-          </div>
-
-          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-3">
-            {{ ind.description|default:"Mission-critical software architecture, deterministic state-machines, and high-frequency automated pipelines." }}
-          </p>
-        </div>
-
-        <div class="mt-5 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
-          <span class="text-gray-500 tracking-wider">INDEX: 0{{ forloop.counter }} // PROD</span>
-          <span class="text-[#00ff88] uppercase tracking-widest font-semibold group-hover:underline">
-            EXPLORE SPEC →
-          </span>
-        </div>
-      </a>
-      {% endfor %}
-
     </div>
+
+    <!-- 3x2 Grid Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for ind in industries|slice:":6" %}
+      <div class="group relative border border-white/10 bg-[#070b09] p-6 sm:p-7 flex flex-col justify-between hover:border-[#00ff88]/60 hover:bg-[#0a110d] transition-all duration-300">
+        
+        <!-- Top Cyber Corner Accents -->
+        <span class="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-white/20 group-hover:border-[#00ff88] transition-colors"></span>
+        <span class="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-white/20 group-hover:border-[#00ff88] transition-colors"></span>
+
+        <div>
+          <!-- Icon & Telemetry Index -->
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded bg-black/60 border border-white/10 flex items-center justify-center text-[#00ff88] group-hover:border-[#00ff88]/50 group-hover:shadow-[0_0_15px_rgba(0,255,136,0.25)] transition-all">
+              {% if "fintech" in ind.name|lower or "finance" in ind.name|lower %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              {% elif "health" in ind.name|lower or "care" in ind.name|lower or "medical" in ind.name|lower %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+              {% elif "edu" in ind.name|lower or "learn" in ind.name|lower %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+              {% elif "auto" in ind.name|lower or "motor" in ind.name|lower %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              {% elif "real" in ind.name|lower or "estate" in ind.name|lower %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+              {% else %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              {% endif %}
+            </div>
+
+            <span class="font-mono text-[10px] text-gray-500 tracking-widest bg-black px-2 py-0.5 border border-white/5">
+              [0{{ forloop.counter }}]
+            </span>
+          </div>
+
+          <!-- Industry Title -->
+          <h3 class="font-bold text-lg text-white group-hover:text-[#00ff88] transition-colors mb-2.5">
+            {{ ind.name }}
+          </h3>
+
+          <!-- Description -->
+          <p class="text-xs font-mono text-gray-400 leading-relaxed line-clamp-3 mb-6">
+            {{ ind.description|default:"High-load infrastructure, automated compliance pipelines, and low-latency systems built for stability." }}
+          </p>
+        </div>
+
+        <!-- Read More Link -->
+        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+          <a href="{% url 'industries' %}#{{ ind.slug|default:ind.name|slugify }}" 
+             class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#00ff88] hover:text-white transition-colors">
+            <span>Read More</span>
+            <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+          <span class="font-mono text-[10px] text-gray-600 uppercase">TELEMETRY</span>
+        </div>
+
+      </div>
+      {% empty %}
+      <div class="col-span-full py-10 text-center font-mono text-xs text-gray-500 border border-dashed border-white/10">
+        No industries active in registry.
+      </div>
+      {% endfor %}
+    </div>
+
   </div>
 </section>
 
-<!-- Smooth Continuous Marquee CSS -->
-<style>
-@keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 38s linear infinite;
-  will-change: transform;
-}
+<!-- [05 // TECHNOLOGIES] Horizontal Marquee Showcase -->
+<section class="border-t border-white/10 py-16 bg-[#030605] text-white relative overflow-hidden" id="tech-stack-section" aria-label="Technologies We Work With">
+  
+  <!-- Subtle Ambient Glow Background -->
+  <div class="absolute -top-24 left-1/4 w-96 h-96 bg-[#00ff88]/5 rounded-full blur-[140px] pointer-events-none"></div>
 
-.marquee-track:hover {
-  animation-play-state: paused;
-}
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+      
+      <!-- LEFT: Heading & Subtitle (Screenshot pramane) -->
+      <div class="lg:w-1/3 shrink-0">
+        <span class="font-mono text-xs uppercase tracking-widest text-[#00ff88] mb-2 block flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88] animate-ping"></span>
+          Technologies
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans text-white">
+          We Work <span class="text-[#00ff88] drop-shadow-[0_0_15px_rgba(0,255,136,0.35)]">With</span>
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm font-mono text-gray-400 leading-relaxed max-w-sm">
+          We use the latest technologies to build secure &amp; future-ready solutions.
+        </p>
+      </div>
 
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-}
-</style>
+      <!-- RIGHT: Infinite Moving Marquee Ticker -->
+      <div class="lg:w-2/3 overflow-hidden relative tech-marquee-mask py-3">
+        <div class="tech-marquee-track flex items-center gap-7 hover:[animation-play-state:paused]">
+          
+          <!-- LOOP 1: Tech Badges -->
+          <!-- Python -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88] fill-current" viewBox="0 0 24 24"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.008 2.75h5.816v.825H3.88s-3.88-.442-3.88 5.485c0 5.926 3.39 5.717 3.39 5.717h2.02v-2.836s-.11-3.39 3.33-3.39h5.71s3.23.05 3.23-3.136V2.656S18.17 0 11.914 0zm-1.63 1.633a.955.955 0 01.954.954.955.955 0 01-.954.954.955.955 0 01-.954-.954.955.955 0 01.954-.954zM12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.008-2.75H11.976v-.825h8.144s3.88.442 3.88-5.485c0-5.926-3.39-5.717-3.39-5.717h-2.02v2.836s.11 3.39-3.33 3.39h-5.71s-3.23-.05-3.23 3.136v5.408S5.83 24 12.086 24zm1.63-1.633a.955.955 0 01-.954-.954.955.955 0 01.954-.954.955.955 0 01.954.954.955.955 0 01-.954.954z"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Python</span>
+          </div>
+
+          <!-- Django -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <span class="font-mono text-xl font-black text-[#00ff88]">dj</span>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Django</span>
+          </div>
+
+          <!-- MySQL -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">MySQL</span>
+          </div>
+
+          <!-- React -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00f3ff] fill-current" viewBox="0 0 24 24"><path d="M12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zm0-9.5c-4.97 0-9 1.57-9 3.5 0 .8.69 1.55 1.86 2.16C3.59 7.02 2.5 8.9 2.5 11c0 1.25.38 2.43 1.05 3.44-1.22.64-1.95 1.43-1.95 2.31 0 1.93 4.03 3.5 9 3.5s9-1.57 9-3.5c0-.88-.73-1.67-1.95-2.31.67-1.01 1.05-2.19 1.05-3.44 0-2.1-1.09-3.98-2.36-5.34C19.31 4.55 20 3.8 20 3c0-1.93-4.03-3.5-9-3.5z"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">React</span>
+          </div>
+
+          <!-- Android -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88] fill-current" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4126 13.8533 8.082 12 8.082s-3.5902.3306-5.1367.8677L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Android</span>
+          </div>
+
+          <!-- Java -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <span class="font-mono text-sm font-extrabold text-amber-400">JAVA</span>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Java</span>
+          </div>
+
+          <!-- Docker -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00f3ff] fill-current" viewBox="0 0 24 24"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.955 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.144a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m13.98 2.714h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-8.07 0h2.119a.187.187 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.956 0h2.12a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186H5.144a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.955 0h2.119a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.19a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m21.72 1.344c-.37-.234-.954-.378-1.574-.378-.667 0-1.63.26-2.185.833-.61.648-.722 1.482-.722 2.223 0 1.056.408 1.945 1.13 2.593.723.649 1.63.982 2.593.982 1.37 0 2.52-.649 3.037-1.741a4.912 4.912 0 00-.472-4.512zM.001 12.383c.093 3.963 2.926 7.204 7.02 8.093 4.093.89 8.278-.667 10.37-3.908.13-.203.222-.407.315-.63-.223.037-.445.056-.667.056-1.39 0-2.686-.482-3.704-1.39-1.02-.89-1.667-2.13-1.667-3.5 0-.445.074-.89.185-1.315H.001v2.594z"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Docker</span>
+          </div>
+
+          <!-- Redis -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <span class="font-mono text-xs font-bold text-rose-400">REDIS</span>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Redis</span>
+          </div>
+
+          <!-- DUPLICATE LOOP FOR SEAMLESS 100% INFINITE SCROLL -->
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer" aria-hidden="true">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88] fill-current" viewBox="0 0 24 24"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.008 2.75h5.816v.825H3.88s-3.88-.442-3.88 5.485c0 5.926 3.39 5.717 3.39 5.717h2.02v-2.836s-.11-3.39 3.33-3.39h5.71s3.23.05 3.23-3.136V2.656S18.17 0 11.914 0zm-1.63 1.633a.955.955 0 01.954.954.955.955 0 01-.954.954.955.955 0 01-.954-.954.955.955 0 01.954-.954zM12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.008-2.75H11.976v-.825h8.144s3.88.442 3.88-5.485c0-5.926-3.39-5.717-3.39-5.717h-2.02v2.836s.11 3.39-3.33 3.39h-5.71s-3.23-.05-3.23 3.136v5.408S5.83 24 12.086 24zm1.63-1.633a.955.955 0 01-.954-.954.955.955 0 01.954-.954.955.955 0 01.954.954.955.955 0 01-.954.954z"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Python</span>
+          </div>
+
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer" aria-hidden="true">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <span class="font-mono text-xl font-black text-[#00ff88]">dj</span>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Django</span>
+          </div>
+
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer" aria-hidden="true">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">MySQL</span>
+          </div>
+
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer" aria-hidden="true">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00f3ff] fill-current" viewBox="0 0 24 24"><path d="M12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zm0-9.5c-4.97 0-9 1.57-9 3.5 0 .8.69 1.55 1.86 2.16C3.59 7.02 2.5 8.9 2.5 11c0 1.25.38 2.43 1.05 3.44-1.22.64-1.95 1.43-1.95 2.31 0 1.93 4.03 3.5 9 3.5s9-1.57 9-3.5c0-.88-.73-1.67-1.95-2.31.67-1.01 1.05-2.19 1.05-3.44 0-2.1-1.09-3.98-2.36-5.34C19.31 4.55 20 3.8 20 3c0-1.93-4.03-3.5-9-3.5z"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">React</span>
+          </div>
+
+          <div class="tech-pill flex flex-col items-center gap-2 shrink-0 group cursor-pointer" aria-hidden="true">
+            <div class="w-16 h-16 rounded-2xl bg-[#080e0a] border border-white/10 group-hover:border-[#00ff88] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.3)] flex items-center justify-center transition-all duration-300">
+              <svg class="w-8 h-8 text-[#00ff88] fill-current" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4126 13.8533 8.082 12 8.082s-3.5902.3306-5.1367.8677L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+            </div>
+            <span class="font-mono text-xs font-semibold text-gray-300 group-hover:text-[#00ff88] transition-colors">Android</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
 
 
 <!-- [07 / FAQ] Engineering & Architecture Inquiries -->

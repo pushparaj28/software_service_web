@@ -137,3 +137,53 @@ select.field option { background: var(--surface); }
 .marquee-container:hover .animate-marquee {
   animation-play-state: paused;
 }
+
+
+/* Continuous 60FPS Infinite Marquee */
+@keyframes tech-scroll-loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.tech-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: tech-scroll-loop 24s linear infinite;
+  will-change: transform;
+}
+
+/* Mouse hover thava par pause thase */
+.tech-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Left ane Right edges par fade effect */
+.tech-marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+@keyframes top-ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.top-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: top-ticker-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.top-marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+}

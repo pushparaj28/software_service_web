@@ -1,18 +1,207 @@
-<header class="site-header fixed inset-x-0 top-0 z-50" data-navbar>
-  <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8" aria-label="Primary">
-    <a href="{% url 'home' %}" class="logo relative z-50" aria-label="CODEMATRIX home">CODE<span>MATRIX</span></a>
+<!-- WRAPPER: Ticker + Navbar ek sath sticky rahega bina kisi overlap ke -->
+<header class="sticky top-0 z-50 w-full" data-navbar>
 
-    <ul class="hidden items-center gap-8 lg:flex">
-      {% for item in nav_items %}
-        <li><a href="{% url item.url_name %}" class="nav-link {% if item.active %}is-active{% endif %}">{{ item.label }}</a></li>
-      {% endfor %}
-    </ul>
+  <!-- 1. TOP CYBER MARQUEE TICKER -->
+  <div class="w-full bg-[#020503] border-b border-white/10 text-white overflow-hidden py-1.5 relative font-mono text-[10px] sm:text-[11px] tracking-wider select-none">
+    <div class="top-marquee-mask relative w-full overflow-hidden">
+      <div class="top-marquee-track flex items-center gap-6 sm:gap-8 hover:[animation-play-state:paused]">
+        
+        <!-- Loop 1 -->
+        <div class="flex items-center gap-6 sm:gap-8 shrink-0">
+          <span class="flex items-center gap-2 text-gray-300">
+            <span class="w-1.5 h-1.5 rounded-sm bg-[#00ff88]"></span>
+            <span class="text-gray-400">EMAIL:</span>
+            <span class="text-white hover:text-[#00ff88] transition-colors">CONTACT@CODEMATRIX.DEV</span>
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-[#00ff88]">
+            <span class="w-1.5 h-1.5 rounded-sm bg-[#00ff88]"></span>
+            HIGH PERFORMANCE CODE &amp; ARCHITECTURE
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-fuchsia-400">
+            <span class="w-1.5 h-1.5 rounded-sm bg-fuchsia-400"></span>
+            24/7 DEDICATED DEV &amp; TELEMETRY SUPPORT
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-amber-400">
+            <span>⚡</span>
+            LIMITED PRODUCTION SLOTS FOR Q4
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-cyan-400">
+            <span class="w-1.5 h-1.5 rounded-sm bg-cyan-400"></span>
+            CUSTOM WEB &amp; CLOUD SYSTEMS
+          </span>
+          <span class="text-gray-600">◆</span>
+        </div>
 
-    <a href="{% url 'contact' %}" class="btn btn-primary hidden lg:inline-flex">Start Building →</a>
+        <!-- Loop 2 (Seamless Infinite Ticker) -->
+        <div class="flex items-center gap-6 sm:gap-8 shrink-0" aria-hidden="true">
+          <span class="flex items-center gap-2 text-gray-300">
+            <span class="w-1.5 h-1.5 rounded-sm bg-[#00ff88]"></span>
+            <span class="text-gray-400">EMAIL:</span>
+            <span class="text-white hover:text-[#00ff88] transition-colors">CONTACT@CODEMATRIX.DEV</span>
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-[#00ff88]">
+            <span class="w-1.5 h-1.5 rounded-sm bg-[#00ff88]"></span>
+            HIGH PERFORMANCE CODE &amp; ARCHITECTURE
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-fuchsia-400">
+            <span class="w-1.5 h-1.5 rounded-sm bg-fuchsia-400"></span>
+            24/7 DEDICATED DEV &amp; TELEMETRY SUPPORT
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-amber-400">
+            <span>⚡</span>
+            LIMITED PRODUCTION SLOTS FOR Q4
+          </span>
+          <span class="text-gray-600">◆</span>
+          <span class="flex items-center gap-2 text-cyan-400">
+            <span class="w-1.5 h-1.5 rounded-sm bg-cyan-400"></span>
+            CUSTOM WEB &amp; CLOUD SYSTEMS
+          </span>
+          <span class="text-gray-600">◆</span>
+        </div>
 
-    <button type="button" class="hamburger relative z-50 lg:hidden" data-menu-toggle
-            aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span></span><span></span>
-    </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN NAVBAR -->
+  <nav class="bg-black/90 backdrop-blur-md border-b border-white/10 px-5 lg:px-8 py-3.5 relative" aria-label="Primary">
+    <div class="mx-auto max-w-7xl flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="{% url 'home' %}" class="flex items-center gap-1.5 font-bold text-lg tracking-wider font-sans z-50">
+        <span class="text-white">CODE</span><span class="text-[#00ff88]">MATRIX</span>
+      </a>
+
+      <!-- DESKTOP NAVIGATION (Large Screens) -->
+      <ul class="hidden lg:flex items-center gap-7 font-mono text-xs text-gray-300">
+        {% for item in nav_items %}
+        <li>
+          <a href="{% url item.url_name %}" 
+             class="transition-colors hover:text-[#00ff88] py-1 {% if item.active %}text-[#00ff88] border-b border-[#00ff88]{% endif %}">
+            {{ item.label }}
+          </a>
+        </li>
+        {% empty %}
+        <li><a href="{% url 'home' %}" class="hover:text-[#00ff88] transition-colors">Home</a></li>
+        <li><a href="#services" class="hover:text-[#00ff88] transition-colors">Services</a></li>
+        <li><a href="#tech-stack-section" class="hover:text-[#00ff88] transition-colors">Technologies</a></li>
+        <li><a href="{% url 'industries' %}" class="hover:text-[#00ff88] transition-colors">Industries</a></li>
+        <li><a href="{% url 'team' %}" class="hover:text-[#00ff88] transition-colors">Team</a></li>
+        <li><a href="{% url 'contact' %}" class="hover:text-[#00ff88] transition-colors">Contact</a></li>
+        {% endfor %}
+      </ul>
+
+      <!-- DESKTOP CTA BUTTON -->
+      <a href="{% url 'contact' %}" class="hidden lg:inline-flex items-center gap-1.5 bg-[#00ff88] text-black font-mono text-xs font-bold px-4 py-2 hover:shadow-[0_0_20px_#00ff88] transition-all">
+        START BUILDING →
+      </a>
+
+      <!-- MOBILE HAMBURGER BUTTON (Small Screens) -->
+      <button type="button" 
+              id="mobile-menu-btn"
+              class="lg:hidden p-2 text-gray-400 hover:text-[#00ff88] focus:outline-none z-50 cursor-pointer" 
+              aria-label="Toggle Navigation Menu">
+        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- 3. MOBILE MENU SLIDE-DOWN DRAWER -->
+    <div id="mobile-menu-drawer" class="hidden lg:hidden border-t border-white/10 bg-[#040805]/95 backdrop-blur-xl px-6 py-6 transition-all duration-300">
+      
+      <div class="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-3">
+        // TELEMETRY_NAV_INDEX
+      </div>
+
+      <ul class="flex flex-col space-y-3 font-mono text-sm text-gray-300 mb-6">
+        {% for item in nav_items %}
+        <li>
+          <a href="{% url item.url_name %}" class="block py-1 hover:text-[#00ff88] transition-colors {% if item.active %}text-[#00ff88] font-bold{% endif %}">
+            > {{ item.label }}
+          </a>
+        </li>
+        {% empty %}
+        <li><a href="{% url 'home' %}" class="block py-1 hover:text-[#00ff88] transition-colors">> Home</a></li>
+        <li><a href="#services" class="block py-1 hover:text-[#00ff88] transition-colors">> Services</a></li>
+        <li><a href="#tech-stack-section" class="block py-1 hover:text-[#00ff88] transition-colors">> Technologies</a></li>
+        <li><a href="{% url 'industries' %}" class="block py-1 hover:text-[#00ff88] transition-colors">> Industries</a></li>
+        <li><a href="{% url 'team' %}" class="block py-1 hover:text-[#00ff88] transition-colors">> Team</a></li>
+        <li><a href="{% url 'contact' %}" class="block py-1 hover:text-[#00ff88] transition-colors">> Contact</a></li>
+        {% endfor %}
+      </ul>
+
+      <!-- Mobile CTA -->
+      <a href="{% url 'contact' %}" class="w-full text-center block bg-[#00ff88] text-black font-mono text-xs font-bold py-3 uppercase tracking-wider hover:shadow-[0_0_20px_#00ff88] transition-all">
+        START BUILDING →
+      </a>
+    </div>
+
   </nav>
+
 </header>
+
+<!-- CSS: Marquee Smooth Scroll & Mask -->
+<style>
+@keyframes top-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.top-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: top-ticker-scroll 26s linear infinite;
+  will-change: transform;
+}
+
+.top-marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+</style>
+
+<!-- JAVASCRIPT: Mobile Menu Toggle -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menuDrawer = document.getElementById('mobile-menu-drawer');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  if (menuBtn && menuDrawer) {
+    menuBtn.addEventListener('click', () => {
+      const isClosed = menuDrawer.classList.contains('hidden');
+      if (isClosed) {
+        menuDrawer.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      } else {
+        menuDrawer.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      }
+    });
+
+    // Mobile link click hone par drawer automatically close ho jaye
+    menuDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuDrawer.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+  }
+});
+</script>
