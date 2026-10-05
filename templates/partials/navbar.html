@@ -1,7 +1,8 @@
-<!-- WRAPPER: Ticker + Navbar ek sath sticky rahega bina kisi overlap ke -->
+<!-- WRAPPER: Ticker + Navbar ek sath sticky rahega -->
 <header class="sticky top-0 z-50 w-full" data-navbar>
 
-  <!-- 1. TOP CYBER MARQUEE TICKER -->
+  <!-- 1. TOP CYBER MARQUEE TICKER (Only shows on Home Page) -->
+  {% if request.resolver_match.url_name == 'home' or request.path == '/' %}
   <div class="w-full bg-[#020503] border-b border-white/10 text-white overflow-hidden py-1.5 relative font-mono text-[10px] sm:text-[11px] tracking-wider select-none">
     <div class="top-marquee-mask relative w-full overflow-hidden">
       <div class="top-marquee-track flex items-center gap-6 sm:gap-8 hover:[animation-play-state:paused]">
@@ -69,6 +70,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
   <!-- 2. MAIN NAVBAR -->
   <nav class="bg-black/90 backdrop-blur-md border-b border-white/10 px-5 lg:px-8 py-3.5 relative" aria-label="Primary">
@@ -79,7 +81,7 @@
         <span class="text-white">CODE</span><span class="text-[#00ff88]">MATRIX</span>
       </a>
 
-      <!-- DESKTOP NAVIGATION (Large Screens) -->
+      <!-- DESKTOP NAVIGATION -->
       <ul class="hidden lg:flex items-center gap-7 font-mono text-xs text-gray-300">
         {% for item in nav_items %}
         <li>
@@ -103,7 +105,7 @@
         START BUILDING →
       </a>
 
-      <!-- MOBILE HAMBURGER BUTTON (Small Screens) -->
+      <!-- MOBILE HAMBURGER BUTTON -->
       <button type="button" 
               id="mobile-menu-btn"
               class="lg:hidden p-2 text-gray-400 hover:text-[#00ff88] focus:outline-none z-50 cursor-pointer" 
@@ -152,7 +154,6 @@
 
 </header>
 
-<!-- CSS: Marquee Smooth Scroll & Mask -->
 <style>
 @keyframes top-ticker-scroll {
   0% { transform: translateX(0); }
@@ -172,7 +173,6 @@
 }
 </style>
 
-<!-- JAVASCRIPT: Mobile Menu Toggle -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtn = document.getElementById('mobile-menu-btn');
@@ -194,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Mobile link click hone par drawer automatically close ho jaye
     menuDrawer.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         menuDrawer.classList.add('hidden');
