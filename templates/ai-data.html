@@ -5,56 +5,66 @@
 
 {% block content %}
 <style>
-  :root {
-    --neon-acc: #00ff88;
+  :root { --neon-acc: #00ff88; }
+
+  /* ---------- Section 02: Bento capabilities ---------- */
+  .bn-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 768px) {
+    .bn-grid { grid-template-columns: repeat(3, 1fr); }
+    .bn-wide { grid-column: span 2; }
   }
-  /* Spotlight Cards */
-  .ai-spotlight-card {
-    position: relative;
-    background: rgba(10, 15, 13, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    overflow: hidden;
-    padding: 1.75rem;
-    transition: border-color 0.3s, transform 0.3s;
+  .bn-card {
+    position: relative; display: flex; flex-direction: column; overflow: hidden;
+    padding: 1.5rem; border: 1px solid rgba(255,255,255,.09); border-radius: 14px;
+    background: linear-gradient(160deg, rgba(18,26,22,.92), rgba(8,12,10,.92));
+    transition: border-color .3s, transform .3s;
   }
-  .ai-spotlight-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 255, 136, 0.12), transparent 70%);
+  .bn-card:hover { border-color: rgba(0,255,136,.45); transform: translateY(-3px); }
+  .bn-viz {
+    height: 110px; margin-bottom: 1.25rem; border-radius: 8px;
+    border: 1px solid rgba(0,255,136,.12); background: rgba(0,255,136,.03);
   }
-  .ai-spotlight-card:hover {
-    border-color: rgba(0, 255, 136, 0.4);
-    transform: translateY(-2px);
-  }
-  .ai-badge {
-    padding: 0.2rem 0.5rem;
-    font: 500 0.65rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-    letter-spacing: 0.08em;
-    color: var(--neon-acc);
-    background: rgba(0, 255, 136, 0.05);
-    border: 1px solid rgba(0, 255, 136, 0.25);
-    border-radius: 2px;
+  .bn-wide .bn-viz { height: 140px; }
+  .bn-viz svg { display: block; width: 100%; height: 100%; }
+  .bn-title { font-size: 1.2rem; font-weight: 600; line-height: 1.3; color: #fff; }
+  .bn-wide .bn-title { font-size: 1.5rem; }
+  .bn-text { margin-top: .6rem; max-width: 60ch; font-size: .92rem; line-height: 1.7; color: rgba(255,255,255,.66); }
+  .bn-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; padding-top: 1.25rem; }
+  .bn-chip {
+    padding: .3rem .7rem; font-size: .78rem; color: var(--neon-acc);
+    border: 1px solid rgba(0,255,136,.3); border-radius: 999px; background: rgba(0,255,136,.05);
   }
 
-  /* Interactive Pipeline Visualizer */
+  .s-a { stroke: #00ff88; } .s-d { stroke: rgba(255,255,255,.14); }
+  .f-a { fill: #00ff88; } .f-d { fill: rgba(255,255,255,.16); }
+
+  .v-line { stroke-dasharray: 420; animation: bnDraw 2.4s ease-in-out infinite paused; }
+  .v-bar { transform-box: fill-box; transform-origin: bottom; animation: bnBar .9s ease-in-out infinite alternate paused; }
+  .v-dot { animation: bnBlink 1.1s ease-in-out infinite paused; }
+  .v-ping { transform-box: fill-box; transform-origin: center; animation: bnPing 1.6s ease-out infinite paused; }
+  .v-run { animation: bnRun 2s linear infinite paused; }
+  .bn-card:hover .bn-viz *, .bn-card:focus-within .bn-viz * { animation-play-state: running; }
+  @media (hover: none) { .bn-viz * { animation-play-state: running; } }
+  @keyframes bnDraw { 0% { stroke-dashoffset: 420; } 70%, 100% { stroke-dashoffset: 0; } }
+  @keyframes bnBar { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
+  @keyframes bnBlink { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes bnPing { from { transform: scale(1); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+  @keyframes bnRun { from { transform: translateX(0); } to { transform: translateX(150px); } }
+  @media (prefers-reduced-motion: reduce) { .bn-viz *, .bn-card { animation: none !important; transition: none; } }
+
+  
+/* ---------- Section 03: Pipeline ---------- */
   .pipeline-node {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.02);
-    padding: 1rem 1.25rem;
-    border-radius: 4px;
-    transition: all 0.3s;
+    border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.02);
+    padding: 1rem 1.25rem; border-radius: 4px; transition: all .3s;
   }
   .pipeline-node.active-step {
-    border-color: var(--neon-acc);
-    background: rgba(0, 255, 136, 0.06);
-    box-shadow: 0 0 20px -5px rgba(0, 255, 136, 0.3);
+    border-color: var(--neon-acc); background: rgba(0,255,136,.06);
+    box-shadow: 0 0 20px -5px rgba(0,255,136,.3);
   }
 </style>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <section class="page-hero grid-bg relative border-b border-white/10 pb-16 pt-28">
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
     <div>
@@ -76,40 +86,52 @@
   </div>
 </section>
 
-<!-- Enterprise Capabilities Grid (Interactive Spotlight) -->
-<section class="py-20 sm:py-28">
+<!-- Section 02: Core Capabilities (Bento) -->
+<section class="py-20 sm:py-28" id="capabilities">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    <div class="mb-12">
-      <p class="mono-label mb-3" style="color: var(--neon-acc);">[02 / Core Capabilities]</p>
-      <h2 class="text-3xl font-semibold sm:text-4xl">Engineered for Complex Enterprise Workloads</h2>
+    <div class="mb-12 max-w-2xl">
+      <h2 class="text-3xl font-semibold sm:text-4xl">Complex enterprise workloads, built end to end</h2>
+      <p class="mt-4 text-ink2">From model training to production pipelines, every layer of your AI stack under one team.</p>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-spotlight-group>
+    <div class="bn-grid">
       {% for title, text in capabilities %}
-        <article class="ai-spotlight-card">
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-xs text-muted">[{{ forloop.counter|stringformat:"02d" }}]</span>
-            <div class="flex gap-1.5">
-              {% if forloop.counter == 1 %}<span class="ai-badge">PyTorch</span><span class="ai-badge">vLLM</span>
-              {% elif forloop.counter == 2 %}<span class="ai-badge">Claude 3.5</span><span class="ai-badge">Llama 3</span>
-              {% elif forloop.counter == 3 %}<span class="ai-badge">LangGraph</span><span class="ai-badge">AutoGPT</span>
-              {% elif forloop.counter == 4 %}<span class="ai-badge">WebSockets</span><span class="ai-badge">Guardrails</span>
-              {% elif forloop.counter == 5 %}<span class="ai-badge">Qdrant</span><span class="ai-badge">Pinecone</span>
-              {% else %}<span class="ai-badge">Temporal</span><span class="ai-badge">Celery</span>
-              {% endif %}
-            </div>
+        <article class="bn-card{% if forloop.counter == 1 or forloop.counter == 4 or forloop.counter == 5 %} bn-wide{% endif %}">
+          <div class="bn-viz">
+            {% if forloop.counter == 1 %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-d" d="M0 22H240M0 45H240M0 68H240" fill="none"/><path class="s-a v-line" d="M8 14C50 18 70 56 110 66S190 74 232 72" fill="none" stroke-width="2.5" stroke-linecap="round"/><circle class="f-a" cx="232" cy="72" r="4"/></svg>
+            {% elif forloop.counter == 2 %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="f-d" x="14" y="10" width="130" height="26" rx="13"/><circle class="f-a v-dot" cx="36" cy="23" r="3"/><circle class="f-a v-dot" cx="48" cy="23" r="3" style="animation-delay:.2s"/><circle class="f-a v-dot" cx="60" cy="23" r="3" style="animation-delay:.4s"/><rect class="f-a" x="96" y="48" width="130" height="26" rx="13" opacity=".85"/><path d="M114 61h64" stroke="#04110b" stroke-width="3" stroke-linecap="round"/></svg>
+            {% elif forloop.counter == 3 %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-d" d="M120 22 52 68M120 22l68 46M52 68h136" fill="none" stroke-width="1.5"/><circle class="s-a v-ping" cx="120" cy="20" r="8" fill="none" stroke-width="1.5"/><circle class="f-a" cx="120" cy="20" r="8"/><circle class="f-d s-a" cx="52" cy="68" r="7" stroke-width="1.5"/><circle class="f-d s-a" cx="188" cy="68" r="7" stroke-width="1.5"/><circle class="s-a v-ping" cx="52" cy="68" r="7" fill="none" stroke-width="1.5" style="animation-delay:.5s"/><circle class="s-a v-ping" cx="188" cy="68" r="7" fill="none" stroke-width="1.5" style="animation-delay:1s"/></svg>
+            {% elif forloop.counter == 4 %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="f-a v-bar" x="14" y="52" width="10" height="28" rx="3"/><rect class="f-a v-bar" x="36" y="28" width="10" height="52" rx="3" style="animation-delay:.1s"/><rect class="f-a v-bar" x="58" y="44" width="10" height="36" rx="3" style="animation-delay:.2s"/><rect class="f-a v-bar" x="80" y="14" width="10" height="66" rx="3" style="animation-delay:.3s"/><rect class="f-a v-bar" x="102" y="36" width="10" height="44" rx="3" style="animation-delay:.4s"/><rect class="f-a v-bar" x="124" y="8" width="10" height="72" rx="3" style="animation-delay:.5s"/><rect class="f-a v-bar" x="146" y="30" width="10" height="50" rx="3" style="animation-delay:.6s"/><rect class="f-a v-bar" x="168" y="46" width="10" height="34" rx="3" style="animation-delay:.7s"/><rect class="f-a v-bar" x="190" y="20" width="10" height="60" rx="3" style="animation-delay:.8s"/><rect class="f-a v-bar" x="212" y="38" width="10" height="42" rx="3" style="animation-delay:.9s"/></svg>
+            {% elif forloop.counter == 5 %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><circle class="f-d" cx="40" cy="25" r="3"/><circle class="f-d" cx="70" cy="60" r="3"/><circle class="f-d" cx="95" cy="30" r="3"/><circle class="f-d" cx="60" cy="45" r="3"/><circle class="f-d" cx="200" cy="20" r="3"/><circle class="f-d" cx="215" cy="68" r="3"/><circle class="f-a" cx="138" cy="50" r="3.5"/><circle class="f-a" cx="158" cy="52" r="3.5"/><circle class="f-a" cx="150" cy="36" r="3.5"/><circle class="s-a v-ping" cx="150" cy="45" r="14" fill="none" stroke-width="1.5"/><circle class="s-a" cx="150" cy="45" r="14" fill="none" stroke-width="1" stroke-dasharray="3 3"/></svg>
+            {% else %}
+            <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-a" d="M58 45H98M142 45H182" fill="none" stroke-width="1.5" stroke-dasharray="4 4"/><rect class="f-d s-a" x="14" y="32" width="44" height="26" rx="6" stroke-width="1.5"/><rect class="f-d s-a" x="98" y="32" width="44" height="26" rx="6" stroke-width="1.5"/><rect class="f-d s-a" x="182" y="32" width="44" height="26" rx="6" stroke-width="1.5"/><circle class="f-a v-run" cx="58" cy="45" r="4"/></svg>
+            {% endif %}
           </div>
-          <h2 class="mt-4 text-xl font-semibold text-white">{{ title }}</h2>
-          <p class="mt-3 text-sm leading-relaxed text-ink2">{{ text }}</p>
+          <h3 class="bn-title">{{ title }}</h3>
+          <p class="bn-text">{{ text }}</p>
+          <div class="bn-chips">
+            {% if forloop.counter == 1 %}<span class="bn-chip">PyTorch</span><span class="bn-chip">vLLM</span>
+            {% elif forloop.counter == 2 %}<span class="bn-chip">Claude 3.5</span><span class="bn-chip">Llama 3</span>
+            {% elif forloop.counter == 3 %}<span class="bn-chip">LangGraph</span><span class="bn-chip">AutoGPT</span>
+            {% elif forloop.counter == 4 %}<span class="bn-chip">WebSockets</span><span class="bn-chip">Guardrails</span>
+            {% elif forloop.counter == 5 %}<span class="bn-chip">Qdrant</span><span class="bn-chip">Pinecone</span>
+            {% else %}<span class="bn-chip">Temporal</span><span class="bn-chip">Celery</span>
+            {% endif %}
+          </div>
         </article>
       {% empty %}
-        <p class="text-ink2">Capabilities data dynamic load ho raha hai.</p>
+        <p class="text-ink2">Capabilities are loading.</p>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Architecture Visualizer / Interactive Simulator -->
+<!-- Section 03: Pipeline -->
 <section id="pipeline-demo" class="grid-bg border-y border-white/10 bg-surface py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <div class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -120,42 +142,40 @@
       <button type="button" class="btn btn-ghost text-xs" id="trigger-pipeline-sim">Run Ingestion Stream ⚡</button>
     </div>
 
-    <!-- Node Architecture Flow -->
     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4" id="pipeline-nodes-container">
       <div class="pipeline-node" data-step="1">
         <span class="font-mono text-xs text-ink2">STEP 01</span>
-        <h4 class="mt-2 font-medium text-white">Multi-Source Ingestion</h4>
+        <h3 class="mt-2 font-medium text-white">Multi-Source Ingestion</h3>
         <p class="mt-1 font-mono text-xs text-ink2">PDF, SQL, API streams chunked via semantic windowing</p>
       </div>
       <div class="pipeline-node" data-step="2">
         <span class="font-mono text-xs text-ink2">STEP 02</span>
-        <h4 class="mt-2 font-medium text-white">Vector Indexing</h4>
+        <h3 class="mt-2 font-medium text-white">Vector Indexing</h3>
         <p class="mt-1 font-mono text-xs text-ink2">Cohere-v3 Embeddings in hybrid sparse/dense vector store</p>
       </div>
       <div class="pipeline-node" data-step="3">
         <span class="font-mono text-xs text-ink2">STEP 03</span>
-        <h4 class="mt-2 font-medium text-white">Cross-Encoder Rerank</h4>
+        <h3 class="mt-2 font-medium text-white">Cross-Encoder Rerank</h3>
         <p class="mt-1 font-mono text-xs text-ink2">BGE-Reranker filters top-K context with strict confidence floor</p>
       </div>
       <div class="pipeline-node" data-step="4">
         <span class="font-mono text-xs text-ink2">STEP 04</span>
-        <h4 class="mt-2 font-medium text-white">Guardrailed Inference</h4>
+        <h3 class="mt-2 font-medium text-white">Guardrailed Inference</h3>
         <p class="mt-1 font-mono text-xs text-ink2">NeMo Guardrails filter PII &amp; hallucination before streaming</p>
       </div>
     </div>
 
-    <!-- Real-time Console Log -->
     <div class="mt-6 rounded border border-white/10 bg-[#050807] p-4 font-mono text-xs text-ink2">
-      <div class="flex items-center gap-2 pb-2 border-b border-white/5 text-muted">
+      <div class="flex items-center gap-2 border-b border-white/5 pb-2 text-muted">
         <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
         <span>telemetry.codematrix.internal -- live execution feed</span>
       </div>
-      <p id="pipeline-log" class="mt-3 text-emerald-400">&gt; Status: Standby. Ready to ingest semantic corpus.</p>
+      <p id="pipeline-log" class="mt-3 text-emerald-400" aria-live="polite">&gt; Status: Standby. Ready to ingest semantic corpus.</p>
     </div>
   </div>
 </section>
 
-<!-- Enterprise Performance Benchmarks -->
+<!-- Section 04: Metrics -->
 <section class="py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <div class="mb-12">
@@ -188,25 +208,8 @@
 {% block extra_js %}
 <script src="{% static 'js/animations.js' %}" defer></script>
 <script>
-  // Mouse Spotlight Effect
-  (function() {
-    var group = document.querySelector("[data-spotlight-group]");
-    if (!group) return;
-    var cards = group.querySelectorAll(".ai-spotlight-card");
-
-    group.addEventListener("mousemove", function(e) {
-      cards.forEach(function(card) {
-        var rect = card.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", x + "px");
-        card.style.setProperty("--mouse-y", y + "px");
-      });
-    });
-  })();
-
   // Pipeline Simulation Runner
-  (function() {
+  (function () {
     var btn = document.getElementById("trigger-pipeline-sim");
     var log = document.getElementById("pipeline-log");
     var nodes = document.querySelectorAll(".pipeline-node");
@@ -219,21 +222,21 @@
       "> [STEP 4/4] Guardrail assertions PASSED (0 PII, 0 policy breaches). Streaming generation started."
     ];
 
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
       btn.disabled = true;
-      nodes.forEach(function(n) { n.classList.remove("active-step"); });
-      
+      nodes.forEach(function (n) { n.classList.remove("active-step"); });
+
       var step = 0;
       function advance() {
         if (step < nodes.length) {
-          nodes.forEach(function(n) { n.classList.remove("active-step"); });
+          nodes.forEach(function (n) { n.classList.remove("active-step"); });
           nodes[step].classList.add("active-step");
           log.textContent = logs[step];
           step++;
           setTimeout(advance, 800);
         } else {
-          setTimeout(function() {
-            nodes.forEach(function(n) { n.classList.remove("active-step"); });
+          setTimeout(function () {
+            nodes.forEach(function (n) { n.classList.remove("active-step"); });
             log.textContent = "> Execution cycle complete. All telemetry metrics green.";
             btn.disabled = false;
           }, 1000);
