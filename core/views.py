@@ -13,7 +13,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import TeamMember
-
+from .service_specs import get_service_spec
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,18 @@ PROJECT_FILTERS = [
     ("enterprise", "Enterprise"),
 ]
 
+def service_detail_view(request, slug):
+    service = get_object_or_404(Service, slug=slug)
+    other_services = Service.objects.exclude(id=service.id)[:6]
+
+    # Service ka spec content fetch karein
+    spec = get_service_spec(slug, service)
+
+    return render(request, 'service_detail.html', {
+        'service': service,
+        'other_services': other_services,
+        'spec': spec,  # <-- YEH LINE MISSING THI, ISE ADD KAREIN
+    })
 
 def _projects():
     return CaseStudy.objects.select_related("industry").prefetch_related("technologies")
@@ -46,13 +58,6 @@ def services(request):
         "services": Service.objects.prefetch_related("technologies"),
     })
 
-def service_detail_view(request, slug):
-    service = get_object_or_404(Service, slug=slug)
-    other_services = Service.objects.exclude(id=service.id)[:6]
-    return render(request, 'service_detail.html', {
-        'service': service,
-        'other_services': other_services
-    })
 
 def ai_data(request):
     return render(request, "ai-data.html", {"capabilities": content.AI_CAPABILITIES})

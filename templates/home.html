@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}CODEMATRIX | Software Development Services{% endblock %}
-{% block meta_description %}Custom software, web and mobile apps, SaaS, AI and cloud services from CODEMATRIX. Engineering complex systems, from zero to global scale.{% endblock %}
+{% block title %}Zefrokart | Software Development Services{% endblock %}
+{% block meta_description %}Custom software, web and mobile apps, SaaS, AI and cloud services from Zefrokart. Engineering complex systems, from zero to global scale.{% endblock %}
 {% block content %}
 
 <section class="grid-bg relative flex min-h-screen items-center overflow-hidden pb-16 pt-28">
@@ -31,11 +31,38 @@
 </section>
 
 
+<style>
+  .tech-card-marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .tech-card-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: techCardMarquee 18s linear infinite;
+  }
+  .tech-card-marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .tech-card-marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    gap: 0.625rem;        /* gap-2.5 */
+    padding-right: 0.625rem; /* gap ke barabar, taaki loop seamless ho */
+  }
+  @keyframes techCardMarquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tech-card-marquee-track { animation: none; }
+  }
+</style>
 <!-- Services Grid Section -->
 <section class="border-t border-white/10 py-20 sm:py-28 bg-[#030605] text-white relative overflow-hidden" aria-label="Services">
-  
+
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    
+
     <!-- Section Header -->
     <div class="mb-14">
       <div class="flex items-center gap-2 font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">
@@ -54,13 +81,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       {% for service in services %}
       <div class="group relative rounded-2xl border border-white/10 bg-[#070b09] p-5 sm:p-6 flex flex-col justify-between hover:border-[#00ff88]/60 hover:shadow-[0_0_30px_rgba(0,255,136,0.12)] transition-all duration-300">
-        
+
         <div>
-          <!-- Image Box (Rounded with 100% Original Colors) -->
+          <!-- Image Box -->
           <div class="relative w-full aspect-[16/10] overflow-hidden rounded-xl bg-black border border-white/10 mb-5 group-hover:border-[#00ff88]/40 transition-colors">
-            
+
             {% if service.image %}
-            <!-- Original colors preserved (No grayscale, no color filter) -->
             <img src="{{ service.image.url }}" alt="{{ service.title }}" loading="lazy"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             {% else %}
@@ -75,7 +101,7 @@
             </span>
 
             <!-- Action Icon -->
-            <a href="{% url 'service_detail' service.slug %}" 
+            <a href="{% url 'service_detail' service.slug %}"
                class="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-lg bg-black/80 border border-white/20 flex items-center justify-center text-gray-300 group-hover:bg-[#00ff88] group-hover:text-black group-hover:border-[#00ff88] transition-all">
               <span class="font-mono text-xs font-bold">&lt;/&gt;</span>
             </a>
@@ -97,30 +123,21 @@
         <!-- Technologies Marquee Inside This Card -->
         <div class="pt-4 border-t border-white/5">
           <div class="tech-card-marquee-mask relative w-full overflow-hidden">
-            <div class="tech-card-marquee-track flex gap-2.5 hover:[animation-play-state:paused]">
-              
-              <!-- First Loop -->
-              {% for tech in service.technologies.all %}
-              <span class="shrink-0 font-mono text-[10px] text-gray-300 bg-black/70 border border-white/10 group-hover:border-[#00ff88]/30 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5">
-                <span class="w-1 h-1 rounded-full bg-[#00ff88]"></span>
-                {{ tech.name }}
-              </span>
-              {% empty %}
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Django</span>
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Python</span>
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">MySQL</span>
-              {% endfor %}
+            <div class="tech-card-marquee-track">
 
-              <!-- Duplicate Loop (Seamless Infinite Ticker) -->
-              {% for tech in service.technologies.all %}
-              <span class="shrink-0 font-mono text-[10px] text-gray-300 bg-black/70 border border-white/10 group-hover:border-[#00ff88]/30 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5" aria-hidden="true">
-                <span class="w-1 h-1 rounded-full bg-[#00ff88]"></span>
-                {{ tech.name }}
-              </span>
-              {% empty %}
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">Django</span>
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">Python</span>
-              <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md" aria-hidden="true">MySQL</span>
+              {% for i in "1234" %}
+              <div class="tech-card-marquee-group" {% if not forloop.first %}aria-hidden="true"{% endif %}>
+                {% for tech in service.technologies.all %}
+                <span class="shrink-0 font-mono text-[10px] text-gray-300 bg-black/70 border border-white/10 group-hover:border-[#00ff88]/30 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5">
+                  <span class="w-1 h-1 rounded-full bg-[#00ff88]"></span>
+                  {{ tech.name }}
+                </span>
+                {% empty %}
+                <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Django</span>
+                <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">Python</span>
+                <span class="shrink-0 font-mono text-[10px] text-gray-500 bg-black/60 border border-white/10 px-2.5 py-1 rounded-md">MySQL</span>
+                {% endfor %}
+              </div>
               {% endfor %}
 
             </div>
@@ -135,6 +152,7 @@
 </section>
 
 
+
 <!-- [03 / TEAM] Section -->
 <section class="py-20 bg-black text-white relative overflow-hidden border-t border-white/10">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
@@ -144,7 +162,7 @@
       <div>
         <p class="font-mono text-xs text-[#00ff88] tracking-widest uppercase mb-2">[03 / TEAM]</p>
         <h2 class="text-3xl sm:text-5xl font-bold tracking-tight">
-          Expert Team at <span class="text-[#00ff88] drop-shadow-[0_0_15px_#00ff88]">CODEMATRIX</span>
+          Expert Team at <span class="text-[#00ff88] drop-shadow-[0_0_15px_#00ff88]">Zefrokart</span>
         </h2>
         <p class="mt-2 text-xs sm:text-sm font-mono text-gray-400">Experienced. Creative. Passionate.</p>
       </div>
@@ -211,7 +229,7 @@
         </div>
         {% empty %}
         <div class="w-full text-center py-12 text-gray-500 font-mono text-xs border border-dashed border-white/10">
-          No team members enlisted in database yet. Add members from CODEMATRIX Panel.
+          No team members enlisted in database yet. Add members from Zefrokart Panel.
         </div>
         {% endfor %}
       </div>
@@ -623,7 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="border border-white/10 bg-[#070b09] overflow-hidden transition-colors faq-item">
             <button type="button" onclick="toggleFaq(this)" class="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer">
               <span class="font-sans font-bold text-base text-white hover:text-[#00ff88] transition-colors">
-                How does CODEMATRIX initiate a new engineering contract?
+                How does Zefrokart initiate a new engineering contract?
               </span>
               <span class="faq-icon text-[#00ff88] font-mono text-lg transition-transform duration-300 shrink-0">+</span>
             </button>

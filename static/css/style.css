@@ -187,3 +187,22 @@ select.field option { background: var(--surface); }
   mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
 }
+
+@keyframes innerCardScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-inner-run {
+  animation: innerCardScroll 12s linear infinite !important;
+  will-change: transform;
+}
+
+/* Card par mouse aane se animation smooth ruk jayegi */
+.group:hover .marquee-inner-run {
+  animation-play-state: paused;
+}

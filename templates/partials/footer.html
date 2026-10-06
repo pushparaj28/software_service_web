@@ -1,7 +1,7 @@
 <footer class="border-t border-white/10 bg-surface">
   <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
     <div>
-      <p class="logo">CODE<span>MATRIX</span></p>
+      <p class="logo">ZEFRO<span>KART</span></p>
       <p class="mt-4 max-w-xs text-sm text-ink2">Engineering Complex Systems. From Zero to Global Scale.</p>
     </div>
     <div>
@@ -25,10 +25,23 @@
       <p class="mono-label mb-4">Start</p>
       <p class="text-sm text-ink2">Have a system to build?</p>
       <a href="{% url 'contact' %}" class="btn btn-ghost mt-4">START A PROJECT →</a>
-      {% if company_email %}<p class="mt-4 break-all font-mono text-xs text-muted">{{ company_email }}</p>{% endif %}
+
+      <!-- Contact Details -->
+      <ul class="mt-5 space-y-2 font-mono text-xs text-muted">
+        <li>
+          <span class="text-ink2">Email:</span>
+          <a class="break-all hover:text-accent" href="mailto:{{ company_email|default:'info@zefrokart.com' }}">
+            {{ company_email|default:"info@zefrokart.com" }}
+          </a>
+        </li>
+        <li>
+          <span class="text-ink2">Phone:</span>
+          <a class="hover:text-accent" href="tel:+919876543210">+91 98765 43210</a>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="border-t border-white/10 px-5 py-5 text-center font-mono text-xs text-muted">
-    © <span data-year>{% now "Y" %}</span> CODEMATRIX. All rights reserved.
+    © <span data-year>{% now "Y" %}</span> Zefrokart. All rights reserved.
   </div>
 </footer>
